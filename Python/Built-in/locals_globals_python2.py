@@ -1,0 +1,4 @@
+print(locals())
+
+print(globals())
+

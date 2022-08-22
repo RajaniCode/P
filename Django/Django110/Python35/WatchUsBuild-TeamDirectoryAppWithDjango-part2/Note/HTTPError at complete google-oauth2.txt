@@ -1,0 +1,97 @@
+https://console.developers.google.com/apis/api/plus/overview?project=teamdirectoryappwithdjango2
+
+You need to add the Google+ API (https://console.developers.google.com/apis/api/plus/overview) to the list of enabled APIs on the Google Developer Console (under APIs)
+
+Note: If you want to see the real error message, use the traceback to look at the content of the response variable (response.text). I use werkzeug for that (django-extensions + python manage.py runserver_plus).
+
+Refer to Google+ API ENABLE.jpg
+
+
+# Traceback
+
+Environment:
+
+
+Request Method: GET
+Request URL: http://127.0.0.1:8000/complete/google-oauth2/?state=YHOVPOixJzIHJP3M85h7mMOmz1oUnZsX&code=4/W3MifBFJYMXn-O4sItUZMmUlf6qXe160HQhkL68pMuA&authuser=0&session_state=abd37d59204a527bebd6fc3534e92ea154ea2522..7c91&prompt=consent
+
+Django Version: 1.10
+Python Version: 3.5.2
+Installed Applications:
+['www',
+ 'django.contrib.admin',
+ 'django.contrib.auth',
+ 'django.contrib.contenttypes',
+ 'django.contrib.sessions',
+ 'django.contrib.messages',
+ 'django.contrib.staticfiles',
+ 'social.apps.django_app.default']
+Installed Middleware:
+['django.middleware.security.SecurityMiddleware',
+ 'django.contrib.sessions.middleware.SessionMiddleware',
+ 'django.middleware.common.CommonMiddleware',
+ 'django.middleware.csrf.CsrfViewMiddleware',
+ 'django.contrib.auth.middleware.AuthenticationMiddleware',
+ 'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
+ 'django.contrib.messages.middleware.MessageMiddleware',
+ 'django.middleware.clickjacking.XFrameOptionsMiddleware']
+
+
+
+Traceback:
+
+File "C:\Python35\lib\site-packages\social\utils.py" in wrapper
+  229.             return func(*args, **kwargs)
+
+File "C:\Python35\lib\site-packages\social\backends\oauth.py" in auth_complete
+  383.             method=self.ACCESS_TOKEN_METHOD
+
+File "C:\Python35\lib\site-packages\social\backends\oauth.py" in request_access_token
+  361.         return self.get_json(*args, **kwargs)
+
+File "C:\Python35\lib\site-packages\social\backends\base.py" in get_json
+  229.         return self.request(url, *args, **kwargs).json()
+
+File "C:\Python35\lib\site-packages\social\backends\base.py" in request
+  225.         response.raise_for_status()
+
+File "C:\Python35\lib\site-packages\requests\models.py" in raise_for_status
+  862.             raise HTTPError(http_error_msg, response=self)
+
+During handling of the above exception (400 Client Error: Bad Request for url: https://accounts.google.com/o/oauth2/token), another exception occurred:
+
+File "C:\Python35\lib\site-packages\django\core\handlers\exception.py" in inner
+  39.             response = get_response(request)
+
+File "C:\Python35\lib\site-packages\django\core\handlers\base.py" in _legacy_get_response
+  249.             response = self._get_response(request)
+
+File "C:\Python35\lib\site-packages\django\core\handlers\base.py" in _get_response
+  187.                 response = self.process_exception_by_middleware(e, request)
+
+File "C:\Python35\lib\site-packages\django\core\handlers\base.py" in _get_response
+  185.                 response = wrapped_callback(request, *callback_args, **callback_kwargs)
+
+File "C:\Python35\lib\site-packages\django\views\decorators\cache.py" in _wrapped_view_func
+  57.         response = view_func(request, *args, **kwargs)
+
+File "C:\Python35\lib\site-packages\django\views\decorators\csrf.py" in wrapped_view
+  58.         return view_func(*args, **kwargs)
+
+File "C:\Python35\lib\site-packages\social\apps\django_app\utils.py" in wrapper
+  51.             return func(request, backend, *args, **kwargs)
+
+File "C:\Python35\lib\site-packages\social\apps\django_app\views.py" in complete
+  28.                        redirect_name=REDIRECT_FIELD_NAME, *args, **kwargs)
+
+File "C:\Python35\lib\site-packages\social\actions.py" in do_complete
+  43.         user = backend.complete(user=user, *args, **kwargs)
+
+File "C:\Python35\lib\site-packages\social\backends\base.py" in complete
+  41.         return self.auth_complete(*args, **kwargs)
+
+File "C:\Python35\lib\site-packages\social\utils.py" in wrapper
+  232.                 raise AuthCanceled(args[0], response=err.response)
+
+Exception Type: AuthCanceled at /complete/google-oauth2/
+Exception Value: Authentication process canceled

@@ -1,0 +1,192 @@
+Re-raise Python exception and preserve stack trace
+
+I'm trying to catch an exception in a thread and re-raise it in the main thread:
+
+import threading
+import sys
+
+class FailingThread(threading.Thread):
+    def run(self):
+        try:
+            raise ValueError('x')
+        except ValueError:
+            self.exc_info = sys.exc_info()
+
+failingThread = FailingThread()
+failingThread.start()
+failingThread.join()
+
+print failingThread.exc_info
+raise failingThread.exc_info[1]
+This basically works and yields the following output:
+
+(<type 'exceptions.ValueError'>, ValueError('x',), <traceback object at 0x1004cc320>)
+Traceback (most recent call last):
+  File "test.py", line 16, in <module>
+    raise failingThread.exc_info[1]
+However, the source of the exception points to line 16, where the re-raise occurred. The original exception comes from line 7. How do I have to modify the main thread so that the output reads:
+
+Traceback (most recent call last):
+  File "test.py", line 7, in <module>
+
+You need to use all three arguments to raise:
+
+raise failingThread.exc_info[0], failingThread.exc_info[1], failingThread.exc_info[2]
+passing the traceback object in as the third argument preserves the stack.
+
+From help('raise'):
+
+If a third object is present and not None, it must be a traceback object (see section The standard type hierarchy), and it is substituted instead of the current location as the place where the exception occurred. If the third object is present and not a traceback object or None, a TypeError exception is raised. The three-expression form of raise is useful to re-raise an exception transparently in an except clause, but raise with no expressions should be preferred if the exception to be re-raised was the most recently active exception in the current scope.
+In this particular case you cannot use the no expression version.
+
+# Note:
+# Python 3.5
+raise failingThread.exc_info[0].with_traceback(failingThread.exc_info[1], failingThread.exc_info[2])
+
+
+How to write exception reraising code that's compatible with both Python 2 and Python 3?
+
+I'm trying to make my WSGI server implementation compatible with both Python 2 and Python 3. I had this code:
+
+def start_response(status, response_headers, exc_info = None):
+    if exc_info:
+        try:
+            if headers_sent:
+                # Re-raise original exception if headers sent.
+                raise exc_info[0], exc_info[1], exc_info[2]
+        finally:
+            # Avoid dangling circular ref.
+            exc_info = None
+    elif headers_set:
+        raise AssertionError("Headers already set!")
+
+    headers_set[:] = [status, response_headers]
+    return write
+
+...with the relevant part being:
+
+# Re-raise original exception if headers sent.
+raise exc_info[0], exc_info[1], exc_info[2]
+
+Python 3 doesn't support that syntax anymore so it must be translated to:
+
+raise exc_info[0].with_traceback(exc_info[1], exc_info[2])
+
+Problem: the Python 2 syntax generates a parse error in Python 3. How do I write code that can be parsed by both Python 2 and Python 3? I've tried the following, but that doesn't work:
+
+if sys.version_info[0] >= 3:
+    raise exc_info[0].with_traceback(exc_info[1], exc_info[2])
+else:
+    eval("raise exc_info[0], exc_info[1], exc_info[2]; 1", None, { 'exc_info': exc_info })
+
+You could do something creative.
+
+Have a check at the start of your code - your constructor or whatever, check what version of python you are using, since your normal version checker is not working, try this instead:
+
+try:
+  eval('a python 3 expression') # something that only works in python3+
+  python_version = 3
+except:
+  python_version = 2
+
+Then the rest of your code can easily just reference this to know what to use.
+
+As for the parse errors, you can use exec in a function, like so:
+
+def what_to_run():
+    if python_version = 3:
+        return 'raise exc_info[0].with_traceback(exc_info[1], exc_info[2])'
+    else:
+        return 'raise exc_info[0], exc_info[1], exc_info[2]'
+
+In your function you would write this:
+
+def start_response(status, response_headers, exc_info = None):
+    if exc_info:
+        try:
+            if headers_sent:
+                # Re-raise original exception if headers sent.
+                exec(what_to_run())
+        finally:
+            # Avoid dangling circular ref.
+            exc_info = None
+    elif headers_set:
+        raise AssertionError("Headers already set!")
+
+    headers_set[:] = [status, response_headers]
+    return write
+
+A bit messy, untested, but it should work, at least you understand the idea.
+
+# Note: https://pythonhosted.org/six/index.html#six.reraise
+
+
+Python: Exception decorator. How to preserve stacktrace
+
+I am writing a decorator to apply to a function. It should catch any exception, and then raise a custom exception based on the original exception message. (This is because suds throws a generic WebFault exception, from whose message I parse the exception thrown by the web service and raise a Python exception to mirror it.)
+
+However, when I raise the custom exception in the wrapper, I want the stacktrace to point to the function that raised the original WebFault exception. What I have so far raises the correct exception (it dynamically parses the message and instantiates the exception class). My question: How can I preserve the stacktrace to point to the original function that raised the WebFault exception?
+
+from functools import wraps
+
+def try_except(fn):
+        def wrapped(*args, **kwargs):
+            try:
+                fn(*args, **kwargs)
+            except Exception, e:
+                parser = exceptions.ExceptionParser()
+                raised_exception = parser.get_raised_exception_class_name(e)
+                exception = getattr(exceptions, raised_exception)
+                raise exception(parser.get_message(e))
+        return wraps(fn)(wrapped)
+
+In Python 2.x, a little-known feature of raise is that it can be used with more than just one argument: the three-argument form of raise takes the exception type, the exception instance and the traceback. You can get at the traceback with sys.exc_info(), which returns (not coincidentally) the exception type, the exception instance and the traceback.
+
+(The reason this treats the exception type and the exception instance as two separate arguments is an artifact from the days before exception classes.)
+
+So:
+
+import sys
+
+class MyError(Exception):
+    pass
+
+def try_except(fn):
+    def wrapped(*args, **kwargs):
+        try:
+            return fn(*args, **kwargs)
+        except Exception, e:
+            et, ei, tb = sys.exc_info()
+            raise MyError, MyError(e), tb
+    return wrapped
+
+def bottom():
+   1 / 0
+
+@try_except
+def middle():
+   bottom()
+
+def top():
+   middle()
+
+>>> top()
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+  File "tmp.py", line 24, in top
+    middle()
+  File "tmp.py", line 10, in wrapped
+    return fn(*args, **kwargs)
+  File "tmp.py", line 21, in middle
+    bottom()
+  File "tmp.py", line 17, in bottom
+    1 / 0
+__main__.MyError: integer division or modulo by zero
+
+In Python 3, this changed a little. There, the tracebacks are attached to the exception instance instead, and they have a with_traceback method:
+
+raise MyError(e).with_traceback(tb)
+
+On the other hand Python 3 also has exception chaining, which makes more sense in many cases; to use that, you would just use:
+
+raise MyError(e) from e

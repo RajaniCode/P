@@ -1,0 +1,80 @@
+next raises a 'StopIteration', but 'for' does a normal return
+
+In this piece of code, why does using 'for' result in no 'StopIteration' or is the 'for' loop trapping all exceptions and then silently exiting? In which case, why do we have the extraneous 'return'?? Or is the raise StopIteration caused by: return None?
+
+#!/usr/bin/python3.1
+def countdown(n):
+    print("counting down")
+    while n >= 9:
+        yield n
+        n -= 1
+    return
+
+for x in countdown(10):
+    print(x)
+
+c = countdown(10)
+next(c)
+next(c)
+next(c)
+
+Assuming StopIteration is being triggered by: return None. When is GeneratorExit generated?
+
+def countdown(n):
+    print("Counting down from %d" % n)
+    try:
+        while n > 0:
+            yield n
+            n = n - 1
+    except GeneratorExit:
+        print("Only made it to %d" % n)
+
+If i manually do a:
+
+c = countdown(10)
+c.close() #generates GeneratorExit??
+
+In which case why don't I see a traceback?
+
+The for loop listens for StopIteration explicitly.
+
+The purpose of the for statement is to loop over the sequence provided by an iterator and the exception is used to signal that the iterator is now done; for doesn't catch other exceptions raised by the object being iterated over, just that one.
+
+A generator function is a special kind of iterator; it indeed raises StopIteration when the function is done (i.e. when it returns, so yes, return None raises StopIteration). It is a requirement of iterators; they must raise StopIteration when they are done; in fact, once a StopIteration has been raised, attempting to get another element from them (through next(), or calling the .next() (py 2) or .__next__() (py 3) method on the iterator) must always raise StopIterator again.
+
+GeneratorExit is an exception to communicate in the other direction. You are explicitly closing a generator with a yield expression, and the way Python communicates that closure to the generator is by raising GeneratorExit inside of that function. You explicitly catch that exception inside of countdown, its purpose is to let a generator clean up resources as needed when closing.
+
+A GeneratorExit is not propagated to the caller; see the generator.close() documentation [https://docs.python.org/2/reference/expressions.html#generator.close].
+
+
+https://docs.python.org/2/reference/expressions.html#generator.close
+
+generator.close()
+Raises a GeneratorExit at the point where the generator function was paused. If the generator function then raises StopIteration (by exiting normally, or due to already being closed) or GeneratorExit (by not catching the exception), close returns to its caller. If the generator yields a value, a RuntimeError is raised. If the generator raises any other exception, it is propagated to the caller. close() does nothing if the generator has already exited due to an exception or normal exit.
+
+Here is a simple example that demonstrates the behavior of generators and generator functions:
+
+>>>
+>>> def echo(value=None):
+...     print "Execution starts when 'next()' is called for the first time."
+...     try:
+...         while True:
+...             try:
+...                 value = (yield value)
+...             except Exception, e:
+...                 value = e
+...     finally:
+...         print "Don't forget to clean up when 'close()' is called."
+...
+>>> generator = echo(1)
+>>> print generator.next()
+Execution starts when 'next()' is called for the first time.
+1
+>>> print generator.next()
+None
+>>> print generator.send(2)
+2
+>>> generator.throw(TypeError, "spam")
+TypeError('spam',)
+>>> generator.close()
+Don't forget to clean up when 'close()' is called.

@@ -1,0 +1,52 @@
+Catch python 'ImportError' if import from source directory
+
+ImportError: No module named foo actually means the module foo.py or package foo/__init__.py could not be found in any of the directories in the search path (sys.path list).
+
+Since sys.path usually contains . (the current directory), that's probably what you meant by being in the source directory. You are in the top-level directory of package foo (where the __init__.py file is) so obviously you can't find foo/__init__.py.
+
+More or less:
+
+try:
+    from _foo import *
+except ImportError:
+    raise ImportError('<any message you want here>')
+
+Alternatively, you could check the contents of sys.path, the current directory and, if known, the expected package directory and produce an even detailed and context-aware message.
+
+Or add .. to the PYTHONPATH environment variable (on Unix) to allow you to run from your source directory. Might even work on Windows, but I wouldn't know.
+
+
+Is it safe to catch ImportError when trying to import optional modules?
+
+I usually see this pattern at least once in every Python project I work on. For example, in a Django project, this is often added at the bottom of the base settings file:
+
+try:
+  from .local_settings import *
+except ImportError:
+  pass
+
+Also:
+
+try:
+  import simplejson as json
+except ImportError:
+  import json
+
+This has always bothered me a little bit though; what if the module is imported successfully, but then it triggers an ImportError itself? E.g., in the first example, the local_settings module exists, but then local_settings tries to import a non-existent module.
+
+Is this the safest way to import an optional module, is there a better way to achieve this functionality, or does it depend on the context/usage (and if so, what are the guidelines to deciding when to use this approach)?
+
+It should generally be assumed that the optional dependency you are importing can work on its own. There is little difference between trying to import a missing optional dependency and one that cannot be imported because a required transitive dependency is missing.
+
+In other words, why would your program need to care about simplejson not being available because it is not installed, or because a dependency of simplejson is not installed? Either way you cannot use simplejson.
+
+For optional dependencies, it is up to the package installer to ensure that a dependency is correctly installed, including transitive dependencies.
+
+For something like local_settings, there is indeed a (small) risk that a transitive ImportError is masked. You can always log the caught ImportError exception at level DEBUG or similar to make it easier to review what might have caused the exception:
+
+try:
+    from .local_settings import *
+except ImportError:
+    log.debug('local_settings failed to import', exc_info=True)
+
+The logging package will include the exception information in the log for later inspection when you set exc_info to true.

@@ -1,0 +1,690 @@
+# Python 3 required!
+
+
+# Django's development version
+# Download the Django source code repository
+$ git clone https://github.com/django/django.git
+
+# Keep all virtualenvs in one place, for example in .virtualenvs/ in home directory (C:\Users\Aspire)
+$ mkdir ~/.virtualenvs
+
+
+# Create a new virtualenv
+# The path is where the new environment will be saved on the computer (C:\Users\Aspire\.virtualenvs\djangodev)
+$ python -m venv ~/.virtualenvs/djangodev
+
+
+# virtualenv package
+# Built-in venv module will not work if you are also using the Git Bash shell on Windows
+# Windows
+$ pip install virtualenv
+$ virtualenv ~/.virtualenvs/djangodev
+
+
+# activate virtualenv
+# $ source ~/.virtualenvs/djangodev/bin/activate
+# Windows
+# $ source ~/virtualenvs/djangodev/Scripts/activate
+# If the source command is not available, try using a dot instead
+$ . ~/.virtualenvs/djangodev/Scripts/activate
+
+
+# Anything you install through pip from now on will be installed in your new virtualenv, isolated from other environments and system-wide packages
+# Also, the name of the currently activated virtualenv is displayed on the command line to help you keep track of which one you are using
+# Install the previously cloned copy of Django
+$ pip install -e "E:\Working\Python\Django\Python3.5\Django-patch\django"
+
+
+# Rolling back to a previous revision of Django
+# Using ticket #24788 for this case study
+# https://code.djangoproject.com/ticket/24788
+# Navigate into Django's root directory (that's the one that contains django, docs, tests, AUTHORS, etc.)
+$ cd "E:\Working\Python\Django\Python3.5\Django-patch\django"
+
+# Check out the older revision of Django
+$ git checkout 4ccfc4439a7add24f8db4ef3960d02ef8ae09887
+
+# Running Django's test suite for the first time
+# Check that Django beforehand just to get familiar with what its output is supposed to look like
+# Before running the test suite, install its dependencies by first cd-ing into the Django tests/ directory 
+$ cd tests
+$ pip install -r requirements/py3.txt
+
+# run the test suite
+$ ./runtests.py
+
+# Django's entire test suite has over 9,600 different tests
+# Stream of characters representing the status of each test as it's run
+# E indicates that an error was raised during a test, F indicates that a test's assertions failed, both E and F are considered to be test failures
+# x and s indicated expected failures and skipped tests, respectively
+# Dots indicate passing tests
+# In case of Python 3.5+, there will be a couple failures related to deprecation warnings that you can ignore
+# Note that the latest Django trunk may not always be stable
+# Check Django's continuous integration builds to determine if the failures are specific to your machine or if they are also present in Django's official builds
+# If you click to view a particular build, you can view the "Configuration Matrix" which shows failures broken down by Python version and database backend
+
+
+# Writing tests for ticket #24788
+# Ticket #24788 proposes a small feature addition: the ability to specify the class level attribute prefix on Form classes
+# In order to resolve this ticket, we'll add a prefix attribute to the BaseForm class
+# When creating instances of this class, passing a prefix to the __init__() method will still set that prefix on the created instance
+# Not passing a prefix (or passing None) will use the class-level prefix
+# Before we make those changes though, we're going to write a couple tests to verify that our modification functions correctly and continues to function correctly
+
+# Navigate to Django's tests/forms_tests/tests/ folder and open the test_forms.py file
+# Add the following code on line 1674 right before the test_forms_with_null_boolean function:
+def test_class_prefix(self):
+    # Prefix can be also specified at the class level.
+    class Person(Form):
+        first_name = CharField()
+        prefix = 'foo'
+
+    p = Person()
+    self.assertEqual(p.prefix, 'foo')
+
+    p = Person(prefix='bar')
+    self.assertEqual(p.prefix, 'bar')
+
+# This new test checks that setting a class level prefix works as expected, and that passing a prefix parameter when creating an instance still works too
+
+
+# Running the new test
+# Remember that no modifications has been made to BaseForm yet, so the tests are going to fail 
+# Run all the tests in the forms_tests folder to make sure that's really what happens
+# From the command line, cd into the Django tests/ directory and run
+$ ./runtests.py forms_tests
+
+# If the tests ran correctly, one failure should be seen corresponding to the test method added
+# If all of the tests passed, then add the new test shown above to the appropriate folder and class
+
+
+# Writing the code for ticket #24788
+# Navigate to the django/django/forms/ folder and open the forms.py file
+# Find the BaseForm class on line 72 and add the prefix class attribute right after the field_order attribute:
+class BaseForm(object):
+    # This is the main implementation of all the Form logic. Note that this
+    # class is different than Form. See the comments by the Form class for
+    # more information. Any improvements to the form API should be made to
+    # *this* class, not to the Form class.
+    field_order = None
+    prefix = None
+
+# Verifying the test now passes
+# After modifying Django, the tests written earlier should pass, to ensure the code written above was working correctly
+# To run the tests in the forms_tests folder, cd into the Django tests/ directory and run
+$ ./runtests.py forms_tests
+
+# Failure with the following exception:
+AssertionError: None != 'foo'
+
+# The conditional statement in the __init__ method was not added 
+# Change self.prefix = prefix that is now on line 87 of django/forms/forms.py, adding a conditional statement:
+if prefix is not None:
+    self.prefix = prefix
+
+# Re-run the tests and everything should pass
+$ ./runtests.py forms_tests
+
+# Running Django's test suite for the second time
+# To verify that the change didn't introduce any bugs into other areas of Django, cd into the Django tests/ directory and run
+$ ./runtests.py
+
+# Good to go only in case of no failures
+
+
+# Writing Documentation
+# This is a new feature, so it should be documented
+# Add the following section on line 1068 (at the end of the file) of django/docs/ref/forms/api.txt:
+The prefix can also be specified on the form class::
+
+    >>> class PersonForm(forms.Form):
+    ...     ...
+    ...     prefix = 'person'
+
+.. versionadded:: 1.9
+
+    The ability to specify ``prefix`` on the form class was added.
+
+# Since this new feature will be in an upcoming release it is also added to the release notes for Django 1.9, on line 164 under the "Forms" section in the file docs/releases/1.9.txt:
+
+* A form prefix can be specified inside a form class, not only when
+  instantiating a form. See :ref:`form-prefix` for details.
+
+
+# Generating a patch for the changes
+# Content of the patch
+# This will display the differences between your current copy of Django (with your changes) and the revision that you initially checked out 
+$ git diff
+
+# After the patch, hit the q key to exit back to the command line
+# If the patch's content looked okay, you can run the following command to save the patch file to your current working directory
+$ cd ..
+$ git diff > 24788.diff
+
+# File in the root Django directory called 24788.diff
+# This patch file contains all the changes and should look this
+diff --git a/django/forms/forms.py b/django/forms/forms.py
+index 509709f..d1370de 100644
+--- a/django/forms/forms.py
++++ b/django/forms/forms.py
+@@ -75,6 +75,7 @@ class BaseForm(object):
+     # information. Any improvements to the form API should be made to *this*
+     # class, not to the Form class.
+     field_order = None
++    prefix = None
+
+     def __init__(self, data=None, files=None, auto_id='id_%s', prefix=None,
+                  initial=None, error_class=ErrorList, label_suffix=None,
+@@ -83,7 +84,8 @@ class BaseForm(object):
+         self.data = data or {}
+         self.files = files or {}
+         self.auto_id = auto_id
+-        self.prefix = prefix
++        if prefix is not None:
++            self.prefix = prefix
+         self.initial = initial or {}
+         self.error_class = error_class
+         # Translators: This is the default suffix added to form field labels
+diff --git a/docs/ref/forms/api.txt b/docs/ref/forms/api.txt
+index 3bc39cd..008170d 100644
+--- a/docs/ref/forms/api.txt
++++ b/docs/ref/forms/api.txt
+@@ -1065,3 +1065,13 @@ You can put several Django forms inside one ``<form>`` tag. To give each
+     >>> print(father.as_ul())
+     <li><label for="id_father-first_name">First name:</label> <input type="text" name="father-first_name" id="id_father-first_name" /></li>
+     <li><label for="id_father-last_name">Last name:</label> <input type="text" name="father-last_name" id="id_father-last_name" /></li>
++
++The prefix can also be specified on the form class::
++
++    >>> class PersonForm(forms.Form):
++    ...     ...
++    ...     prefix = 'person'
++
++.. versionadded:: 1.9
++
++    The ability to specify ``prefix`` on the form class was added.
+diff --git a/docs/releases/1.9.txt b/docs/releases/1.9.txt
+index 5b58f79..f9bb9de 100644
+--- a/docs/releases/1.9.txt
++++ b/docs/releases/1.9.txt
+@@ -161,6 +161,9 @@ Forms
+   :attr:`~django.forms.Form.field_order` attribute, the ``field_order``
+   constructor argument , or the :meth:`~django.forms.Form.order_fields` method.
+
++* A form prefix can be specified inside a form class, not only when
++  instantiating a form. See :ref:`form-prefix` for details.
++
+ Generic Views
+ ^^^^^^^^^^^^^
+
+diff --git a/tests/forms_tests/tests/test_forms.py b/tests/forms_tests/tests/test_forms.py
+index 690f205..e07fae2 100644
+--- a/tests/forms_tests/tests/test_forms.py
++++ b/tests/forms_tests/tests/test_forms.py
+@@ -1671,6 +1671,18 @@ class FormsTestCase(SimpleTestCase):
+         self.assertEqual(p.cleaned_data['last_name'], 'Lennon')
+         self.assertEqual(p.cleaned_data['birthday'], datetime.date(1940, 10, 9))
+
++    def test_class_prefix(self):
++        # Prefix can be also specified at the class level.
++        class Person(Form):
++            first_name = CharField()
++            prefix = 'foo'
++
++        p = Person()
++        self.assertEqual(p.prefix, 'foo')
++
++        p = Person(prefix='bar')
++        self.assertEqual(p.prefix, 'bar')
++
+     def test_forms_with_null_boolean(self):
+         # NullBooleanField is a bit of a special case because its presentation (widget)
+         # is different than its data. This is handled transparently, though.
+
+# Since the changes were never committed locally, perform the following to get your git branch back to a good starting point
+$ git reset --hard HEAD
+$ git checkout master
+
+
+# Git Bash
+
+Aspire@Acer MINGW64 ~
+$ cd "E:\Working\Python\Django\Python3.5\Django-patch"
+
+Aspire@Acer MINGW64 /e/Working/Python/Django/Python3.5/Django-patch
+$ python --version
+Python 3.5.2
+
+Aspire@Acer MINGW64 /e/Working/Python/Django/Python3.5/Django-patch
+$ pip --version
+pip 8.1.2 from c:\python35\lib\site-packages (python 3.5)
+
+Aspire@Acer MINGW64 /e/Working/Python/Django/Python3.5/Django-patch
+$ django-admin --version
+1.10
+
+Aspire@Acer MINGW64 /e/Working/Python/Django/Python3.5/Django-patch
+$ git clone https://github.com/django/django.git
+Cloning into 'django'...
+remote: Counting objects: 366144, done.
+remote: Compressing objects: 100% (17/17), done.
+Receiving objects: 100% (366144/366144), 136.60 MiB | 44.00 KiB/s, done.
+remote: Total 366144 (delta 2), reused 0 (delta 0), pack-reused 366127
+Resolving deltas: 100% (267734/267734), done.
+Checking connectivity... done.
+Checking out files: 100% (5574/5574), done.
+
+Aspire@Acer MINGW64 /e/Working/Python/Django/Python3.5/Django-patch
+$ mkdir ~/.virtualenvs
+
+Aspire@Acer MINGW64 /e/Working/Python/Django/Python3.5/Django-patch
+$ python -m venv ~/.virtualenvs/djangodev
+
+Aspire@Acer MINGW64 /e/Working/Python/Django/Python3.5/Django-patch
+$ ls . ~/.virtualenvs/djangodev/
+.:
+django/  Django-patch.txt
+
+/c/Users/Aspire/.virtualenvs/djangodev/:
+Include/  Lib/  pyvenv.cfg  Scripts/
+
+Aspire@Acer MINGW64 /e/Working/Python/Django/Python3.5/Django-patch
+$ pip install virtualenv
+Collecting virtualenv
+  Downloading virtualenv-15.0.3-py2.py3-none-any.whl (3.5MB)
+Installing collected packages: virtualenv
+Successfully installed virtualenv-15.0.3
+
+Aspire@Acer MINGW64 /e/Working/Python/Django/Python3.5/Django-patch
+$ virtualenv ~/.virtualenvs/djangodev
+Using base prefix 'c:\\python35'
+New python executable in C:\Users\Aspire\.virtualenvs\djangodev\Scripts\python.exe
+Installing setuptools, pip, wheel...done.
+Overwriting C:\Users\Aspire\.virtualenvs\djangodev\Scripts\activate.ps1 with new content
+Overwriting C:\Users\Aspire\.virtualenvs\djangodev\Scripts\activate.bat with new content
+Overwriting C:\Users\Aspire\.virtualenvs\djangodev\Scripts\deactivate.bat with new content
+
+Aspire@Acer MINGW64 /e/Working/Python/Django/Python3.5/Django-patch
+$ source ~/.virtualenvs/djangodev/bin/activate
+bash: /c/Users/Aspire/.virtualenvs/djangodev/bin/activate: No such file or directory
+
+Aspire@Acer MINGW64 /e/Working/Python/Django/Python3.5/Django-patch
+$ . ~/.virtualenvs/djangodev/bin/activate
+bash: /c/Users/Aspire/.virtualenvs/djangodev/bin/activate: No such file or directory
+
+Aspire@Acer MINGW64 /e/Working/Python/Django/Python3.5/Django-patch
+$ source ~/virtualenvs/djangodev/Scripts/activate
+bash: /c/Users/Aspire/virtualenvs/djangodev/Scripts/activate: No such file or directory
+
+Aspire@Acer MINGW64 /e/Working/Python/Django/Python3.5/Django-patch
+$ . ~/.virtualenvs/djangodev/Scripts/activate
+(djangodev)
+Aspire@Acer MINGW64 /e/Working/Python/Django/Python3.5/Django-patch
+$ pip install -e "E:\Working\Python\Django\Python3.5\Django-patch\django"
+Obtaining file:///E:/Working/Python/Django/Python3.5/Django-patch/django
+Installing collected packages: Django
+  Running setup.py develop for Django
+Successfully installed Django
+You are using pip version 8.1.1, however version 8.1.2 is available.
+You should consider upgrading via the 'python -m pip install --upgrade pip' command.
+(djangodev)
+Aspire@Acer MINGW64 /e/Working/Python/Django/Python3.5/Django-patch
+$ pip --version
+pip 8.1.2 from c:\users\aspire\.virtualenvs\djangodev\lib\site-packages (python 3.5)
+(djangodev)
+Aspire@Acer MINGW64 /e/Working/Python/Django/Python3.5/Django-patch
+$ python -m pip install --upgrade pip
+Retrying (Retry(total=4, connect=None, read=None, redirect=None)) after connection broken by 'NewConnectionError('<pip._vendor.requests.packages.urllib3.connection.VerifiedHTTPSConnection object at 0x00000077C93ADF28>: Failed to establish a new connection: [Errno 11001] getaddrinfo failed',)': /simple/pip/
+Collecting pip
+  Using cached pip-8.1.2-py2.py3-none-any.whl
+Installing collected packages: pip
+  Found existing installation: pip 8.1.1
+    Uninstalling pip-8.1.1:
+      Successfully uninstalled pip-8.1.1
+Successfully installed pip-8.1.2
+(djangodev)
+Aspire@Acer MINGW64 /e/Working/Python/Django/Python3.5/Django-patch
+$ pip --version
+pip 8.1.2 from c:\users\aspire\.virtualenvs\djangodev\lib\site-packages (python 3.5)
+(djangodev)
+Aspire@Acer MINGW64 /e/Working/Python/Django/Python3.5/Django-patch
+$ cd "E:\Working\Python\Django\Python3.5\Django-patch\django"
+(djangodev)
+Aspire@Acer MINGW64 /e/Working/Python/Django/Python3.5/Django-patch/django (master)
+$ git checkout 4ccfc4439a7add24f8db4ef3960d02ef8ae09887
+Checking out files: 100% (4042/4042), done.
+Note: checking out '4ccfc4439a7add24f8db4ef3960d02ef8ae09887'.
+
+You are in 'detached HEAD' state. You can look around, make experimental
+changes and commit them, and you can discard any commits you make in this
+state without impacting any branches by performing another checkout.
+
+If you want to create a new branch to retain commits you create, you may
+do so (now or later) by using -b with the checkout command again. Example:
+
+  git checkout -b <new-branch-name>
+
+HEAD is now at 4ccfc44... Refs #24652 -- Fixed a test failure in file_uploads tests on Windows.
+(djangodev)
+Aspire@Acer MINGW64 /e/Working/Python/Django/Python3.5/Django-patch/django ((4ccfc44...))
+$ cd tests
+(djangodev)
+Aspire@Acer MINGW64 /e/Working/Python/Django/Python3.5/Django-patch/django/tests ((4ccfc44...))
+$ pip install -r requirements/py3.txt
+Collecting bcrypt (from -r requirements\base.txt (line 1))
+  Downloading bcrypt-3.1.0-cp35-cp35m-win_amd64.whl
+Collecting docutils (from -r requirements\base.txt (line 2))
+  Downloading docutils-0.12-py3-none-any.whl (508kB)
+Collecting jinja2 (from -r requirements\base.txt (line 3))
+  Using cached Jinja2-2.8-py2.py3-none-any.whl
+Collecting numpy (from -r requirements\base.txt (line 4))
+  Downloading numpy-1.11.1-cp35-none-win_amd64.whl (7.6MB)
+Collecting Pillow (from -r requirements\base.txt (line 5))
+  Downloading Pillow-3.3.1-cp35-cp35m-win_amd64.whl (1.5MB)
+Collecting PyYAML (from -r requirements\base.txt (line 6))
+  Downloading PyYAML-3.11.zip (371kB)
+Collecting pytz>dev (from -r requirements\base.txt (line 7))
+  Using cached pytz-2016.6.1-py2.py3-none-any.whl
+Collecting selenium (from -r requirements\base.txt (line 8))
+  Downloading selenium-2.53.6-py2.py3-none-any.whl (884kB)
+Collecting sqlparse (from -r requirements\base.txt (line 9))
+  Downloading sqlparse-0.2.1.tar.gz (53kB)
+Collecting python3-memcached (from -r requirements/py3.txt (line 2))
+  Downloading python3-memcached-1.51.tar.gz
+Collecting six>=1.4.1 (from bcrypt->-r requirements\base.txt (line 1))
+  Using cached six-1.10.0-py2.py3-none-any.whl
+Collecting cffi>=1.1 (from bcrypt->-r requirements\base.txt (line 1))
+  Downloading cffi-1.7.0-cp35-cp35m-win_amd64.whl (156kB)
+Collecting MarkupSafe (from jinja2->-r requirements\base.txt (line 3))
+  Using cached MarkupSafe-0.23.tar.gz
+Collecting pycparser (from cffi>=1.1->bcrypt->-r requirements\base.txt (line 1))
+  Downloading pycparser-2.14.tar.gz (223kB)
+Building wheels for collected packages: PyYAML, sqlparse, python3-memcached, MarkupSafe, pycparser
+  Running setup.py bdist_wheel for PyYAML: started
+  Running setup.py bdist_wheel for PyYAML: finished with status 'done'
+  Stored in directory: C:\Users\Aspire\AppData\Local\pip\Cache\wheels\4a\bf\14\d79994d19a59d4f73efdafb8682961f582d45ed6b459420346
+  Running setup.py bdist_wheel for sqlparse: started
+  Running setup.py bdist_wheel for sqlparse: finished with status 'done'
+  Stored in directory: C:\Users\Aspire\AppData\Local\pip\Cache\wheels\e2\82\57\0a192624b6d4faa1d64d2b1f0efae857496b4f35fb7e86aba1
+  Running setup.py bdist_wheel for python3-memcached: started
+  Running setup.py bdist_wheel for python3-memcached: finished with status 'done'
+  Stored in directory: C:\Users\Aspire\AppData\Local\pip\Cache\wheels\be\3c\13\413aea983af79f9a4b4c2e737a6c8e7802c9cf0d69a7673b60
+  Running setup.py bdist_wheel for MarkupSafe: started
+  Running setup.py bdist_wheel for MarkupSafe: finished with status 'done'
+  Stored in directory: C:\Users\Aspire\AppData\Local\pip\Cache\wheels\a3\fa\dc\0198eed9ad95489b8a4f45d14dd5d2aee3f8984e46862c5748
+  Running setup.py bdist_wheel for pycparser: started
+  Running setup.py bdist_wheel for pycparser: finished with status 'done'
+  Stored in directory: C:\Users\Aspire\AppData\Local\pip\Cache\wheels\9b\f4\2e\d03e949a551719a1ffcb659f2c63d8444f4df12e994ce52112
+Successfully built PyYAML sqlparse python3-memcached MarkupSafe pycparser
+Installing collected packages: six, pycparser, cffi, bcrypt, docutils, MarkupSafe, jinja2, numpy, Pillow, PyYAML, pytz, selenium, sqlparse, python3-memcached
+Successfully installed MarkupSafe-0.23 Pillow-3.3.1 PyYAML-3.11 bcrypt-3.1.0 cffi-1.7.0 docutils-0.12 jinja2-2.8 numpy-1.11.1 pycparser-2.14 python3-memcached-1.51 pytz-2016.6.1 selenium-2.53.6 six-1.10.0 sqlparse-0.2.1
+(djangodev)
+Aspire@Acer MINGW64 /e/Working/Python/Django/Python3.5/Django-patch/django/tests ((4ccfc44...))
+$ ls
+absolute_url_overrides/       datetimes/                  i18n/                             model_regress/            sessions_tests/
+admin_autodiscover/           db_functions/               import_error_package/             model_validation/         settings_tests/
+admin_changelist/             db_typecasts/               indexes/                          modeladmin/               shortcuts/
+admin_checks/                 dbshell/                    inline_formsets/                  multiple_database/        signals/
+admin_custom_urls/            decorators/                 inspectdb/                        mutually_referential/     signed_cookies_tests/
+admin_docs/                   defer/                      introspection/                    nested_foreign_keys/      signing/
+admin_filters/                defer_regress/              invalid_models_tests/             no_models/                sitemaps_tests/
+admin_inlines/                delete/                     known_related_objects/            null_fk/                  sites_framework/
+admin_ordering/               delete_regress/             logging_tests/                    null_fk_ordering/         sites_tests/
+admin_registration/           deprecation/                lookup/                           null_queries/             staticfiles_tests/
+admin_scripts/                dispatch/                   m2m_and_m2o/                      one_to_one/               str/
+admin_utils/                  distinct_on_fields/         m2m_intermediary/                 or_lookups/               string_lookup/
+admin_views/                  empty/                      m2m_multiple/                     order_with_respect_to/    swappable_models/
+admin_widgets/                expressions/                m2m_recursive/                    ordering/                 syndication_tests/
+aggregation/                  expressions_case/           m2m_regress/                      pagination/               template_backends/
+aggregation_regress/          extra_regress/              m2m_signals/                      postgres_tests/           template_loader/
+annotations/                  field_deconstruction/       m2m_through/                      prefetch_related/         template_tests/
+app_loading/                  field_defaults/             m2m_through_regress/              project_template/         templates/
+apps/                         field_subclassing/          m2o_recursive/                    properties/               test_client/
+auth_tests/                   file_storage/               mail/                             proxy_model_inheritance/  test_client_regress/
+backends/                     file_uploads/               managers_regress/                 proxy_models/             test_discovery_sample/
+base/                         files/                      many_to_many/                     queries/                  test_discovery_sample2/
+bash_completion/              fixtures/                   many_to_one/                      queryset_pickle/          test_exceptions/
+basic/                        fixtures_model_package/     many_to_one_null/                 raw_query/                test_runner/
+builtin_server/               fixtures_regress/           max_lengths/                      README.rst                test_runner_deprecation_app/
+bulk_create/                  flatpages_tests/            messages_tests/                   redirects_tests/          test_sqlite.py
+cache/                        force_insert_update/        middleware/                       requests/                 test_utils/
+check_framework/              foreign_object/             middleware_exceptions/            requirements/             timezones/
+choices/                      forms_tests/                migrate_signals/                  reserved_names/           transactions/
+conditional_processing/       from_db_value/              migration_test_data_persistence/  resolve_url/              unmanaged_models/
+contenttypes_tests/           generic_inline_admin/       migrations/                       responses/                update/
+context_processors/           generic_relations/          migrations2/                      reverse_lookup/           update_only_fields/
+createsuperuser/              generic_relations_regress/  model_fields/                     runtests.py*              urlpatterns_reverse/
+csrf_tests/                   generic_views/              model_forms/                      save_delete_hooks/        urls.py
+custom_columns/               get_earliest_or_latest/     model_formsets/                   schema/                   user_commands/
+custom_lookups/               get_object_or_404/          model_formsets_regress/           select_for_update/        utils_tests/
+custom_managers/              get_or_create/              model_inheritance/                select_related/           validation/
+custom_methods/               gis_tests/                  model_inheritance_regress/        select_related_onetoone/  validators/
+custom_migration_operations/  handlers/                   model_meta/                       select_related_regress/   version/
+custom_pk/                    http_utils/                 model_options/                    serializers/              view_tests/
+datatypes/                    httpwrappers/               model_package/                    serializers_regress/      webdesign_tests/
+dates/                        humanize_tests/             model_permalink/                  servers/                  wsgi/
+(djangodev)
+Aspire@Acer MINGW64 /e/Working/Python/Django/Python3.5/Django-patch/django/tests ((4ccfc44...))
+$ ./runtests.py
+...................................................................................................................................................................................................................................................................................sssssssss....................................................................................................................................................................................................................sss.....................................s..........................................................................................................................................................................................................s......................................................................................s.ssssssssss.............................s..........ss.....................s........................................E..............................................................ssssssssssssssssssssssssssssssssssssssssssssssss...........................................................................s.s....ss..........................................s............................................................................s................................................s..sss...........s...............................s.......s.........................................................................................................s......F.........................................................................................s...................................................................................................................................................................................................s......s........s..............................................................................................................................................sssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss......................sss...........................s........................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................x...................sss.....................s.................................................................F...............................................................................ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss............................................................................................ss...............................x....s.............x................................................................................................................................s.................................................................................s.............................................xx................................................................sssssssssssssssssssssssss...................................................................................................................................................................................................s.............s.................................................................................................................................ss.s.s..sssss......s..............s..s.s.sssss........s..s....sssss.s....s..ss..ss.......................................................................................sss.........................................sss..............................sss.......................sss......ssssss..ssssss..........................................................s.......................ss...ss...s.s...s....ss........s...................................................................................................................................................................................................................................................................................s...........................................................................................................................................................................................................................................................................................................................................................................................................................................................s.......................................................ssssssssssssssssssssssssss..............................................................sssssssssssssssssssssssssssssssssssssssssssssssssssss.........................................................s..............s..............s......s..s................................................................................................................................s............................................................................................................................................................................................................ss...................................................................................................................................................................................................s....................................................................................................................................s........................................................................................................................................s...................................................................................................................sssss......................................................................s...ss..s.s...ss.....sss...........sss........s....ssssssssss..................................................................................................................................................................................................sss................s...s.................................................................................................................................................................................................................................................................................................................ss................ss.................................................................................................................................................................................................................................................................................................................................................................................................................................................................F......................................................................................................................................................................................................................................................................................................................................................................................................................s..........................................................................................................................................ss.......................................................s.........s.........................s....................ssssssssssssssssssss..............................................................................F.............ss.............................................................................................................................................................................................................................................................................................................................................................................................................................ssssss...........................................................................................................................................................................................ssssss......................................................................................ssss............................................ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss........................sssss...................sssssssssss............................................................................................x..............................................................................................................................................................................................................................................................................................................s............................................................
+======================================================================
+ERROR: test_has_key (cache.tests.FileBasedCacheTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\Working\Python\Django\Python3.5\Django-patch\django\tests\cache\tests.py", line 1212, in tearDown
+    shutil.rmtree(self.dirname)
+  File "C:\Python35\lib\shutil.py", line 488, in rmtree
+    return _rmtree_unsafe(path, onerror)
+  File "C:\Python35\lib\shutil.py", line 383, in _rmtree_unsafe
+    onerror(os.unlink, fullname, sys.exc_info())
+  File "C:\Python35\lib\shutil.py", line 381, in _rmtree_unsafe
+    os.unlink(fullname)
+FileNotFoundError: [WinError 2] The system cannot find the file specified: 'C:\\Users\\Aspire\\AppData\\Local\\Temp\\django_s6hv_ine\\tmp86lhyxvc\\e4b54c66fde8f269cd060000b3399aed.djcache'
+
+======================================================================
+FAIL: test_old_style_storage (file_storage.tests.FileFieldStorageTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\Working\Python\Django\Python3.5\Django-patch\django\tests\file_storage\tests.py", line 566, in test_old_style_storage
+    self.assertEqual(len(warns), 2)
+AssertionError: 4 != 2
+
+======================================================================
+FAIL: test_migrate_legacy_router (multiple_database.tests.RouterTestCase)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\Working\Python\Django\Python3.5\Django-patch\django\tests\multiple_database\tests.py", line 954, in test_migrate_legacy_router
+    self.assertEqual(recorded, [])
+AssertionError: Lists differ: [<warnings.WarningMessage object at 0x000000FB36F46E48>] != []
+
+First list contains 1 additional elements.
+First extra element 0:
+<warnings.WarningMessage object at 0x000000FB36F46E48>
+
+- [<warnings.WarningMessage object at 0x000000FB36F46E48>]
++ []
+
+======================================================================
+FAIL: test_if_tag_eq_deprecated (template_tests.syntax_tests.test_if.IfTagTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "e:\working\python\django\python3.5\django-patch\django\django\test\utils.py", line 182, in inner
+    return test_func(*args, **kwargs)
+  File "E:\Working\Python\Django\Python3.5\Django-patch\django\tests\template_tests\utils.py", line 62, in inner
+    func(self)
+  File "E:\Working\Python\Django\Python3.5\Django-patch\django\tests\template_tests\syntax_tests\test_if.py", line 537, in test_if_tag_eq_deprecated
+    self.assertEqual(len(warns), 1)
+AssertionError: 3 != 1
+
+======================================================================
+FAIL: test_only_new_files (utils_tests.test_autoreload.TestFilenameGenerator)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\Working\Python\Django\Python3.5\Django-patch\django\tests\utils_tests\test_autoreload.py", line 87, in test_only_new_files
+    self.assertEqual(len(filenames2), 1)
+AssertionError: 0 != 1
+
+----------------------------------------------------------------------
+Ran 9637 tests in 745.309s
+
+FAILED (failures=4, errors=1, skipped=895, expected failures=6)
+Testing against Django installed in 'e:\working\python\django\python3.5\django-patch\django\django'
+Creating test database for alias 'default'...
+Creating test database for alias 'other'...
+Destroying test database for alias 'default'...
+Destroying test database for alias 'other'...
+(djangodev)
+Aspire@Acer MINGW64 /e/Working/Python/Django/Python3.5/Django-patch/django/tests ((4ccfc44...))
+$ ./runtests.py forms_tests
+.....................................................................................................................................................................................................F...........................................................................................................................................................................................................................s...........
+======================================================================
+FAIL: test_class_prefix (forms_tests.tests.test_forms.FormsTestCase)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\Working\Python\Django\Python3.5\Django-patch\django\tests\forms_tests\tests\test_forms.py", line 1681, in test_class_prefix
+    self.assertEqual(p.prefix, 'foo')
+AssertionError: None != 'foo'
+
+----------------------------------------------------------------------
+Ran 428 tests in 2.840s
+
+FAILED (failures=1, skipped=1)
+Testing against Django installed in 'e:\working\python\django\python3.5\django-patch\django\django'
+Creating test database for alias 'default'...
+Creating test database for alias 'other'...
+Destroying test database for alias 'default'...
+Destroying test database for alias 'other'...
+(djangodev)
+Aspire@Acer MINGW64 /e/Working/Python/Django/Python3.5/Django-patch/django/tests ((4ccfc44...))
+$ ./runtests.py forms_tests
+.....................................................................................................................................................................................................F...........................................................................................................................................................................................................................s...........
+======================================================================
+FAIL: test_class_prefix (forms_tests.tests.test_forms.FormsTestCase)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\Working\Python\Django\Python3.5\Django-patch\django\tests\forms_tests\tests\test_forms.py", line 1681, in test_class_prefix
+    self.assertEqual(p.prefix, 'foo')
+AssertionError: None != 'foo'
+
+----------------------------------------------------------------------
+Ran 428 tests in 2.891s
+
+FAILED (failures=1, skipped=1)
+Testing against Django installed in 'e:\working\python\django\python3.5\django-patch\django\django'
+Creating test database for alias 'default'...
+Creating test database for alias 'other'...
+Destroying test database for alias 'default'...
+Destroying test database for alias 'other'...
+(djangodev)
+Aspire@Acer MINGW64 /e/Working/Python/Django/Python3.5/Django-patch/django/tests ((4ccfc44...))
+$ ./runtests.py forms_tests
+.................................................................................................................................................................................................................................................................................................................................................................................................................................s...........
+----------------------------------------------------------------------
+Ran 428 tests in 2.746s
+
+OK (skipped=1)
+Testing against Django installed in 'e:\working\python\django\python3.5\django-patch\django\django'
+Creating test database for alias 'default'...
+Creating test database for alias 'other'...
+Destroying test database for alias 'default'...
+Destroying test database for alias 'other'...
+(djangodev)
+Aspire@Acer MINGW64 /e/Working/Python/Django/Python3.5/Django-patch/django/tests ((4ccfc44...))
+$ ./runtests.py
+...................................................................................................................................................................................................................................................................................sssssssss....................................................................................................................................................................................................................sss.....................................s..........................................................................................................................................................................................................s......................................................................................s.ssssssssss.............................s..........ss.....................s.......................................................................................................ssssssssssssssssssssssssssssssssssssssssssssssss...........................................................................s.s....ss..........................................s............................................................................s................................................s..sss...........s...............................s.......s.........................................................................................................s......F.........................................................................................s...................................................................................................................................................................................................s......s........s..............................................................................................................................................sssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss......................sss...........................s........................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................x...................sss.....................s.................................................................F...............................................................................ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss............................................................................................ss...............................x....s.............x................................................................................................................................s.................................................................................s.............................................xx................................................................sssssssssssssssssssssssss...................................................................................................................................................................................................s.............s.................................................................................................................................ss.s.s..sssss......s..............s..s.s.sssss........s..s....sssss.s....s..ss..ss.......................................................................................sss.........................................sss..............................sss.......................sss......ssssss..ssssss..........................................................s.......................ss...ss...s.s...s....ss........s...................................................................................................................................................................................................................................................................................s............................................................................................................................................................................................................................................................................................................................................................................................................................................................s.......................................................ssssssssssssssssssssssssss..............................................................sssssssssssssssssssssssssssssssssssssssssssssssssssss.........................................................s..............s..............s......s..s................................................................................................................................s............................................................................................................................................................................................................ss...................................................................................................................................................................................................s....................................................................................................................................s........................................................................................................................................s...................................................................................................................sssss......................................................................s...ss..s.s...ss.....sss...........sss........s....ssssssssss..................................................................................................................................................................................................sss................s...s.................................................................................................................................................................................................................................................................................................................ss................ss.................................................................................................................................................................................................................................................................................................................................................................................................................................................................F......................................................................................................................................................................................................................................................................................................................................................................................................................s..........................................................................................................................................ss.......................................................s.........s.........................s....................ssssssssssssssssssss..............................................................................F.............ss.............................................................................................................................................................................................................................................................................................................................................................................................................................ssssss...........................................................................................................................................................................................ssssss......................................................................................ssss............................................ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss........................sssss...................sssssssssss............................................................................................x..............................................................................................................................................................................................................................................................................................................s............................................................
+======================================================================
+FAIL: test_old_style_storage (file_storage.tests.FileFieldStorageTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\Working\Python\Django\Python3.5\Django-patch\django\tests\file_storage\tests.py", line 566, in test_old_style_storage
+    self.assertEqual(len(warns), 2)
+AssertionError: 4 != 2
+
+======================================================================
+FAIL: test_migrate_legacy_router (multiple_database.tests.RouterTestCase)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\Working\Python\Django\Python3.5\Django-patch\django\tests\multiple_database\tests.py", line 954, in test_migrate_legacy_router
+    self.assertEqual(recorded, [])
+AssertionError: Lists differ: [<warnings.WarningMessage object at 0x000000833BF01AC8>] != []
+
+First list contains 1 additional elements.
+First extra element 0:
+<warnings.WarningMessage object at 0x000000833BF01AC8>
+
+- [<warnings.WarningMessage object at 0x000000833BF01AC8>]
++ []
+
+======================================================================
+FAIL: test_if_tag_eq_deprecated (template_tests.syntax_tests.test_if.IfTagTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "e:\working\python\django\python3.5\django-patch\django\django\test\utils.py", line 182, in inner
+    return test_func(*args, **kwargs)
+  File "E:\Working\Python\Django\Python3.5\Django-patch\django\tests\template_tests\utils.py", line 62, in inner
+    func(self)
+  File "E:\Working\Python\Django\Python3.5\Django-patch\django\tests\template_tests\syntax_tests\test_if.py", line 537, in test_if_tag_eq_deprecated
+    self.assertEqual(len(warns), 1)
+AssertionError: 3 != 1
+
+======================================================================
+FAIL: test_only_new_files (utils_tests.test_autoreload.TestFilenameGenerator)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\Working\Python\Django\Python3.5\Django-patch\django\tests\utils_tests\test_autoreload.py", line 87, in test_only_new_files
+    self.assertEqual(len(filenames2), 1)
+AssertionError: 0 != 1
+
+----------------------------------------------------------------------
+Ran 9638 tests in 733.390s
+
+FAILED (failures=4, skipped=895, expected failures=6)
+Testing against Django installed in 'e:\working\python\django\python3.5\django-patch\django\django'
+Creating test database for alias 'default'...
+Creating test database for alias 'other'...
+Destroying test database for alias 'default'...
+Destroying test database for alias 'other'...
+(djangodev)
+Aspire@Acer MINGW64 /e/Working/Python/Django/Python3.5/Django-patch/django/tests ((4ccfc44...))
+$ git diff
+diff --git a/django/forms/forms.py b/django/forms/forms.py
+index 509709f..d1370de 100644
+--- a/django/forms/forms.py
++++ b/django/forms/forms.py
+@@ -75,6 +75,7 @@ class BaseForm(object):
+     # information. Any improvements to the form API should be made to *this*
+     # class, not to the Form class.
+     field_order = None
++    prefix = None
+
+     def __init__(self, data=None, files=None, auto_id='id_%s', prefix=None,
+                  initial=None, error_class=ErrorList, label_suffix=None,
+@@ -83,7 +84,8 @@ class BaseForm(object):
+         self.data = data or {}
+         self.files = files or {}
+         self.auto_id = auto_id
+-        self.prefix = prefix
++        if prefix is not None:
++            self.prefix = prefix
+         self.initial = initial or {}
+         self.error_class = error_class
+         # Translators: This is the default suffix added to form field labels
+diff --git a/docs/ref/forms/api.txt b/docs/ref/forms/api.txt
+(djangodev)
+Aspire@Acer MINGW64 /e/Working/Python/Django/Python3.5/Django-patch/django/tests ((4ccfc44...))
+$ cd ..
+(djangodev)
+Aspire@Acer MINGW64 /e/Working/Python/Django/Python3.5/Django-patch/django ((4ccfc44...))
+$ git diff > 24788.diff
+(djangodev)
+Aspire@Acer MINGW64 /e/Working/Python/Django/Python3.5/Django-patch/django ((4ccfc44...))
+$ git reset --hard HEAD
+HEAD is now at 4ccfc44 Refs #24652 -- Fixed a test failure in file_uploads tests on Windows.
+(djangodev)
+Aspire@Acer MINGW64 /e/Working/Python/Django/Python3.5/Django-patch/django ((4ccfc44...))
+$ git checkout master
+Checking out files: 100% (4042/4042), done.
+Previous HEAD position was 4ccfc44... Refs #24652 -- Fixed a test failure in file_uploads tests on Windows.
+Switched to branch 'master'
+Your branch is up-to-date with 'origin/master'.
+(djangodev)

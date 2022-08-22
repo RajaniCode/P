@@ -1,0 +1,169 @@
+$ cd "E:\Working\Python\Django\Python3.5\WatchUsBuild-TeamDirectoryAppWithDjango-part2\Directory"
+
+$ pip install -r requirements.txt
+
+# Note
+# Create key and secret from google developer's console here:
+# [*****@gmail.com] # [https://www.djangoproject.com]
+https://console.developers.google.com 
+
+# Project name 
+TeamDirectoryAppWithDjango2
+Project ID
+teamdirectoryappwithdjango2
+Project number
+1608243935
+
+# OAuthconsent screen
+Email address
+*****@gmail.com
+Product name shown to users
+TeamDirectoryAppWithDjangoPart2
+
+# Create client ID
+Application type
+Web application
+Name
+Team Directory
+
+Restrictions
+Enter JavaScript origins, redirect URIs, or both
+Authorized JavaScript origins
+http://127.0.0.1:8000
+
+Authorized redirect URIs
+http://127.0.0.1:8000/complete/google-oauth2/
+
+OAuth client
+Client ID
+1608243935-e8retbhinklrdklq5ma5brdu5mie74jb.apps.googleusercontent.com
+Client secret
+7e9T1sDSPmKgm2mEqvLa-R4P
+
+
+E:\Working\Python\Django\Python3.5\WatchUsBuild-TeamDirectoryAppWithDjango-part2\Directory\Directory\settings.py
+Then replace the key and secret variables' values:
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET
+
+[
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '506565326424-m803edtk95qvf6po046jsvfl5kn9b80q.apps.googleusercontent.com'
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'jOSfmbsGazhenjHlA0o7WPY1'
+]
+
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '1608243935-e8retbhinklrdklq5ma5brdu5mie74jb.apps.googleusercontent.com'
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = '7e9T1sDSPmKgm2mEqvLa-R4P'
+
+
+# Git Bash
+
+MINGW64 /e/Working/Python/Django/Python3.5/WatchUsBuild-TeamDirectoryAppWithDjango-part2/Directory
+$ python --version
+Python 3.5.2
+
+MINGW64 /e/Working/Python/Django/Python3.5/WatchUsBuild-TeamDirectoryAppWithDjango-part2/Directory
+$ pip --version
+pip 8.1.2 from c:\python35\lib\site-packages (python 3.5)
+
+MINGW64 /e/Working/Python/Django/Python3.5/WatchUsBuild-TeamDirectoryAppWithDjango-part2/Directory
+$ python -m django --version
+1.10
+
+MINGW64 /e/Working/Python/Django/Python3.5/WatchUsBuild-TeamDirectoryAppWithDjango-part2/Directory
+$ pip install -r requirements.txt
+Collecting defusedxml==0.4.1 (from -r requirements.txt (line 1))
+  Downloading defusedxml-0.4.1.tar.gz (48kB)
+Requirement already satisfied (use --upgrade to upgrade): Django==1.10 in c:\python35\lib\site-packages (from -r requirements.txt (line 2))
+Collecting gunicorn==19.6.0 (from -r requirements.txt (line 3))
+  Downloading gunicorn-19.6.0-py2.py3-none-any.whl (114kB)
+Collecting oauthlib==1.1.2 (from -r requirements.txt (line 4))
+  Downloading oauthlib-1.1.2.tar.gz (111kB)
+Collecting PyJWT==1.4.2 (from -r requirements.txt (line 5))
+  Downloading PyJWT-1.4.2-py2.py3-none-any.whl
+Collecting python-social-auth==0.2.19 (from -r requirements.txt (line 6))
+  Downloading python_social_auth-0.2.19-py3-none-any.whl (289kB)
+Collecting python3-openid==3.0.10 (from -r requirements.txt (line 7))
+  Downloading python3-openid-3.0.10.zip (365kB)
+Collecting requests==2.11.0 (from -r requirements.txt (line 8))
+  Downloading requests-2.11.0-py2.py3-none-any.whl (514kB)
+Collecting requests-oauthlib==0.6.2 (from -r requirements.txt (line 9))
+  Downloading requests_oauthlib-0.6.2-py2.py3-none-any.whl
+Collecting six==1.10.0 (from -r requirements.txt (line 10))
+  Using cached six-1.10.0-py2.py3-none-any.whl
+Collecting whitenoise==3.2 (from -r requirements.txt (line 11))
+  Downloading whitenoise-3.2-py2.py3-none-any.whl
+Installing collected packages: defusedxml, gunicorn, oauthlib, PyJWT, six, python3-openid, requests, requests-oauthlib, python-social-auth, whitenoise
+  Running setup.py install for defusedxml: started
+    Running setup.py install for defusedxml: finished with status 'done'
+  Running setup.py install for oauthlib: started
+    Running setup.py install for oauthlib: finished with status 'done'
+  Running setup.py install for python3-openid: started
+    Running setup.py install for python3-openid: finished with status 'done'
+Successfully installed PyJWT-1.4.2 defusedxml-0.4.1 gunicorn-19.6.0 oauthlib-1.1.2 python-social-auth-0.2.19 python3-openid-3.0.10 requests-2.11.0 requests-oauthlib-0.6.2 six-1.10.0 whitenoise-3.2
+
+MINGW64 /e/Working/Python/Django/Python3.5/WatchUsBuild-TeamDirectoryAppWithDjango-part2/Directory
+$ pip freeze
+defusedxml==0.4.1
+Django==1.10
+gunicorn==19.6.0
+oauthlib==1.1.2
+PyJWT==1.4.2
+python-social-auth==0.2.19
+python3-openid==3.0.10
+requests==2.11.0
+requests-oauthlib==0.6.2
+six==1.10.0
+virtualenv==15.0.3
+whitenoise==3.2
+
+
+# Git CMD
+
+>python manage.py runserver
+Performing system checks...
+
+System check identified no issues (0 silenced).
+October 07, 2016 - 19:48:25
+Django version 1.10, using settings 'Directory.settings'
+Starting development server at http://127.0.0.1:8000/
+Quit the server with CTRL-BREAK.
+
+
+E:\Working\Python\Django\Python3.5\WatchUsBuild-TeamDirectoryAppWithDjango-part2\Directory>python manage.py shell
+Python 3.5.2 (v3.5.2:4def2a2901a5, Jun 25 2016, 22:18:55) [MSC v.1900 64 bit (AMD64)] on win32
+Type "help", "copyright", "credits" or "license" for more information.
+(InteractiveConsole)
+>>> from django.contrib.auth.models import User
+>>> users = User.objects.all()
+>>> users
+<QuerySet [<User: djangodudette>, <User: dudetteb0816>, <User: dudetteb0816edcf8c4a2a84412a>, <User: dudetteb0816bf6a3dfed3384f16>]>
+
+http://127.0.0.1:8000/
+
+>>> users
+<QuerySet [<User: djangodudette>, <User: dudetteb0816>, <User: dudetteb0816edcf8c4a2a84412a>, <User: dudetteb0816bf6a3dfed3384f16>, <User: djangodude>]>
+>>> user = users[4]
+>>> user.username
+'djangodude'
+>>> user.is_superuser
+False
+>>> user.is_staff
+False
+>>> user.set_password('python3.5.2')
+>>> user.save()
+>>> user.is_staff = True
+>>> user.is_superuser = True
+>>> user.save()
+>>> user.is_superuser
+True
+>>> user.is_staff
+True
+>>> exit()
+
+http://127.0.0.1:8000/admin/login/?next=/admin/
+djangodude
+python3.5.2
+
+http://127.0.0.1:8000/
+http://127.0.0.1:8000/members/adam-fortuna/
+http://127.0.0.1:8000/members/dudette-holderness/

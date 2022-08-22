@@ -1,0 +1,248 @@
+
+Rajani@Samsung MINGW64 ~/Documents/Cloud/Google/Tech2021/Python/Django/Django329
+$ export PATH=$PATH:"/C/Python310/:/C/Python310/Scripts/"
+
+Rajani@Samsung MINGW64 ~/Documents/Cloud/Google/Tech2021/Python/Django/Django329
+$ python --version
+Python 3.10.0
+
+Rajani@Samsung MINGW64 ~/Documents/Cloud/Google/Tech2021/Python/Django/Django329
+$ pip --version
+pip 21.3.1 from C:\Python310\lib\site-packages\pip (python 3.10)
+
+Rajani@Samsung MINGW64 ~/Documents/Cloud/Google/Tech2021/Python/Django/Django329
+$ pip list
+Package    Version
+---------- -------
+asgiref    3.4.1
+Django     3.2.9
+pip        21.3.1
+pytz       2021.3
+setuptools 57.4.0
+sqlparse   0.4.2
+
+Rajani@Samsung MINGW64 ~/Documents/Cloud/Google/Tech2021/Python/Django/Django329
+$ pip show pip
+Name: pip
+Version: 21.3.1
+Summary: The PyPA recommended tool for installing Python packages.
+Home-page: https://pip.pypa.io/
+Author: The pip developers
+Author-email: distutils-sig@python.org
+License: MIT
+Location: c:\python310\lib\site-packages
+Requires:
+Required-by:
+
+Rajani@Samsung MINGW64 ~/Documents/Cloud/Google/Tech2021/Python/Django/Django329
+$ pip show setuptools
+Name: setuptools
+Version: 57.4.0
+Summary: Easily download, build, install, upgrade, and uninstall Python packages
+Home-page: https://github.com/pypa/setuptools
+Author: Python Packaging Authority
+Author-email: distutils-sig@python.org
+License: UNKNOWN
+Location: c:\python310\lib\site-packages
+Requires:
+Required-by:
+
+Rajani@Samsung MINGW64 ~/Documents/Cloud/Google/Tech2021/Python/Django/Django329
+$ python -m django --version
+3.2.9
+
+Rajani@Samsung MINGW64 ~/Documents/Cloud/Google/Tech2021/Python/Django/Django329
+$ django-admin --version
+3.2.9
+
+Rajani@Samsung MINGW64 ~/Documents/Cloud/Google/Tech2021/Python/Django/Django329
+$ python -c "import django; print(django.__version__)"                                                                                                          3.2.9
+3.2.9
+
+Rajani@Samsung MINGW64 ~/Documents/Cloud/Google/Tech2021/Python/Django/Django329
+$ django-admin startproject mysite
+
+Rajani@Samsung MINGW64 ~/Documents/Cloud/Google/Tech2021/Python/Django/Django329
+$ cd mysite
+
+Rajani@Samsung MINGW64 ~/Documents/Cloud/Google/Tech2021/Python/Django/Django329/mysite
+$ python manage.py runserver
+Watching for file changes with StatReloader
+[01/Dec/2021 03:55:28] "GET / HTTP/1.1" 200 10697
+[01/Dec/2021 03:55:30] "GET /static/admin/css/fonts.css HTTP/1.1" 200 423
+[01/Dec/2021 03:55:30] "GET /static/admin/fonts/Roboto-Bold-webfont.woff HTTP/1.1" 200 86184
+[01/Dec/2021 03:55:30] "GET /static/admin/fonts/Roboto-Light-webfont.woff HTTP/1.1" 200 85692
+[01/Dec/2021 03:55:30] "GET /static/admin/fonts/Roboto-Regular-webfont.woff HTTP/1.1" 200 85876
+Not Found: /favicon.ico
+[01/Dec/2021 03:55:30] "GET /favicon.ico HTTP/1.1" 404 2110
+Performing system checks...
+
+System check identified no issues (0 silenced).
+
+You have 18 unapplied migration(s). Your project may not work properly until you apply the migrations for app(s): admin, auth, contenttypes, sessions.
+Run 'python manage.py migrate' to apply them.
+December 01, 2021 - 03:20:21
+Django version 3.2.9, using settings 'mysite.settings'
+Starting development server at http://127.0.0.1:8000/
+Quit the server with CTRL-BREAK.
+
+Rajani@Samsung MINGW64 ~/Documents/Cloud/Google/Tech2021/Python/Django/Django329/mysite
+$ python manage.py startapp polls
+
+Rajani@Samsung MINGW64 ~/Documents/Cloud/Google/Tech2021/Python/Django/Django329/mysite
+$ touch polls/urls.py
+
+Rajani@Samsung MINGW64 ~/Documents/Cloud/Google/Tech2021/Python/Django/Django329/mysite
+$ python manage.py runserver
+Watching for file changes with StatReloader
+[01/Dec/2021 04:07:06] "GET /static/admin/css/fonts.css HTTP/1.1" 304 0
+[01/Dec/2021 04:07:06] "GET /static/admin/fonts/Roboto-Bold-webfont.woff HTTP/1.1" 304 0
+[01/Dec/2021 04:07:06] "GET /static/admin/fonts/Roboto-Regular-webfont.woff HTTP/1.1" 304 0
+[01/Dec/2021 04:07:06] "GET /static/admin/fonts/Roboto-Light-webfont.woff HTTP/1.1" 304 0
+Not Found: /polls/
+[01/Dec/2021 04:07:11] "GET /polls/ HTTP/1.1" 404 2095
+Not Found: /favicon.ico
+[01/Dec/2021 04:07:11] "GET /favicon.ico HTTP/1.1" 404 2110
+[01/Dec/2021 04:07:43] "GET / HTTP/1.1" 200 10697
+Not Found: /polls/
+[01/Dec/2021 04:07:49] "GET /polls/ HTTP/1.1" 404 2095
+Not Found: /polls
+[01/Dec/2021 04:07:51] "GET /polls HTTP/1.1" 404 2092
+Not Found: /polls/
+[01/Dec/2021 04:08:46] "GET /polls/ HTTP/1.1" 404 2095
+C:\Users\Rajani\Documents\Cloud\Google\Tech2021\Python\Django\Django329\mysite\mysite\urls.py changed, reloading.
+Performing system checks...
+
+System check identified no issues (0 silenced).
+
+You have 18 unapplied migration(s). Your project may not work properly until you apply the migrations for app(s): admin, auth, contenttypes, sessions.
+Run 'python manage.py migrate' to apply them.
+December 01, 2021 - 04:06:59
+Django version 3.2.9, using settings 'mysite.settings'
+Starting development server at http://127.0.0.1:8000/
+Quit the server with CTRL-BREAK.
+Watching for file changes with StatReloader
+[01/Dec/2021 04:11:27] "GET /polls HTTP/1.1" 301 0
+[01/Dec/2021 04:11:27] "GET /polls/ HTTP/1.1" 200 40
+Not Found: /
+[01/Dec/2021 04:11:35] "GET / HTTP/1.1" 404 2165
+[01/Dec/2021 04:12:41] "OPTIONS /polls HTTP/1.1" 301 0
+[01/Dec/2021 04:12:41] "OPTIONS /polls/ HTTP/1.1" 200 40
+[01/Dec/2021 04:12:41,475] - Broken pipe from ('127.0.0.1', 50076)
+
+[01/Dec/2021 04:12:42] "PROPFIND /polls HTTP/1.1" 301 0
+Forbidden (CSRF cookie not set.): /polls/
+[01/Dec/2021 04:12:42] "PROPFIND /polls/ HTTP/1.1" 403 2870
+Forbidden (CSRF cookie not set.): /polls/
+[01/Dec/2021 04:12:42] "PROPFIND /polls/ HTTP/1.1" 403 2870
+Forbidden (CSRF cookie not set.): /polls/
+[01/Dec/2021 04:12:42] "PROPFIND /polls/ HTTP/1.1" 403 2870
+Forbidden (CSRF cookie not set.): /polls/
+[01/Dec/2021 04:12:42] "PROPFIND /polls/ HTTP/1.1" 403 2870
+[01/Dec/2021 04:12:42,837] - Broken pipe from ('127.0.0.1', 50078)
+
+[01/Dec/2021 04:12:43] "PROPFIND /polls HTTP/1.1" 301 0
+Forbidden (CSRF cookie not set.): /polls/
+[01/Dec/2021 04:12:43] "PROPFIND /polls/ HTTP/1.1" 403 2870
+Forbidden (CSRF cookie not set.): /polls/
+[01/Dec/2021 04:12:43] "PROPFIND /polls/ HTTP/1.1" 403 2870
+Forbidden (CSRF cookie not set.): /polls/
+[01/Dec/2021 04:12:44] "PROPFIND /polls/ HTTP/1.1" 403 2870
+Forbidden (CSRF cookie not set.): /polls/
+[01/Dec/2021 04:12:44] "PROPFIND /polls/ HTTP/1.1" 403 2870
+[01/Dec/2021 04:12:44,087] - Broken pipe from ('127.0.0.1', 50087)
+
+[01/Dec/2021 04:12:45] "PROPFIND /polls HTTP/1.1" 301 0
+Forbidden (CSRF cookie not set.): /polls/
+[01/Dec/2021 04:12:45] "PROPFIND /polls/ HTTP/1.1" 403 2870
+Forbidden (CSRF cookie not set.): /polls/
+[01/Dec/2021 04:12:45] "PROPFIND /polls/ HTTP/1.1" 403 2870
+Forbidden (CSRF cookie not set.): /polls/
+[01/Dec/2021 04:12:45] "PROPFIND /polls/ HTTP/1.1" 403 2870
+Forbidden (CSRF cookie not set.): /polls/
+[01/Dec/2021 04:12:45] "PROPFIND /polls/ HTTP/1.1" 403 2870
+[01/Dec/2021 04:12:45,326] - Broken pipe from ('127.0.0.1', 50090)
+
+[01/Dec/2021 04:12:46] "PROPFIND /polls HTTP/1.1" 301 0
+Forbidden (CSRF cookie not set.): /polls/
+[01/Dec/2021 04:12:46] "PROPFIND /polls/ HTTP/1.1" 403 2870
+Forbidden (CSRF cookie not set.): /polls/
+[01/Dec/2021 04:12:46] "PROPFIND /polls/ HTTP/1.1" 403 2870
+Forbidden (CSRF cookie not set.): /polls/
+[01/Dec/2021 04:12:46] "PROPFIND /polls/ HTTP/1.1" 403 2870
+Forbidden (CSRF cookie not set.): /polls/
+[01/Dec/2021 04:12:46] "PROPFIND /polls/ HTTP/1.1" 403 2870
+[01/Dec/2021 04:12:46,576] - Broken pipe from ('127.0.0.1', 50092)
+
+[01/Dec/2021 04:12:47] "PROPFIND /polls HTTP/1.1" 301 0
+Forbidden (CSRF cookie not set.): /polls/
+[01/Dec/2021 04:12:47] "PROPFIND /polls/ HTTP/1.1" 403 2870
+Forbidden (CSRF cookie not set.): /polls/
+[01/Dec/2021 04:12:47] "PROPFIND /polls/ HTTP/1.1" 403 2870
+Forbidden (CSRF cookie not set.): /polls/
+[01/Dec/2021 04:12:47] "PROPFIND /polls/ HTTP/1.1" 403 2870
+Forbidden (CSRF cookie not set.): /polls/
+[01/Dec/2021 04:12:47] "PROPFIND /polls/ HTTP/1.1" 403 2870
+[01/Dec/2021 04:12:47,827] - Broken pipe from ('127.0.0.1', 50095)
+
+[01/Dec/2021 04:12:48] "PROPFIND /polls HTTP/1.1" 301 0
+Forbidden (CSRF cookie not set.): /polls/
+[01/Dec/2021 04:12:48] "PROPFIND /polls/ HTTP/1.1" 403 2870
+Forbidden (CSRF cookie not set.): /polls/
+[01/Dec/2021 04:12:48] "PROPFIND /polls/ HTTP/1.1" 403 2870
+Forbidden (CSRF cookie not set.): /polls/
+[01/Dec/2021 04:12:48] "PROPFIND /polls/ HTTP/1.1" 403 2870
+Forbidden (CSRF cookie not set.): /polls/
+[01/Dec/2021 04:12:49] "PROPFIND /polls/ HTTP/1.1" 403 2870
+[01/Dec/2021 04:12:49,045] - Broken pipe from ('127.0.0.1', 50097)
+
+[01/Dec/2021 04:12:50] "PROPFIND /polls HTTP/1.1" 301 0
+Forbidden (CSRF cookie not set.): /polls/
+[01/Dec/2021 04:12:50] "PROPFIND /polls/ HTTP/1.1" 403 2870
+Forbidden (CSRF cookie not set.): /polls/
+[01/Dec/2021 04:12:50] "PROPFIND /polls/ HTTP/1.1" 403 2870
+Forbidden (CSRF cookie not set.): /polls/
+[01/Dec/2021 04:12:50] "PROPFIND /polls/ HTTP/1.1" 403 2870
+Forbidden (CSRF cookie not set.): /polls/
+[01/Dec/2021 04:12:50] "PROPFIND /polls/ HTTP/1.1" 403 2870
+[01/Dec/2021 04:12:50,327] - Broken pipe from ('127.0.0.1', 50100)
+
+Not Found: /polls/ .pdf
+[01/Dec/2021 04:12:55] "PROPFIND /polls/%20.pdf HTTP/1.1" 404 2284
+[01/Dec/2021 04:12:55,450] - Broken pipe from ('127.0.0.1', 50109)
+
+[01/Dec/2021 04:12:56] "PROPFIND /polls HTTP/1.1" 301 0
+Forbidden (CSRF cookie not set.): /polls/
+[01/Dec/2021 04:12:56] "PROPFIND /polls/ HTTP/1.1" 403 2870
+Forbidden (CSRF cookie not set.): /polls/
+[01/Dec/2021 04:12:56] "PROPFIND /polls/ HTTP/1.1" 403 2870
+Forbidden (CSRF cookie not set.): /polls/
+[01/Dec/2021 04:12:56] "PROPFIND /polls/ HTTP/1.1" 403 2870
+Forbidden (CSRF cookie not set.): /polls/
+[01/Dec/2021 04:12:56] "PROPFIND /polls/ HTTP/1.1" 403 2870
+[01/Dec/2021 04:12:56,685] - Broken pipe from ('127.0.0.1', 50111)
+
+[01/Dec/2021 04:12:57] "PROPFIND /polls HTTP/1.1" 301 0
+Forbidden (CSRF cookie not set.): /polls/
+[01/Dec/2021 04:12:57] "PROPFIND /polls/ HTTP/1.1" 403 2870
+Forbidden (CSRF cookie not set.): /polls/
+[01/Dec/2021 04:12:57] "PROPFIND /polls/ HTTP/1.1" 403 2870
+Forbidden (CSRF cookie not set.): /polls/
+[01/Dec/2021 04:12:57] "PROPFIND /polls/ HTTP/1.1" 403 2870
+Forbidden (CSRF cookie not set.): /polls/
+[01/Dec/2021 04:12:57] "PROPFIND /polls/ HTTP/1.1" 403 2870
+[01/Dec/2021 04:12:57,966] - Broken pipe from ('127.0.0.1', 50113)
+
+Performing system checks...
+
+System check identified no issues (0 silenced).
+
+You have 18 unapplied migration(s). Your project may not work properly until you apply the migrations for app(s): admin, auth, contenttypes, sessions.
+Run 'python manage.py migrate' to apply them.
+December 01, 2021 - 04:11:24
+Django version 3.2.9, using settings 'mysite.settings'
+Starting development server at http://127.0.0.1:8000/
+Quit the server with CTRL-BREAK.
+
+Rajani@Samsung MINGW64 ~/Documents/Cloud/Google/Tech2021/Python/Django/Django329/mysite
+$

@@ -1,0 +1,11 @@
+## Models
+Question
+# fields:
+question_text
+pub_date
+
+Choice
+# fields:
+question (foreign key)
+choice_text
+votes

@@ -1,0 +1,10 @@
+
+Rajani@RajaniDell MINGW64 ~
+$ cd "E:\Working\MongoDB\MongoDB University\2015\M101P MongoDB for Developers\validate\Pymongo create_index"
+
+Rajani@RajaniDell MINGW64 /e/Working/MongoDB/MongoDB University/2015/M101P MongoDB for Developers/validate/Pymongo create_index
+$ mongoimport -d blog -c posts < posts.json
+2015-11-05T23:03:33.475+0530    connected to: localhost
+2015-11-05T23:03:36.379+0530    blog.posts      19.7 MB
+2015-11-05T23:03:39.334+0530    blog.posts      32.5 MB
+2015-11-05T23:03:42.099+0530    imported 1000 documents

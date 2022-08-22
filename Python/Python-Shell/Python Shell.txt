@@ -1,0 +1,22 @@
+Only in Python 2.7
+execfile('file_name.py')
+
+(To be verified on Python 3.5)
+import file_name
+exec('file_name')
+
+
+Get the name of current script with Python
+
+(To be verified on Python 3.5)
+import os.path
+os.path.basename(__file__)
+
+
+Find full path of python interpreter?
+
+sys.executable contains full path of the currently running Python interpreter.
+
+import sys
+
+print(sys.executable)

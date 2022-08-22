@@ -1,0 +1,23 @@
+Git Bash
+
+MINGW64 ~
+$ cd "E:\Working\Python\Django\Python2.7\Django-app"
+
+MINGW64 /e/Working/Python/Django/Python2.7/Django-app
+$ python --version
+Python 2.7.11
+
+MINGW64 /e/Working/Python/Django/Python2.7/Django-app
+$ pip --version
+pip 8.1.2 from c:\python27\lib\site-packages (python 2.7)
+
+MINGW64 /e/Working/Python/Django/Python2.7/Django-app
+$ pip install django
+Collecting django
+  Downloading Django-1.10-py2.py3-none-any.whl (6.8MB)
+Installing collected packages: django
+Successfully installed django-1.10
+
+MINGW64 /e/Working/Python/Django/Python2.7/Django-app
+$ python -m django --version
+1.10

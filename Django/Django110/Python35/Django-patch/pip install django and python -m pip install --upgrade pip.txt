@@ -1,0 +1,48 @@
+
+MINGW64 ~
+$ python --version
+Python 3.5.2
+
+MINGW64 ~
+$ pip --version
+pip 8.1.1 from c:\python35\lib\site-packages (python 3.5)
+
+MINGW64 ~
+$ pip install django
+Collecting django
+  Using cached Django-1.10-py2.py3-none-any.whl
+Installing collected packages: django
+Successfully installed django-1.10
+You are using pip version 8.1.1, however version 8.1.2 is available.
+You should consider upgrading via the 'python -m pip install --upgrade pip' command.
+
+MINGW64 ~
+$ python -m pip install --upgrade pip
+Retrying (Retry(total=4, connect=None, read=None, redirect=None)) after connection broken by 'NewConnectionError('<pip._vendor.requests.packages.urllib3.connection.VerifiedHTTPSConnection object at 0x00000010A37CDEB8>: Failed to establish a new connection: [Errno 11001] getaddrinfo failed',)': /simple/pip/
+Collecting pip
+  Using cached pip-8.1.2-py2.py3-none-any.whl
+Installing collected packages: pip
+  Found existing installation: pip 8.1.1
+    Uninstalling pip-8.1.1:
+      Successfully uninstalled pip-8.1.1
+Successfully installed pip-8.1.2
+
+MINGW64 ~
+$ python --version
+Python 3.5.2
+
+MINGW64 ~
+$ pip --version
+pip 8.1.2 from c:\python35\lib\site-packages (python 3.5)
+
+MINGW64 ~
+$ django-admin --version
+1.10
+
+MINGW64 ~
+$ python -m django --version
+1.10
+
+MINGW64 ~
+$ python -c "import django; print(django.get_version())"
+1.10

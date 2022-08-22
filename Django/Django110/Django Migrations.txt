@@ -1,0 +1,8 @@
+# Migration
+$ python manage.py check
+$ python manage.py migrate
+$ python manage.py showmigrations --list
+$ python manage.py makemigrations <app>
+$ python manage.py sqlmigrate <app> 0001 # 0002 etc
+$ python manage.py showmigrations --list
+$ python manage.py check

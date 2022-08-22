@@ -1,0 +1,54 @@
+How yield catches StopIteration exception?
+
+To answer your question about where the StopIteration gets caught in the gen generator created inside of itertools.tee: it doesn't. It is up to the consumer of the tee results to catch the exception as they iterate.
+
+First off, it's important to note that a generator function (which is any function with a yield statement in it, anywhere) is fundamentally different than a normal function. Instead of running the function's code when it is called, instead, you'll just get a generator object when you call the function. Only when you iterate over the generator will you run the code.
+
+A generator function will never finish iterating without raising StopIteration (unless it raises some other exception instead). StopIteration is the signal from the generator that it is done, and it is not optional. If you reach a return statement or the end of the generator function's code without raising anything, Python will raise StopIteration for you!
+
+This is different from regular functions, which return None if they reach the end without returning anything else. It ties in with the different ways that generators work, as I described above.
+
+Here's an example generator function that will make it easy to see how StopIteration gets raised:
+
+def simple_generator():
+    yield "foo"
+    yield "bar"
+    # StopIteration will be raised here automatically
+Here's what happens when you consume it:
+
+>>> g = simple_generator()
+>>> next(g)
+'foo'
+>>> next(g)
+'bar'
+>>> next(g)
+Traceback (most recent call last):
+  File "<pyshell#6>", line 1, in <module>
+    next(g)
+StopIteration
+Calling simple_generator always returns a generator object immediately (without running any of the code in the function). Each call of next on the generator object runs the code until the next yield statement, and returns the yielded value. If there is no more to get, StopIteration is raised.
+
+Now, normally you don't see StopIteration exceptions. The reason for this is that you usually consume generators inside for loops. A for statement will automatically call next over and over until StopIteration gets raised. It will catch and suppress the StopIteration exception for you, so you don't need to mess around with try/except blocks to deal with it.
+
+A for loop like for item in iterable: do_suff(item) is almost exactly equivalent to this while loop (the only difference being that a real for doesn't need a temporary variable to hold the iterator):
+
+iterator = iter(iterable)
+try:
+    while True:
+        item = next(iterator)
+        do_stuff(item)
+except StopIteration:
+    pass
+finally:
+    del iterator
+The gen generator function you showed at the top is one exception. It uses the StopIteration exception produced by the iterator it is consuming as it's own signal that it is done being iterated on. That is, rather than catching the StopIteration and then breaking out of the loop, it simply lets the exception go uncaught (presumably to be caught by some higher level code).
+
+Unrelated to the main question, there is one other thing I want to point out. In your code, you're calling next on an variable called iterable. If you take that name as documentation for what type of object you will get, this is not necessarily safe.
+
+next is part of the iterator protocol, not the iterable (or container) protocol. It may work for some kinds of iterables (such as files and generators, as those types are their own iterators), but it will fail for others iterables, such as tuples and lists. The more correct approach is to call iter on your iterable value, then call next on the iterator you receive. (Or just use for loops, which call both iter and next for you at appropriate times!)
+
+Edit: I just found my own answer in a Google search for a related question, and I thought I'd update to point out that the answer above will not be completely true in future Python versions. PEP 479 is making it an error to allow a StopIteration to bubble up uncaught from a generator function. If that happens, Python will turn it into a RuntimeError exception instead.
+
+This means that code like the examples in itertools that use a StopIteration to break out of a generator function will need to be modified. Usually you'll need to catch the exception with a try/except and then do return.
+
+Because this is a backwards incompatible change, it's being phased in gradually. In Python 3.5, all code will work as before by default, but you can get the new behavior with from __future__ import generator_stop. In Python 3.6, the code will still work, but it will give a warning. In Python 3.7, the new behavior will apply all the time.

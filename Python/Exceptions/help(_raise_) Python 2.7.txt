@@ -1,0 +1,44 @@
+help('raise')
+The "raise" statement
+*********************
+
+   raise_stmt ::= "raise" [expression ["," expression ["," expression]]]
+
+If no expressions are present, "raise" re-raises the last exception
+that was active in the current scope.  If no exception is active in
+the current scope, a "TypeError" exception is raised indicating that
+this is an error (if running under IDLE, a "Queue.Empty" exception is
+raised instead).
+
+Otherwise, "raise" evaluates the expressions to get three objects,
+using "None" as the value of omitted expressions.  The first two
+objects are used to determine the *type* and *value* of the exception.
+
+If the first object is an instance, the type of the exception is the
+class of the instance, the instance itself is the value, and the
+second object must be "None".
+
+If the first object is a class, it becomes the type of the exception.
+The second object is used to determine the exception value: If it is
+an instance of the class, the instance becomes the exception value. If
+the second object is a tuple, it is used as the argument list for the
+class constructor; if it is "None", an empty argument list is used,
+and any other object is treated as a single argument to the
+constructor.  The instance so created by calling the constructor is
+used as the exception value.
+
+If a third object is present and not "None", it must be a traceback
+object (see section The standard type hierarchy), and it is
+substituted instead of the current location as the place where the
+exception occurred.  If the third object is present and not a
+traceback object or "None", a "TypeError" exception is raised.  The
+three-expression form of "raise" is useful to re-raise an exception
+transparently in an except clause, but "raise" with no expressions
+should be preferred if the exception to be re-raised was the most
+recently active exception in the current scope.
+
+Additional information on exceptions can be found in section
+Exceptions, and information about handling exceptions is in section
+The try statement.
+
+Related help topics: EXCEPTIONS

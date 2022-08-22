@@ -1,0 +1,40 @@
+{% load staticfiles %}
+	
+<link rel="stylesheet" type="text/css" href="{% static 'polls/style.css' %}" />
+<link rel="stylesheet" type="text/css" href="{% static 'polls/bootstrap/css/bootstrap.min.css' %}">
+<script src="{% static 'polls/jquery/jquery-3.1.1.min.js' %}"></script>
+<script src="{% static 'polls/bootstrap/js/bootstrap.min.js' %}"></script>
+
+{# {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %} #}
+    
+{% comment %}
+{% for message in messages %} 
+  {% if 'safe' in message.tags %}
+    {{ message|safe }}
+  {% else %}
+    {{ message }}
+  {% endif %} 
+{% endfor %}
+{% endcomment %}
+   
+{% if messages %}
+  {% for message in messages %}  
+    {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR or message.level == DEFAULT_MESSAGE_LEVELS.DEBUG  %}
+      <div class="alert alert-danger alert-dismissable" role="alert">{{ message.tags|title }}:
+    {% else %}
+      <div class="alert alert-{{message.tags}} alert-dismissable" role="alert">
+    {% endif %}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        {{ message }}
+      </div>
+  {% endfor %}
+{% endif %}
+    
+<form action="{% url 'polls:vote' question.id %}" method="post">
+  {% csrf_token %}
+  {% for choice in question.choice_set.all %}
+    <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}" />
+    <label for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label><br />
+  {% endfor %}
+  <input type="submit" value="Vote" />
+</form>

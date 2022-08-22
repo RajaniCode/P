@@ -1,0 +1,43 @@
+# https://community.chocolatey.org/install.ps1
+[
+Copy content to install.ps1
+]
+[
+wget -O install.ps1 https://community.chocolatey.org/install.ps1
+]
+
+# If files from a previous installation of Chocolatey were found
+[
+rm -rf "C:\ProgramData\chocolatey"
+]
+
+[
+$ winpty powershell
+> powershell
+
+PS> $PSVersionTable
+]
+
+"C:\Program Files\PowerShell\7\pwsh.exe"
+
+PS> $PSVersionTable
+
+[
+PS> cd "C:\Users\Rajani\Downloads\Chocolatey"
+]
+
+PS> Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
+
+PS> exit
+
+$ export PATH=$PATH:"/C/Users/Rajani/AppData/Local/Temp/chocolatey/chocoInstall/tools/chocolateyInstall/"
+$ mkdir -p "C:\ProgramData\chocolatey\lib"
+
+> set path=%path%;C:\Users\Rajani\AppData\Local\Temp\chocolatey\chocoInstall\tools\chocolateyInstall\
+> mkdir "C:\ProgramData\chocolatey\lib"
+
+choco --version
+
+choco install mkcert
+
+mkcert --version

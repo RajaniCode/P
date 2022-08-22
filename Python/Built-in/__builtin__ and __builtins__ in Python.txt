@@ -1,0 +1,11 @@
+Difference between __builtin__ and __builtins__
+
+Straight from the python documentation: http://docs.python.org/reference/executionmodel.html
+
+By default, when in the __main__ module, __builtins__ is the built-in module __builtin__ (note: no 's'); when in any other module, __builtins__ is an alias for the dictionary of the __builtin__ module itself.
+
+__builtins__ can be set to a user-created dictionary to create a weak form of restricted execution.
+
+CPython implementation detail: Users should not touch __builtins__; it is strictly an implementation detail. Users wanting to override values in the builtins namespace should import the __builtin__ (no 's') module and modify its attributes appropriately. The namespace for a module is automatically created the first time a module is imported.
+
+Note that in Python3, the module __builtin__ has been renamed to builtins to avoid some of this confusion.

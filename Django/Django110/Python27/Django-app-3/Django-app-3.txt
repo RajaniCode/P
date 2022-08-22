@@ -1,0 +1,201 @@
+# Public interface – "views"
+# A view is a "type" of Web page that serves a specific function and has a specific template
+# Web pages and other content are delivered by views. Each view is represented by a simple Python function (or method, in the case of class-based views)
+# To get from a URL to a view, Django uses what are known as 'URLconfs'. A URLconf maps URL patterns (described as regular expressions) to views
+
+
+# View returning an HttpResponse object
+# polls/views.py
+# Django-app-3
+def detail(request, question_id):
+    return HttpResponse("You're looking at question %s." % question_id)
+def results(request, question_id):
+    return HttpResponse("You're looking at the results of question %s." % question_id)
+def vote(request, question_id):
+    return HttpResponse("You're voting on question %s." % question_id)
+
+# Wire the views into the polls.urls module by adding the url() calls
+# polls/urls.py
+from django.conf.urls import url
+# Django-app-3
+from . import views
+urlpatterns = [
+    # ex: /polls/
+    url(r'^$', views.index, name='index'),
+    # ex: /polls/1/
+    url(r'^(?P<question_id>[0-9]+)/$', views.detail, name='detail'),
+    # ex: /polls/1/results/
+    url(r'^(?P<question_id>[0-9]+)/results/$', views.results, name='results'),
+     # ex: /polls/1/vote/
+    url(r'^(?P<question_id>[0-9]+)/vote/$', views.vote, name='vote'),
+]
+
+# Note
+Because the URL patterns are regular expressions, there really is no limit on what you can do with them
+And there’s no need to add URL cruft such as .html – unless you want to, in which case you can do something like
+url(r'^polls/latest\.html$', views.index), 
+http://127.0.0.1:8000/polls/polls/latest.html
+DO NOT do that
+
+
+# View returning an HttpResponse object containing the content for the requested page
+# Display latest 5 poll questions from Django's database API
+# The negative sign in front of "-pub_date" indicates descending order. Ascending order is implied.
+# Django-app-3
+from .models import Question
+def index(request):
+    # return HttpResponse("Hello, world. You're at the polls index.")
+    latest_question_list = Question.objects.order_by('-pub_date')[:5]
+    output = ', '.join([q.question_text for q in latest_question_list])    
+    return HttpResponse(output)
+
+
+# Template namespacing
+# The default settings file configures a DjangoTemplates backend whose APP_DIRS option is set to True
+# By convention DjangoTemplates looks for a "templates" subdirectory in each of the INSTALLED_APPS.
+# Django will choose the first template with matching name, and if you had a template with the same name in a different app, Django would be unable to distinguish between them
+# Hence, within the templates directory you have just created, create another directory called polls, and within that create template file
+
+# Template: polls/templates/polls/index.html
+$ mkdir "polls/templates/polls"
+$ nul > "polls/templates/polls/index.html"
+
+# polls/templates/polls/index.html
+{% if latest_question_list %}
+    <ul>
+    {% for question in latest_question_list %}
+	    <li><a href="/polls/{{ question.id }}/">{{ question.question_text }}</a></li>
+	{% endfor %}       
+    </ul>
+{% else %}
+    <p>No polls are available.</p>
+{% endif %}
+
+# polls/views.py
+from django.http import HttpResponse
+# Django-app-3
+from .models import Question
+from django.template import loader
+def index(request):
+    # return HttpResponse("Hello, world. You're at the polls index.")
+    latest_question_list = Question.objects.order_by('-pub_date')[:5]
+    # output = ', '.join([q.question_text for q in latest_question_list])
+    template = loader.get_template('polls/index.html')
+    context = { 'latest_question_list': latest_question_list }    
+    return HttpResponse(template.render(context, request)) 
+
+# shortcut: render()
+# polls/views.py
+# Django-app-3
+from django.shortcuts import render
+from .models import Question
+# from django.template import loader
+def index(request):
+    # return HttpResponse("Hello, world. You're at the polls index.")
+    latest_question_list = Question.objects.order_by('-pub_date')[:5]
+    # output = ', '.join([q.question_text for q in latest_question_list])
+    # template = loader.get_template('polls/index.html')
+    context = { 'latest_question_list': latest_question_list }    
+    # return HttpResponse(template.render(context, request))
+    return render(request, 'polls/index.html', context)
+
+
+# Template: polls/templates/polls/detail.html
+$ nul > "polls/templates/polls/detail.html"
+
+# polls/templates/polls/detail.html
+{{ question }}
+
+# raise Http404 error
+# polls/views.py
+# Django-app-3
+from django.http import Http404
+from django.shortcuts import render
+from .models import Question
+def detail(request, question_id):
+    # return HttpResponse("You're looking at question %s." % question_id)
+    try:
+        question = Question.objects.get(pk=question_id)
+    except Question.DoesNotExist:
+        raise Http404("Question does not exist")        
+    return render(request, 'polls/detail.html', {'question': question})
+
+# shortcut: get_object_or_404()
+# polls/views.py
+# Django-app-3
+# from django.http import Http404
+from django.shortcuts import get_object_or_404, render
+from .models import Question
+def detail(request, question_id):
+    # return HttpResponse("You're looking at question %s." % question_id)
+    '''try:
+        question = Question.objects.get(pk=question_id)
+    except Question.DoesNotExist:
+        raise Http404("Question does not exist")'''
+    question = get_object_or_404(Question, pk=question_id)
+    return render(request, 'polls/detail.html', {'question': question})
+
+# Template system
+# polls/templates/polls/detail.html
+<h1>{{ question.question_text }}</h1>
+<ul>
+{% for choice in question.choice_set.all %}
+    <li>{{ choice.choice_text }}</li>
+{% endfor %}
+</ul>
+
+
+# Remove hardcoded URLs in templates
+# polls/templates/polls/index.html
+# <li><a href="/polls/{{ question.id }}/">{{ question.question_text }}</a></li>
+  <li><a href="{% url 'detail' question.id %}">{{ question.question_text }}</a></li> 
+# Note: polls/urls.py # url(r'^(?P<question_id>[0-9]+)/$', views.detail, name='detail'),
+
+# If you want to change the URL of the polls detail view viz. polls/specifics/12/ instead of doing it in the template, change it in polls/urls.py:
+# polls/urls.py
+# added the word 'specifics'
+url(r'^specifics/(?P<question_id>[0-9]+)/$', views.detail, name='detail'),
+# Note:
+http://localhost:8000/polls/specifics/1/
+
+
+# Namespace
+# Add namespaces to your URLconf
+# Set app_name attribute in the included URLconf module, at the same level as the urlpatterns attribute
+# https://docs.djangoproject.com/en/1.10/topics/http/urls/
+# https://docs.djangoproject.com/en/1.9/ref/urls/
+# polls/urls.py
+# Add an app_name to set the application namespace
+from django.conf.urls import url
+# Django-app-3
+from . import views
+app_name = 'polls'
+urlpatterns = [
+    # ex: /polls/
+    url(r'^$', views.index, name='index'),
+    # ex: /polls/1/
+    url(r'^(?P<question_id>[0-9]+)/$', views.detail, name='detail'),
+    # ex: /polls/1/results/
+    url(r'^(?P<question_id>[0-9]+)/results/$', views.results, name='results'),
+    # ex: /polls/1/vote/
+    url(r'^(?P<question_id>[0-9]+)/vote/$', views.vote, name='vote'),
+    # added the word 'specifics'
+    # ex: /polls/specifics/1/
+    # url(r'^specifics/(?P<question_id>[0-9]+)/$', views.detail, name='detail'),
+]
+
+# polls/templates/polls/index.html
+<li><a href="{% url 'polls:detail' question.id %}">{{ question.question_text }}</a></li>
+
+
+
+
+# Note
+from django.http import HttpResponse #
+from django.conf.urls import url
+from django.template import loader #
+from django.shortcuts import render #
+from django.http import Http404 #
+from django.shortcuts import get_object_or_404
+from . import views
+from .models import Question

@@ -1,0 +1,105 @@
+Set default value to all keys of a dict object in python
+
+Replace old dictionary with a defaultdict [http://docs.python.org/py3k/library/collections.html#collections.defaultdict]:
+
+>>> from collections import defaultdict
+>>> d = {'foo': 123, 'bar': 456}
+>>> d['baz']
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+KeyError: 'baz'
+>>> d = defaultdict(lambda: -1, d)
+>>> d['baz']
+-1
+The "trick" here is that a defaultdict can be initialized with another dict. This means that you preserve the existing values in your normal dict:
+
+>>> d['foo']
+123
+
+
+Set to dict Python
+
+Is there any pythonic way to convert a set into a dict?
+
+I got the following set
+
+s = {1,2,4,5,6}
+
+and want the following dict
+
+c = {1:0, 2:0, 3:0, 4:0, 5:0, 6:0}
+
+Use dict.fromkeys() [http://docs.python.org/2/library/stdtypes.html#dict.fromkeys]:
+
+c = dict.fromkeys(s, 0)
+Demo:
+
+>>> s = {1,2,4,5,6}
+>>> dict.fromkeys(s, 0)
+
+{1: 0, 2: 0, 4: 0, 5: 0, 6: 0}
+
+This works for lists as well; it is the most efficient method to create a dictionary from a sequence. Note all values are references to that one default you passed into dict.fromkeys(), so be careful when that default value is a mutable object.
+
+u = t.fromkeys(s, 0)
+print(u)
+
+v = dict.fromkeys(s, 0)
+print(v)
+
+w = {}.fromkeys(s, 0)
+print(w)
+
+x = {e:0 for e in s} # https://docs.python.org/2/tutorial/datastructures.html#list-comprehensions
+print(x)
+
+
+Pythonic Way to Build Dictionary From Single List
+
+Apart from dict.fromkeys you can also use dict-comprehension, but  fromkeys() is faster than dict comprehensions:
+
+In [27]: lis = ['a', 'b', 'c', 'd']
+
+In [28]: dic = {x: 0 for x in lis}
+
+In [29]: dic
+Out[29]: {'a': 0, 'b': 0, 'c': 0, 'd': 0}
+For 2.6 and earlier:
+
+In [30]: dic = dict((x, 0) for x in lis)
+
+In [31]: dic
+Out[31]: {'a': 0, 'b': 0, 'c': 0, 'd': 0}
+timeit comparisons:
+
+In [38]: %timeit dict.fromkeys(xrange(10000), 0)	# winner
+1000 loops, best of 3: 1.4 ms per loop
+
+In [39]: %timeit {x: 0 for x in xrange(10000)}
+100 loops, best of 3: 2.08 ms per loop
+
+In [40]: %timeit dict((x, 0) for x in xrange(10000))
+100 loops, best of 3: 4.63 ms per loop
+As mentioned in comments by @Eumiro and @mgilson it is important to note that fromkeys() and dict-comprehensions may return different objects if the values used are mutable objects:
+
+In [42]: dic = dict.fromkeys(lis, [])
+
+In [43]: [id(x) for x in dic.values()]
+Out[43]: [165420716, 165420716, 165420716, 165420716] 	# all point to a same object
+
+In [44]: dic = {x: [] for x in lis}
+
+In [45]: [id(x) for x in dic.values()]
+Out[45]: [165420780, 165420940, 163062700, 163948812]  	# unique objects
+
+# Default
+
+zebra = {'Name': 'Zebra', 'Age': 7}
+
+print(zebra.setdefault('Age', None))
+print(zebra.setdefault('Speed', None))
+
+horse = {'Name': 'Horse', 'Age': 10}
+
+print(horse.get('Age'))
+print(horse.get('Speed', "Unknown"))

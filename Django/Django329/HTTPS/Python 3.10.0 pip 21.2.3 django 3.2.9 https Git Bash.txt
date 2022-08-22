@@ -1,0 +1,158 @@
+
+Rajani@Samsung MINGW64 ~/Documents/Cloud/Google/Tech2021/Python/Django/Django329/HTTPS
+$ export PATH=$PATH:"/C/Python310/:/C/Python310/Scripts/"
+
+Rajani@Samsung MINGW64 ~/Documents/Cloud/Google/Tech2021/Python/Django/Django329/HTTPS
+$ winpty python --version
+Python 3.10.0
+
+Rajani@Samsung MINGW64 ~/Documents/Cloud/Google/Tech2021/Python/Django/Django329/HTTPS
+$ pip --version
+pip 21.3.1 from C:\Python310\lib\site-packages\pip (python 3.10)
+
+Rajani@Samsung MINGW64 ~/Documents/Cloud/Google/Tech2021/Python/Django/Django329/HTTPS
+$ python -m django --version
+3.2.9
+
+Rajani@Samsung MINGW64 ~/Documents/Cloud/Google/Tech2021/Python/Django/Django329/HTTPS
+$ django-admin --version
+3.2.9
+
+Rajani@Samsung MINGW64 ~/Documents/Cloud/Google/Tech2021/Python/Django/Django329/HTTPS
+$ python -c "import django; print(django.__version__)"
+3.2.9
+
+Rajani@Samsung MINGW64 ~/Documents/Cloud/Google/Tech2021/Python/Django/Django329/HTTPS
+$ mkcert --version
+v1.4.3
+
+Rajani@Samsung MINGW64 ~/Documents/Cloud/Google/Tech2021/Python/Django/Django329/HTTPS
+$ mkcert -help
+Usage of mkcert:
+
+        $ mkcert -install
+        Install the local CA in the system trust store.
+
+        $ mkcert example.org
+        Generate "example.org.pem" and "example.org-key.pem".
+
+        $ mkcert example.com myapp.dev localhost 127.0.0.1 ::1
+        Generate "example.com+4.pem" and "example.com+4-key.pem".
+
+        $ mkcert "*.example.it"
+        Generate "_wildcard.example.it.pem" and "_wildcard.example.it-key.pem".
+
+        $ mkcert -uninstall
+        Uninstall the local CA (but do not delete it).
+
+Advanced options:
+
+        -cert-file FILE, -key-file FILE, -p12-file FILE
+            Customize the output paths.
+
+        -client
+            Generate a certificate for client authentication.
+
+        -ecdsa
+            Generate a certificate with an ECDSA key.
+
+        -pkcs12
+            Generate a ".p12" PKCS #12 file, also know as a ".pfx" file,
+            containing certificate and key for legacy applications.
+
+        -csr CSR
+            Generate a certificate based on the supplied CSR. Conflicts with
+            all other flags and arguments except -install and -cert-file.
+
+        -CAROOT
+            Print the CA certificate and key storage location.
+
+        $CAROOT (environment variable)
+            Set the CA certificate and key storage location. (This allows
+            maintaining multiple local CAs in parallel.)
+
+        $TRUST_STORES (environment variable)
+            A comma-separated list of trust stores to install the local
+            root CA into. Options are: "system", "java" and "nss" (includes
+            Firefox). Autodetected by default.
+
+
+Rajani@Samsung MINGW64 ~/Documents/Cloud/Google/Tech2021/Python/Django/Django329/HTTPS
+$ mkcert -install
+Created a new local CA ??
+The local CA is now installed in the system trust store! ??
+Note: Firefox support is not available on your platform. ??
+
+
+Rajani@Samsung MINGW64 ~/Documents/Cloud/Google/Tech2021/Python/Django/Django329/HTTPS
+$ cd mysite
+
+Rajani@Samsung MINGW64 ~/Documents/Cloud/Google/Tech2021/Python/Django/Django329/HTTPS/mysite
+$ mkcert -cert-file cert.pem -key-file key.pem localhost 127.0.0.1
+
+Created a new certificate valid for the following names ??
+ - "localhost"
+ - "127.0.0.1"
+
+The certificate is at "cert.pem" and the key at "key.pem" ?
+
+It will expire on 4 March 2024 ??
+
+
+Rajani@Samsung MINGW64 ~/Documents/Cloud/Google/Tech2021/Python/Django/Django329/HTTPS/mysite
+$ pip install django-extensions Werkzeug
+Collecting django-extensions
+  Downloading django_extensions-3.1.5-py3-none-any.whl (224 kB)
+Collecting Werkzeug
+  Downloading Werkzeug-2.0.2-py3-none-any.whl (288 kB)
+Requirement already satisfied: Django>=2.2 in c:\python310\lib\site-packages (from django-extensions) (3.2.9)
+Requirement already satisfied: asgiref<4,>=3.3.2 in c:\python310\lib\site-packages (from Django>=2.2->django-extensions) (3.4.1)
+Requirement already satisfied: pytz in c:\python310\lib\site-packages (from Django>=2.2->django-extensions) (2021.3)
+Requirement already satisfied: sqlparse>=0.2.2 in c:\python310\lib\site-packages (from Django>=2.2->django-extensions) (0.4.2)
+Installing collected packages: Werkzeug, django-extensions
+Successfully installed Werkzeug-2.0.2 django-extensions-3.1.5
+
+Rajani@Samsung MINGW64 ~/Documents/Cloud/Google/Tech2021/Python/Django/Django329/HTTPS/mysite
+$ pip install pyOpenSSL
+Collecting pyOpenSSL
+  Downloading pyOpenSSL-21.0.0-py2.py3-none-any.whl (55 kB)
+Collecting six>=1.5.2
+  Downloading six-1.16.0-py2.py3-none-any.whl (11 kB)
+Collecting cryptography>=3.3
+  Downloading cryptography-36.0.0-cp36-abi3-win_amd64.whl (2.2 MB)
+Collecting cffi>=1.12
+  Downloading cffi-1.15.0-cp310-cp310-win_amd64.whl (180 kB)
+Collecting pycparser
+  Downloading pycparser-2.21-py2.py3-none-any.whl (118 kB)
+Installing collected packages: pycparser, cffi, six, cryptography, pyOpenSSL
+Successfully installed cffi-1.15.0 cryptography-36.0.0 pyOpenSSL-21.0.0 pycparser-2.21 six-1.16.0
+
+Rajani@Samsung MINGW64 ~/Documents/Cloud/Google/Tech2021/Python/Django/Django329/HTTPS/mysite
+$ python manage.py runserver_plus --cert-file cert.pem --key-file key.pem
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 171-094-336
+ * Running on https://127.0.0.1:8000/ (Press CTRL+C to quit)
+Not Found: /
+127.0.0.1 - - [04/Dec/2021 22:54:04] "GET / HTTP/1.1" 404 -
+Not Found: /favicon.ico
+127.0.0.1 - - [04/Dec/2021 22:54:04] "GET /favicon.ico HTTP/1.1" 404 -
+127.0.0.1 - - [04/Dec/2021 22:54:10] "GET /polls HTTP/1.1" 301 -
+127.0.0.1 - - [04/Dec/2021 22:54:10] "GET /polls/ HTTP/1.1" 200 -
+127.0.0.1 - - [04/Dec/2021 22:54:11] "GET /static/polls/style.css HTTP/1.1" 200 -
+127.0.0.1 - - [04/Dec/2021 22:54:11] "GET /static/polls/images/background.gif HTTP/1.1" 200 -
+Performing system checks...
+
+System check identified no issues (0 silenced).
+
+Django version 3.2.9, using settings 'mysite.settings'
+Development server is running at https://[127.0.0.1]:8000/
+Using the Werkzeug debugger (http://werkzeug.pocoo.org/)
+Quit the server with CTRL-BREAK.
+
+Rajani@Samsung MINGW64 ~/Documents/Cloud/Google/Tech2021/Python/Django/Django329/HTTPS/mysite
+$ mkcert -uninstall
+The local CA is now uninstalled from the system trust store(s)! ??
+
+Rajani@Samsung MINGW64 ~/Documents/Cloud/Google/Tech2021/Python/Django/Django329/HTTPS/mysite
+$

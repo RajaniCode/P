@@ -1,0 +1,17 @@
+Input and commandline arguments
+
+To read user input you can try the cmd module [http://docs.python.org/2/library/cmd.html] for easily creating a mini-command line interpreter (with help texts and autocompletion) and raw_input [http://docs.python.org/2/library/functions.html#raw_input] for less fancy stuff (just reading a line of text from the user).
+
+Command line inputs are in sys.argv. Try this in your script for Python 2:
+
+import sys
+print sys.argv
+For Python 3:
+
+import sys
+print(sys.argv)
+Since print has changed from a keyword in Python 2 into a function call in Python 3.
+
+There are two modules for parsing command line options: optparse [http://docs.python.org/2/library/optparse.html] and getopt [http://docs.python.org/2/library/getopt.html]. If you just want to input files to your script, behold the power of fileinput [http://docs.python.org/2/library/fileinput.html].
+
+The Python library reference is your friend [http://docs.python.org/2/library/].

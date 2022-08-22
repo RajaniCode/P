@@ -1,0 +1,5 @@
+
+Traceback (most recent call last):
+  File "E:\Working\Python\TODO\Python\stdin, stdout, stderr\stderr.py", line 7, in <module>
+    x = 10 / 0
+ZeroDivisionError: integer division or modulo by zero

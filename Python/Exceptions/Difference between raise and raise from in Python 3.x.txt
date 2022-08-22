@@ -1,0 +1,169 @@
+Difference between raise and raise from in Python
+
+try:
+    raise ValueError
+except Exception as e:
+    raise IndexError
+
+which yields
+
+Traceback (most recent call last):
+  File "tmp.py", line 2, in <module>
+    raise ValueError
+ValueError
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "tmp.py", line 4, in <module>
+    raise IndexError
+IndexError
+
+and
+
+try:
+    raise ValueError
+except Exception as e:
+    raise IndexError from e
+
+which yields
+
+Traceback (most recent call last):
+  File "tmp.py", line 2, in <module>
+    raise ValueError
+ValueError
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "tmp.py", line 4, in <module>
+    raise IndexError from e
+IndexError
+
+The difference is that when you use from, the __cause__ attribute is set and the message states that the exception was directly caused by. If you omit the from then no __cause__ is set, but the __context__ attribute may be set as well, and the traceback then shows the context as during handling something else happened.
+
+Setting the __context__ happens if you used raise in an exception handler; if you used raise anywhere else no __context__ is set either.
+
+If a __cause__ is set, a __suppress_context__ = True flag is also set on the exception; when __suppress_context__ is set to True, the __context__ is ignored when printing a traceback.
+
+When raising from a exception handler where you don't want to show the context (don't want a during handling another exception happened message), then use raise ... from None to set __suppress_context__ to True.
+
+In other words, Python sets a context on exceptions so you can introspect where an exception was raised, letting you see if another exception was replaced by it. You can also add a cause to an exception, making the traceback explicit about the other exception (use different wording), and the context is ignored (but can still be introspected when debugging). Using raise ... from None lets you suppress the context being printed.
+
+See the raise statement documenation [https://docs.python.org/3/reference/simple_stmts.html#raise]:
+
+The from clause is used for exception chaining: if given, the second expression must be another exception class or instance, which will then be attached to the raised exception as the __cause__ attribute (which is writable). If the raised exception is not handled, both exceptions will be printed:
+
+>>> try:
+...     print(1 / 0)
+... except Exception as exc:
+...     raise RuntimeError("Something bad happened") from exc
+...
+Traceback (most recent call last):
+  File "<stdin>", line 2, in <module>
+ZeroDivisionError: int division or modulo by zero
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "<stdin>", line 4, in <module>
+RuntimeError: Something bad happened
+A similar mechanism works implicitly if an exception is raised inside an exception handler: > the previous exception is then attached as the new exception’s __context__ attribute:
+
+>>> try:
+...     print(1 / 0)
+... except:
+...     raise RuntimeError("Something bad happened")
+...
+Traceback (most recent call last):
+  File "<stdin>", line 2, in <module>
+ZeroDivisionError: int division or modulo by zero
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "<stdin>", line 4, in <module>
+RuntimeError: Something bad happened
+
+Also see the Built-in Exceptions documentation [https://docs.python.org/3/library/exceptions.html#built-in-exceptions] for details on the context and cause information attached to exceptions.
+
+
+Python exception chaining
+
+Is there a standard way of using exception chains in Python? Like the Java exception 'caused by'?
+
+Here is some background.
+
+I have a module with one main exception class DSError:
+
+class DSError(Exception):
+    pass
+
+Somewhere within this module there will be:
+
+try:
+    v = my_dict[k]
+    something(v)
+except KeyError as e:
+    raise DSError("no key %s found for %s" % (k, self))
+except ValueError as e:
+    raise DSError("Bad Value %s found for %s" % (v, self))
+except DSError as e:
+    raise DSError("%s raised in %s" % (e, self))
+
+Basically this snippet should throw only DSError and tell me what happened and why. The thing is that the try block might throw lots of other exceptions, so I'd prefer if I can do something like:
+
+try:
+    v = my_dict[k]
+    something(v)
+except Exception as e:
+    raise DSError(self, v, e)  # Exception chained...
+
+Is this standard pythonic way? I did not see exception chains in other modules so how is that done in Python?
+
+Exception chaining [http://www.python.org/dev/peps/pep-3134/] is only available in Python 3, where you can write:
+
+try:
+    v = {}['a']
+except KeyError as e:
+    raise ValueError('failed') from e
+
+which yields an output like
+
+Traceback (most recent call last):
+  File "t.py", line 2, in <module>
+    v = {}['a']
+KeyError: 'a'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "t.py", line 4, in <module>
+    raise ValueError('failed') from e
+ValueError: failed
+
+In most cases, you don't even need the from; Python 3 will by default show all exceptions that occured during exception handling, like this:
+
+Traceback (most recent call last):
+  File "t.py", line 2, in <module>
+    v = {}['a']
+KeyError: 'a'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "t.py", line 4, in <module>
+    raise ValueError('failed')
+ValueError: failed
+
+What you can do in Python 2 is adding custom attributes to your exception class, like:
+
+class MyError(Exception):
+    def __init__(self, message, cause):
+        super(MyError, self).__init__(message + u', caused by ' + repr(cause))
+        self.cause = cause
+
+try:
+    v = {}['a']
+except KeyError as e:
+    raise MyError('failed', e)

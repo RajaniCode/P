@@ -1,0 +1,58 @@
+## Model
+# mysite/polls/models.py
+
+
+## View (Controller)
+# mysite/polls/views.py
+
+
+## Template (View)
+# mysite/polls/templates/polls/index.html
+# mysite/polls/templates/polls/detail.html
+# mysite/polls/templates/polls/results.html
+
+# mysite/polls/templates/admin/base_site.html
+
+
+## Static files
+# mysite/polls/static/polls/style.css
+# mysite/polls/static/polls/images/background.gif
+
+
+## App's URL Dispatcher
+# mysite/polls/urls.py
+
+
+## Project's URL Dispatcher
+# mysite/mysite/urls.py
+
+
+## Test
+# mysite/polls/tests.py
+
+
+## Admin
+# mysite/polls/admin.py
+
+
+## Django API and Database
+# mysite/api_data1.py
+# mysite/api_data2.py
+# mysite/test.py
+# mysite/test_client.py
+
+
+## Environment
+# mysite/manage.py
+
+
+## Settings
+# mysite/mysite/settings.py
+
+
+## Migrations
+# mysite/polls/migrations/0001_initial.py
+
+
+## SQLite
+# db.sqlite3

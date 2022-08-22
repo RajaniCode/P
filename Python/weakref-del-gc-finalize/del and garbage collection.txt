@@ -1,0 +1,42 @@
+del and garbage collection [O'REILLY Fluent Python Early Release RAW & UNEDITED]
+
+Objects are never explicitly destroyed; however, when they become unreachable they may be garbage-collected.
+— Python Language Reference: Data model
+
+The del statement deletes names, not objects. An object may be garbage collected as result of a del command, but only if the variable deleted holds the last reference to the object, or if the object becomes unreachable [If two objects refer to each other, as in Example 8-16 [python3_finalize.py], they may be destroyed if the garbage collector determines that they are otherwise unreachable because their only references are their mutual references.]. Rebinding a variable may also cause the number of references to an object reach zero, causing its destruction.
+
+# Warning: 
+There is a __del__ special method, but it does not cause the disposal of the instance, and should not be called by your code. __del__ is invoked by the Python interpreter when the instance is about to be destroyed to give it a chance to release external resources. You will seldom need to implement __del__ in your own code, yet some Python beginners spend time coding it for no good reason. The proper use of __del__ is rather tricky. See the __del__ special method documentation in the Python data model chapter of the Language
+Reference.
+
+In CPython the primary algorithm for garbage collection is reference counting. Essentially, each object keeps count of how many references point to it. As soon as that refcount reaches zero, the object is immediately destroyed: CPython calls the __del__ method
+on the object (if defined) and then frees the memory allocated to the object. In CPython 2.0 a generational garbage collection algorithm was added to detect groups of objects involved in reference cycles — which may be unreachable even with outstanding references to them, when all the mutual references are contained within the group. Other implementations of Python have more sophisticated garbage collector that do not rely of reference counting, which means the __del__ method may not be called immediately when there are no more references to the object. See the PyPy, Garbage Collection, And A Deadlock [http://emptysqua.re/blog/pypy-garbage-collection-and-a-deadlock/] by A. Jesse Jiryu Davis for discussion of improper and proper use of __del__. In order to demonstrate the end of an object’s life, Example 8-16 [python3_finalize.py] uses weakref.finalize to register a callback function to be called when an object is destroyed.
+
+Example 8-16 [python3_finalize.py]. Watching the end of an object when no more references point to it.
+
+>>> import weakref
+>>> s1 = {1, 2, 3}
+>>> s2 = s1 # 1
+>>> def bye(): # 2
+... print('Gone with the wind...')
+...
+>>> ender = weakref.finalize(s1, bye) # 3
+>>> ender.alive # 4
+True
+>>> del s1
+>>> ender.alive # 5 
+True
+>>> s2 = 'spam' # 6
+Gone with the wind...
+>>> ender.alive
+False
+
+# 1 s1 and s2 are aliases referring to the same set, {1, 2, 3}.
+# 2 This function must not be a bound method the object about to be destroyed or otherwise hold a reference to it.
+# 3 Register the bye callback on the object referred by s1.
+# 4 The .alive attribute is True before the finalize object is called.
+# 5 As discussed, del does not delete an object, just a reference to it.
+# 6 Rebinding the last reference, s2, makes {1, 2, 3} unreachable. It is destroyed, the bye callback is invoked and ender.alive becomes False.
+
+The point of Example 8-16 [python3_finalize.py] is to make explicit that del does not delete objects, but objects
+may be deleted as a consequence of being unreachable after del is used. You may be wondering why the {1, 2, 3} object was destroyed in Example 8-16. After all, the s1 reference was passed to the finalize function, which must have held on to it in order to monitor the object and invoke the callback. This works because finalize holds a weak reference to {1, 2, 3}.

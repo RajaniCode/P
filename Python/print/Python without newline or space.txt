@@ -1,0 +1,57 @@
+How to print in Python without newline or space?
+
+General way
+
+import sys
+sys.stdout.write('.')
+You may also need to call
+
+sys.stdout.flush()
+to ensure stdout is flushed immediately.
+
+Python 2.6+
+
+From Python 2.6 you can import the print function from Python 3:
+
+from __future__ import print_function
+This allows you to use the Python 3 solution below.
+
+Python 3
+
+In Python 3, the print statement has been changed into a function. In Python 3, you can instead do:
+
+print('.', end="")
+
+This also works in Python 2, provided that you've used from __future__ import print_function.
+
+If you are having trouble with buffering, you can flush the output by adding flush=True keyword argument:
+
+print('.', end="", flush=True)
+
+
+Use this construct with Python 3.x:
+
+for item in [1,2,3,4]:
+    print(item, " ", end="")
+
+This will generate:
+
+1  2  3  4
+
+See this Python doc [https://docs.python.org/release/3.0.1/whatsnew/3.0.html] for more information:
+
+Old: print x,           # Trailing comma suppresses newline
+New: print(x, end=" ")  # Appends a space instead of a newline
+--
+
+
+In addition, the print() function also offers the sep parameter that lets one specify how individual items to be printed should be separated. E.g.,
+
+In [21]: print('this','is', 'a', 'test')  # default single space between items
+this is a test
+
+In [22]: print('this','is', 'a', 'test', sep="") # no spaces between items
+thisisatest
+
+In [22]: print('this','is', 'a', 'test', sep="--*--") # user specified separation
+this--*--is--*--a--*--test

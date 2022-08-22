@@ -1,0 +1,15 @@
+control.exe sysdm.cpl,System,3
+
+;C:\Python27;C:\Python27\Scripts
+
+Aspire@Acer MINGW64 ~
+$ python --version
+Python 2.7.11
+
+Aspire@Acer MINGW64 ~
+$ pip --version
+pip 8.1.2 from c:\python27\lib\site-packages (python 2.7)
+
+Aspire@Acer MINGW64 ~
+$ django-admin --version
+1.10

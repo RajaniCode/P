@@ -1,0 +1,471 @@
+
+Rajani@Samsung MINGW64 ~/Documents/Cloud/Google/Tech2021/Python/Django/Django329
+$ export PATH=$PATH:"/C/Python310/:/C/Python310/Scripts/"
+
+Rajani@Samsung MINGW64 ~/Documents/Cloud/Google/Tech2021/Python/Django/Django329
+$ python --version
+Python 3.10.0
+
+Rajani@Samsung MINGW64 ~/Documents/Cloud/Google/Tech2021/Python/Django/Django329
+$ pip --version
+pip 21.3.1 from C:\Python310\lib\site-packages\pip (python 3.10)
+
+Rajani@Samsung MINGW64 ~/Documents/Cloud/Google/Tech2021/Python/Django/Django329
+$ pip list
+Package    Version
+---------- -------
+asgiref    3.4.1
+Django     3.2.9
+pip        21.3.1
+pytz       2021.3
+setuptools 57.4.0
+sqlparse   0.4.2
+
+Rajani@Samsung MINGW64 ~/Documents/Cloud/Google/Tech2021/Python/Django/Django329
+$ pip show pip
+Name: pip
+Version: 21.3.1
+Summary: The PyPA recommended tool for installing Python packages.
+Home-page: https://pip.pypa.io/
+Author: The pip developers
+Author-email: distutils-sig@python.org
+License: MIT
+Location: c:\python310\lib\site-packages
+Requires:
+Required-by:
+
+Rajani@Samsung MINGW64 ~/Documents/Cloud/Google/Tech2021/Python/Django/Django329
+$ pip show setuptools
+Name: setuptools
+Version: 57.4.0
+Summary: Easily download, build, install, upgrade, and uninstall Python packages
+Home-page: https://github.com/pypa/setuptools
+Author: Python Packaging Authority
+Author-email: distutils-sig@python.org
+License: UNKNOWN
+Location: c:\python310\lib\site-packages
+Requires:
+Required-by:
+
+Rajani@Samsung MINGW64 ~/Documents/Cloud/Google/Tech2021/Python/Django/Django329
+$ python -m django --version
+3.2.9
+
+Rajani@Samsung MINGW64 ~/Documents/Cloud/Google/Tech2021/Python/Django/Django329
+$ django-admin --version
+3.2.9
+
+Rajani@Samsung MINGW64 ~/Documents/Cloud/Google/Tech2021/Python/Django/Django329
+$ python -c "import django; print(django.__version__)"                                                                                                          3.2.9
+3.2.9
+
+Rajani@Samsung MINGW64 ~/Documents/Cloud/Google/Tech2021/Python/Django/Django329
+$ django-admin startproject mysite
+
+Rajani@Samsung MINGW64 ~/Documents/Cloud/Google/Tech2021/Python/Django/Django329
+$ cd mysite
+
+Rajani@Samsung MINGW64 ~/Documents/Cloud/Google/Tech2021/Python/Django/Django329/mysite
+$ python manage.py runserver
+Watching for file changes with StatReloader
+[01/Dec/2021 03:55:28] "GET / HTTP/1.1" 200 10697
+[01/Dec/2021 03:55:30] "GET /static/admin/css/fonts.css HTTP/1.1" 200 423
+[01/Dec/2021 03:55:30] "GET /static/admin/fonts/Roboto-Bold-webfont.woff HTTP/1.1" 200 86184
+[01/Dec/2021 03:55:30] "GET /static/admin/fonts/Roboto-Light-webfont.woff HTTP/1.1" 200 85692
+[01/Dec/2021 03:55:30] "GET /static/admin/fonts/Roboto-Regular-webfont.woff HTTP/1.1" 200 85876
+Not Found: /favicon.ico
+[01/Dec/2021 03:55:30] "GET /favicon.ico HTTP/1.1" 404 2110
+Performing system checks...
+
+System check identified no issues (0 silenced).
+
+You have 18 unapplied migration(s). Your project may not work properly until you apply the migrations for app(s): admin, auth, contenttypes, sessions.
+Run 'python manage.py migrate' to apply them.
+December 01, 2021 - 03:20:21
+Django version 3.2.9, using settings 'mysite.settings'
+Starting development server at http://127.0.0.1:8000/
+Quit the server with CTRL-BREAK.
+
+Rajani@Samsung MINGW64 ~/Documents/Cloud/Google/Tech2021/Python/Django/Django329/mysite
+$ python manage.py startapp polls
+
+Rajani@Samsung MINGW64 ~/Documents/Cloud/Google/Tech2021/Python/Django/Django329/mysite
+$ touch polls/urls.py
+
+Rajani@Samsung MINGW64 ~/Documents/Cloud/Google/Tech2021/Python/Django/Django329/mysite
+$ python manage.py runserver
+Watching for file changes with StatReloader
+[01/Dec/2021 04:07:06] "GET /static/admin/css/fonts.css HTTP/1.1" 304 0
+[01/Dec/2021 04:07:06] "GET /static/admin/fonts/Roboto-Bold-webfont.woff HTTP/1.1" 304 0
+[01/Dec/2021 04:07:06] "GET /static/admin/fonts/Roboto-Regular-webfont.woff HTTP/1.1" 304 0
+[01/Dec/2021 04:07:06] "GET /static/admin/fonts/Roboto-Light-webfont.woff HTTP/1.1" 304 0
+Not Found: /polls/
+[01/Dec/2021 04:07:11] "GET /polls/ HTTP/1.1" 404 2095
+Not Found: /favicon.ico
+[01/Dec/2021 04:07:11] "GET /favicon.ico HTTP/1.1" 404 2110
+[01/Dec/2021 04:07:43] "GET / HTTP/1.1" 200 10697
+Not Found: /polls/
+[01/Dec/2021 04:07:49] "GET /polls/ HTTP/1.1" 404 2095
+Not Found: /polls
+[01/Dec/2021 04:07:51] "GET /polls HTTP/1.1" 404 2092
+Not Found: /polls/
+[01/Dec/2021 04:08:46] "GET /polls/ HTTP/1.1" 404 2095
+C:\Users\Rajani\Documents\Cloud\Google\Tech2021\Python\Django\Django329\mysite\mysite\urls.py changed, reloading.
+Performing system checks...
+
+System check identified no issues (0 silenced).
+
+You have 18 unapplied migration(s). Your project may not work properly until you apply the migrations for app(s): admin, auth, contenttypes, sessions.
+Run 'python manage.py migrate' to apply them.
+December 01, 2021 - 04:06:59
+Django version 3.2.9, using settings 'mysite.settings'
+Starting development server at http://127.0.0.1:8000/
+Quit the server with CTRL-BREAK.
+Watching for file changes with StatReloader
+[01/Dec/2021 04:11:27] "GET /polls HTTP/1.1" 301 0
+[01/Dec/2021 04:11:27] "GET /polls/ HTTP/1.1" 200 40
+Not Found: /
+[01/Dec/2021 04:11:35] "GET / HTTP/1.1" 404 2165
+[01/Dec/2021 04:12:41] "OPTIONS /polls HTTP/1.1" 301 0
+[01/Dec/2021 04:12:41] "OPTIONS /polls/ HTTP/1.1" 200 40
+[01/Dec/2021 04:12:41,475] - Broken pipe from ('127.0.0.1', 50076)
+
+[01/Dec/2021 04:12:42] "PROPFIND /polls HTTP/1.1" 301 0
+Forbidden (CSRF cookie not set.): /polls/
+[01/Dec/2021 04:12:42] "PROPFIND /polls/ HTTP/1.1" 403 2870
+Forbidden (CSRF cookie not set.): /polls/
+[01/Dec/2021 04:12:42] "PROPFIND /polls/ HTTP/1.1" 403 2870
+Forbidden (CSRF cookie not set.): /polls/
+[01/Dec/2021 04:12:42] "PROPFIND /polls/ HTTP/1.1" 403 2870
+Forbidden (CSRF cookie not set.): /polls/
+[01/Dec/2021 04:12:42] "PROPFIND /polls/ HTTP/1.1" 403 2870
+[01/Dec/2021 04:12:42,837] - Broken pipe from ('127.0.0.1', 50078)
+
+[01/Dec/2021 04:12:43] "PROPFIND /polls HTTP/1.1" 301 0
+Forbidden (CSRF cookie not set.): /polls/
+[01/Dec/2021 04:12:43] "PROPFIND /polls/ HTTP/1.1" 403 2870
+Forbidden (CSRF cookie not set.): /polls/
+[01/Dec/2021 04:12:43] "PROPFIND /polls/ HTTP/1.1" 403 2870
+Forbidden (CSRF cookie not set.): /polls/
+[01/Dec/2021 04:12:44] "PROPFIND /polls/ HTTP/1.1" 403 2870
+Forbidden (CSRF cookie not set.): /polls/
+[01/Dec/2021 04:12:44] "PROPFIND /polls/ HTTP/1.1" 403 2870
+[01/Dec/2021 04:12:44,087] - Broken pipe from ('127.0.0.1', 50087)
+
+[01/Dec/2021 04:12:45] "PROPFIND /polls HTTP/1.1" 301 0
+Forbidden (CSRF cookie not set.): /polls/
+[01/Dec/2021 04:12:45] "PROPFIND /polls/ HTTP/1.1" 403 2870
+Forbidden (CSRF cookie not set.): /polls/
+[01/Dec/2021 04:12:45] "PROPFIND /polls/ HTTP/1.1" 403 2870
+Forbidden (CSRF cookie not set.): /polls/
+[01/Dec/2021 04:12:45] "PROPFIND /polls/ HTTP/1.1" 403 2870
+Forbidden (CSRF cookie not set.): /polls/
+[01/Dec/2021 04:12:45] "PROPFIND /polls/ HTTP/1.1" 403 2870
+[01/Dec/2021 04:12:45,326] - Broken pipe from ('127.0.0.1', 50090)
+
+[01/Dec/2021 04:12:46] "PROPFIND /polls HTTP/1.1" 301 0
+Forbidden (CSRF cookie not set.): /polls/
+[01/Dec/2021 04:12:46] "PROPFIND /polls/ HTTP/1.1" 403 2870
+Forbidden (CSRF cookie not set.): /polls/
+[01/Dec/2021 04:12:46] "PROPFIND /polls/ HTTP/1.1" 403 2870
+Forbidden (CSRF cookie not set.): /polls/
+[01/Dec/2021 04:12:46] "PROPFIND /polls/ HTTP/1.1" 403 2870
+Forbidden (CSRF cookie not set.): /polls/
+[01/Dec/2021 04:12:46] "PROPFIND /polls/ HTTP/1.1" 403 2870
+[01/Dec/2021 04:12:46,576] - Broken pipe from ('127.0.0.1', 50092)
+
+[01/Dec/2021 04:12:47] "PROPFIND /polls HTTP/1.1" 301 0
+Forbidden (CSRF cookie not set.): /polls/
+[01/Dec/2021 04:12:47] "PROPFIND /polls/ HTTP/1.1" 403 2870
+Forbidden (CSRF cookie not set.): /polls/
+[01/Dec/2021 04:12:47] "PROPFIND /polls/ HTTP/1.1" 403 2870
+Forbidden (CSRF cookie not set.): /polls/
+[01/Dec/2021 04:12:47] "PROPFIND /polls/ HTTP/1.1" 403 2870
+Forbidden (CSRF cookie not set.): /polls/
+[01/Dec/2021 04:12:47] "PROPFIND /polls/ HTTP/1.1" 403 2870
+[01/Dec/2021 04:12:47,827] - Broken pipe from ('127.0.0.1', 50095)
+
+[01/Dec/2021 04:12:48] "PROPFIND /polls HTTP/1.1" 301 0
+Forbidden (CSRF cookie not set.): /polls/
+[01/Dec/2021 04:12:48] "PROPFIND /polls/ HTTP/1.1" 403 2870
+Forbidden (CSRF cookie not set.): /polls/
+[01/Dec/2021 04:12:48] "PROPFIND /polls/ HTTP/1.1" 403 2870
+Forbidden (CSRF cookie not set.): /polls/
+[01/Dec/2021 04:12:48] "PROPFIND /polls/ HTTP/1.1" 403 2870
+Forbidden (CSRF cookie not set.): /polls/
+[01/Dec/2021 04:12:49] "PROPFIND /polls/ HTTP/1.1" 403 2870
+[01/Dec/2021 04:12:49,045] - Broken pipe from ('127.0.0.1', 50097)
+
+[01/Dec/2021 04:12:50] "PROPFIND /polls HTTP/1.1" 301 0
+Forbidden (CSRF cookie not set.): /polls/
+[01/Dec/2021 04:12:50] "PROPFIND /polls/ HTTP/1.1" 403 2870
+Forbidden (CSRF cookie not set.): /polls/
+[01/Dec/2021 04:12:50] "PROPFIND /polls/ HTTP/1.1" 403 2870
+Forbidden (CSRF cookie not set.): /polls/
+[01/Dec/2021 04:12:50] "PROPFIND /polls/ HTTP/1.1" 403 2870
+Forbidden (CSRF cookie not set.): /polls/
+[01/Dec/2021 04:12:50] "PROPFIND /polls/ HTTP/1.1" 403 2870
+[01/Dec/2021 04:12:50,327] - Broken pipe from ('127.0.0.1', 50100)
+
+Not Found: /polls/ .pdf
+[01/Dec/2021 04:12:55] "PROPFIND /polls/%20.pdf HTTP/1.1" 404 2284
+[01/Dec/2021 04:12:55,450] - Broken pipe from ('127.0.0.1', 50109)
+
+[01/Dec/2021 04:12:56] "PROPFIND /polls HTTP/1.1" 301 0
+Forbidden (CSRF cookie not set.): /polls/
+[01/Dec/2021 04:12:56] "PROPFIND /polls/ HTTP/1.1" 403 2870
+Forbidden (CSRF cookie not set.): /polls/
+[01/Dec/2021 04:12:56] "PROPFIND /polls/ HTTP/1.1" 403 2870
+Forbidden (CSRF cookie not set.): /polls/
+[01/Dec/2021 04:12:56] "PROPFIND /polls/ HTTP/1.1" 403 2870
+Forbidden (CSRF cookie not set.): /polls/
+[01/Dec/2021 04:12:56] "PROPFIND /polls/ HTTP/1.1" 403 2870
+[01/Dec/2021 04:12:56,685] - Broken pipe from ('127.0.0.1', 50111)
+
+[01/Dec/2021 04:12:57] "PROPFIND /polls HTTP/1.1" 301 0
+Forbidden (CSRF cookie not set.): /polls/
+[01/Dec/2021 04:12:57] "PROPFIND /polls/ HTTP/1.1" 403 2870
+Forbidden (CSRF cookie not set.): /polls/
+[01/Dec/2021 04:12:57] "PROPFIND /polls/ HTTP/1.1" 403 2870
+Forbidden (CSRF cookie not set.): /polls/
+[01/Dec/2021 04:12:57] "PROPFIND /polls/ HTTP/1.1" 403 2870
+Forbidden (CSRF cookie not set.): /polls/
+[01/Dec/2021 04:12:57] "PROPFIND /polls/ HTTP/1.1" 403 2870
+[01/Dec/2021 04:12:57,966] - Broken pipe from ('127.0.0.1', 50113)
+
+Performing system checks...
+
+System check identified no issues (0 silenced).
+
+You have 18 unapplied migration(s). Your project may not work properly until you apply the migrations for app(s): admin, auth, contenttypes, sessions.
+Run 'python manage.py migrate' to apply them.
+December 01, 2021 - 04:11:24
+Django version 3.2.9, using settings 'mysite.settings'
+Starting development server at http://127.0.0.1:8000/
+Quit the server with CTRL-BREAK.
+
+Rajani@Samsung MINGW64 ~/Documents/Cloud/Google/Tech2021/Python/Django/Django329/mysite
+$ python manage.py migrate
+Operations to perform:
+  Apply all migrations: admin, auth, contenttypes, sessions
+Running migrations:
+  Applying contenttypes.0001_initial... OK
+  Applying auth.0001_initial... OK
+  Applying admin.0001_initial... OK
+  Applying admin.0002_logentry_remove_auto_add... OK
+  Applying admin.0003_logentry_add_action_flag_choices... OK
+  Applying contenttypes.0002_remove_content_type_name... OK
+  Applying auth.0002_alter_permission_name_max_length... OK
+  Applying auth.0003_alter_user_email_max_length... OK
+  Applying auth.0004_alter_user_username_opts... OK
+  Applying auth.0005_alter_user_last_login_null... OK
+  Applying auth.0006_require_contenttypes_0002... OK
+  Applying auth.0007_alter_validators_add_error_messages... OK
+  Applying auth.0008_alter_user_username_max_length... OK
+  Applying auth.0009_alter_user_last_name_max_length... OK
+  Applying auth.0010_alter_group_name_max_length... OK
+  Applying auth.0011_update_proxy_permissions... OK
+  Applying auth.0012_alter_user_first_name_max_length... OK
+  Applying sessions.0001_initial... OK
+
+Rajani@Samsung MINGW64 ~/Documents/Cloud/Google/Tech2021/Python/Django/Django329/mysite
+$ python manage.py makemigrations polls
+Migrations for 'polls':
+  polls\migrations\0001_initial.py
+    - Create model Question
+    - Create model Choice
+
+Rajani@Samsung MINGW64 ~/Documents/Cloud/Google/Tech2021/Python/Django/Django329/mysite
+$ python manage.py sqlmigrate polls 0001
+BEGIN;
+--
+-- Create model Question
+--
+CREATE TABLE "polls_question" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "question_text" varchar(200) NOT NULL, "pub_date" datetime NOT NULL);
+--
+-- Create model Choice
+--
+CREATE TABLE "polls_choice" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "choice_text" varchar(200) NOT NULL, "votes" integer NOT NULL, "question_id" bigint NOT NULL REFERENCES "polls_question" ("id") DEFERRABLE INITIALLY DEFERRED);
+CREATE INDEX "polls_choice_question_id_c5b4b260" ON "polls_choice" ("question_id");
+COMMIT;
+
+Rajani@Samsung MINGW64 ~/Documents/Cloud/Google/Tech2021/Python/Django/Django329/mysite
+$ python manage.py migrate
+Operations to perform:
+  Apply all migrations: admin, auth, contenttypes, polls, sessions
+Running migrations:
+  Applying polls.0001_initial... OK
+
+Rajani@Samsung MINGW64 ~/Documents/Cloud/Google/Tech2021/Python/Django/Django329/mysite
+$ python manage.py shell
+Python 3.10.0 (tags/v3.10.0:b494f59, Oct  4 2021, 19:00:18) [MSC v.1929 64 bit (AMD64)] on win32
+Type "help", "copyright", "credits" or "license" for more information.
+(InteractiveConsole)
+>>> from polls.models import Choice, Question
+>>> Question.objects.all()
+<QuerySet []>
+>>> from django.utils import timezone
+>>> q = Question(question_text="What's new?", pub_date=timezone.now())
+>>> q.save()
+>>> q.id
+1
+>>> q.question_text
+"What's new?"
+>>> q.pub_date
+datetime.datetime(2021, 11, 30, 22, 59, 49, 300951, tzinfo=<UTC>)
+>>> q.question_text = "What's up?"
+>>> q.save()
+>>> Question.objects.all()
+<QuerySet [<Question: Question object (1)>]>
+>>> exit
+Use exit() or Ctrl-Z plus Return to exit
+>>> exit()
+
+Rajani@Samsung MINGW64 ~/Documents/Cloud/Google/Tech2021/Python/Django/Django329/mysite
+$ python manage.py shell
+Python 3.10.0 (tags/v3.10.0:b494f59, Oct  4 2021, 19:00:18) [MSC v.1929 64 bit (AMD64)] on win32
+Type "help", "copyright", "credits" or "license" for more information.
+(InteractiveConsole)
+>>> from polls.models import Choice, Question
+>>> Question.objects.all()
+<QuerySet [<Question: What's up?>]>
+>>> Question.objects.filter(id=1)
+<QuerySet [<Question: What's up?>]>
+>>> Question.objects.filter(question_text__startswith='What')
+<QuerySet [<Question: What's up?>]>
+>>> from django.utils import timezone
+>>> current_year = timezone.now().year
+>>> Question.objects.get(pub_date__year=current_year)
+<Question: What's up?>
+>>> Question.objects.get(id=2)
+Traceback (most recent call last):
+  File "<console>", line 1, in <module>
+  File "C:\Python310\lib\site-packages\django\db\models\manager.py", line 85, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "C:\Python310\lib\site-packages\django\db\models\query.py", line 435, in get
+    raise self.model.DoesNotExist(
+polls.models.Question.DoesNotExist: Question matching query does not exist.
+>>> Question.objects.get(pk=1)
+<Question: What's up?>
+>>> q = Question.objects.get(pk=1)
+>>> q.was_published_recently()
+True
+>>> q = Question.objects.get(pk=1)
+>>> q.choice_set.all()
+<QuerySet []>
+>>> q.choice_set.create(choice_text='Not much', votes=0)
+<Choice: Not much>
+>>> q.choice_set.create(choice_text='The sky', votes=0)
+<Choice: The sky>
+>>> c = q.choice_set.create(choice_text='Just hacking again', votes=0)
+>>> c.question
+<Question: What's up?>
+>>> q.choice_set.all()
+<QuerySet [<Choice: Not much>, <Choice: The sky>, <Choice: Just hacking again>]>
+>>> q.choice_set.count()
+3
+>>> Choice.objects.filter(question__pub_date__year=current_year)
+<QuerySet [<Choice: Not much>, <Choice: The sky>, <Choice: Just hacking again>]>
+>>> c = q.choice_set.filter(choice_text__startswith='Just hacking')
+>>> c.delete()
+(1, {'polls.Choice': 1})
+>>> exit()
+
+Rajani@Samsung MINGW64 ~/Documents/Cloud/Google/Tech2021/Python/Django/Django329/mysite
+$ python manage.py createsuperuser
+Superuser creation skipped due to not running in a TTY. You can run `manage.py createsuperuser` in your project to create one manually.
+
+Rajani@Samsung MINGW64 ~/Documents/Cloud/Google/Tech2021/Python/Django/Django329/mysite
+$ winpty python manage.py createsuperuser
+Username (leave blank to use 'rajani'): admin
+Email address: admin@example.com
+Password:
+Password (again):
+Superuser created successfully.
+
+Rajani@Samsung MINGW64 ~/Documents/Cloud/Google/Tech2021/Python/Django/Django329/mysite
+$ python manage.py runserver
+Watching for file changes with StatReloader
+[01/Dec/2021 04:54:07] "GET /admin/ HTTP/1.1" 302 0
+[01/Dec/2021 04:54:07] "GET /admin/login/?next=/admin/ HTTP/1.1" 200 2214
+[01/Dec/2021 04:54:07] "GET /static/admin/css/nav_sidebar.css HTTP/1.1" 200 2271
+[01/Dec/2021 04:54:07] "GET /static/admin/css/responsive.css HTTP/1.1" 200 18545
+[01/Dec/2021 04:54:07] "GET /static/admin/css/login.css HTTP/1.1" 200 939
+[01/Dec/2021 04:54:07] "GET /static/admin/css/base.css HTTP/1.1" 200 19513
+[01/Dec/2021 04:54:07] "GET /static/admin/js/nav_sidebar.js HTTP/1.1" 200 1360
+[01/Dec/2021 04:54:08] "GET /static/admin/css/fonts.css HTTP/1.1" 304 0
+[01/Dec/2021 04:54:08] "GET /static/admin/fonts/Roboto-Regular-webfont.woff HTTP/1.1" 304 0
+[01/Dec/2021 04:54:08] "GET /static/admin/fonts/Roboto-Light-webfont.woff HTTP/1.1" 304 0
+[01/Dec/2021 04:54:18] "POST /admin/login/?next=/admin/ HTTP/1.1" 302 0
+[01/Dec/2021 04:54:19] "GET /admin/ HTTP/1.1" 200 3326
+[01/Dec/2021 04:54:19] "GET /static/admin/css/dashboard.css HTTP/1.1" 200 380
+[01/Dec/2021 04:54:19] "GET /static/admin/img/icon-changelink.svg HTTP/1.1" 200 380
+[01/Dec/2021 04:54:19] "GET /static/admin/img/icon-addlink.svg HTTP/1.1" 200 331
+[01/Dec/2021 04:54:19] "GET /static/admin/fonts/Roboto-Bold-webfont.woff HTTP/1.1" 304 0
+C:\Users\Rajani\Documents\Cloud\Google\Tech2021\Python\Django\Django329\mysite\polls\admin.py changed, reloading.
+Performing system checks...
+
+System check identified no issues (0 silenced).
+December 01, 2021 - 04:52:21
+Django version 3.2.9, using settings 'mysite.settings'
+Starting development server at http://127.0.0.1:8000/
+Quit the server with CTRL-BREAK.
+Watching for file changes with StatReloader
+[01/Dec/2021 04:55:48] "GET /admin/ HTTP/1.1" 200 3977
+[01/Dec/2021 04:56:05] "GET /admin/polls/question/ HTTP/1.1" 200 6109
+[01/Dec/2021 04:56:05] "GET /admin/jsi18n/ HTTP/1.1" 200 3195
+[01/Dec/2021 04:56:05] "GET /static/admin/js/jquery.init.js HTTP/1.1" 200 347
+[01/Dec/2021 04:56:05] "GET /static/admin/js/admin/RelatedObjectLookups.js HTTP/1.1" 200 5984
+[01/Dec/2021 04:56:05] "GET /static/admin/js/urlify.js HTTP/1.1" 200 7902
+[01/Dec/2021 04:56:05] "GET /static/admin/js/core.js HTTP/1.1" 200 5698
+[01/Dec/2021 04:56:05] "GET /static/admin/js/actions.js HTTP/1.1" 200 7867
+[01/Dec/2021 04:56:05] "GET /static/admin/css/changelists.css HTTP/1.1" 200 6874
+[01/Dec/2021 04:56:05] "GET /static/admin/js/vendor/jquery/jquery.js HTTP/1.1" 200 287630
+[01/Dec/2021 04:56:05] "GET /static/admin/js/prepopulate.js HTTP/1.1" 200 1531
+[01/Dec/2021 04:56:05] "GET /static/admin/js/vendor/xregexp/xregexp.js HTTP/1.1" 200 232381
+[01/Dec/2021 04:56:05] "GET /static/admin/img/tooltag-add.svg HTTP/1.1" 200 331
+[01/Dec/2021 04:56:08] "GET /admin/ HTTP/1.1" 200 3977
+[01/Dec/2021 04:56:15] "GET /admin/polls/question/ HTTP/1.1" 200 6109
+[01/Dec/2021 04:56:15] "GET /admin/jsi18n/ HTTP/1.1" 200 3195
+[01/Dec/2021 04:56:55] "POST /admin/polls/question/ HTTP/1.1" 302 0
+[01/Dec/2021 04:56:55] "GET /admin/polls/question/ HTTP/1.1" 200 6234
+[01/Dec/2021 04:56:55] "GET /admin/jsi18n/ HTTP/1.1" 200 3195
+[01/Dec/2021 04:56:55] "GET /static/admin/img/icon-alert.svg HTTP/1.1" 200 504
+[01/Dec/2021 04:56:58] "GET /admin/polls/question/1/change/ HTTP/1.1" 200 6755
+[01/Dec/2021 04:56:58] "GET /static/admin/js/prepopulate_init.js HTTP/1.1" 200 492
+[01/Dec/2021 04:56:58] "GET /admin/jsi18n/ HTTP/1.1" 200 3195
+[01/Dec/2021 04:56:58] "GET /static/admin/js/calendar.js HTTP/1.1" 200 8466
+[01/Dec/2021 04:56:58] "GET /static/admin/js/admin/DateTimeShortcuts.js HTTP/1.1" 200 19634
+[01/Dec/2021 04:56:58] "GET /static/admin/css/forms.css HTTP/1.1" 200 8804
+[01/Dec/2021 04:56:58] "GET /static/admin/js/change_form.js HTTP/1.1" 200 606
+[01/Dec/2021 04:56:58] "GET /static/admin/css/widgets.css HTTP/1.1" 200 11097
+[01/Dec/2021 04:56:59] "GET /static/admin/img/icon-clock.svg HTTP/1.1" 200 677
+[01/Dec/2021 04:56:59] "GET /static/admin/img/icon-calendar.svg HTTP/1.1" 200 1086
+[01/Dec/2021 04:57:35] "POST /admin/polls/question/1/change/ HTTP/1.1" 302 0
+[01/Dec/2021 04:57:35] "GET /admin/polls/question/add/ HTTP/1.1" 200 6689
+[01/Dec/2021 04:57:35] "GET /admin/jsi18n/ HTTP/1.1" 200 3195
+[01/Dec/2021 04:57:35] "GET /static/admin/img/icon-yes.svg HTTP/1.1" 200 436
+[01/Dec/2021 04:57:39] "POST /admin/polls/question/add/ HTTP/1.1" 200 6663
+[01/Dec/2021 04:57:39] "GET /admin/jsi18n/ HTTP/1.1" 200 3195
+[01/Dec/2021 04:57:43] "POST /admin/polls/question/add/ HTTP/1.1" 200 6663
+[01/Dec/2021 04:57:43] "GET /admin/jsi18n/ HTTP/1.1" 200 3195
+[01/Dec/2021 04:57:57] "GET /admin/polls/question/ HTTP/1.1" 200 6115
+[01/Dec/2021 04:57:57] "GET /admin/jsi18n/ HTTP/1.1" 200 3195
+[01/Dec/2021 04:58:02] "GET /admin/polls/question/1/change/ HTTP/1.1" 200 6779
+[01/Dec/2021 04:58:02] "GET /admin/jsi18n/ HTTP/1.1" 200 3195
+[01/Dec/2021 04:58:04] "GET /admin/polls/question/1/history/ HTTP/1.1" 200 4234
+[01/Dec/2021 04:59:51] "GET /admin/polls/question/ HTTP/1.1" 200 6115
+[01/Dec/2021 04:59:51] "GET /admin/jsi18n/ HTTP/1.1" 200 3195
+[01/Dec/2021 04:59:53] "GET /admin/polls/ HTTP/1.1" 200 2746
+[01/Dec/2021 04:59:55] "GET /admin/polls/question/ HTTP/1.1" 200 6115
+[01/Dec/2021 04:59:55] "GET /admin/jsi18n/ HTTP/1.1" 200 3195
+Performing system checks...
+
+System check identified no issues (0 silenced).
+December 01, 2021 - 04:55:18
+Django version 3.2.9, using settings 'mysite.settings'
+Starting development server at http://127.0.0.1:8000/
+Quit the server with CTRL-BREAK.
+
+Rajani@Samsung MINGW64 ~/Documents/Cloud/Google/Tech2021/Python/Django/Django329/mysite
+$

@@ -1,0 +1,36 @@
+Difference between abstract class and interface in Python
+
+What you'll see sometimes is the following:
+
+class Abstract1( object ):
+    """Some description that tells you it's abstract,
+    often listing the methods you're expected to supply."""
+    def aMethod( self ):
+        raise NotImplementedError( "Should have implemented this" )
+
+Because Python doesn't have (and doesn't need) a formal Interface contract, the Java-style distinction between abstraction and interface doesn't exist. If someone goes through the effort to define a formal interface, it will also be an abstract class. The only differences would be in the stated intent in the docstring.
+
+And the difference between abstract and interface is a hairsplitting thing when you have duck typing.
+
+Java uses interfaces because it doesn't have multiple inheritance.
+
+Because Python has multiple inheritance, you may also see something like this
+
+class SomeAbstraction( object ):
+    pass # lots of stuff - but missing something
+
+class Mixin1( object ):
+    def something( self ):
+        pass # one implementation
+
+class Mixin2( object ):
+    def something( self ):
+        pass # another
+
+class Concrete1( SomeAbstraction, Mixin1 ):
+    pass
+
+class Concrete2( SomeAbstraction, Mixin2 ):
+    pass
+
+This uses a kind of abstract superclass with mixins to create concrete subclasses that are disjoint.

@@ -1,0 +1,97 @@
+Difference between __getattr__ and __getattribute__
+
+Some basics first:
+
+With objects, you need to deal with its attributes. Ordinarily we do instance.attribute
+
+Sometimes we need more control (when we do not know the name of the attribute in advance)
+
+instance.attribute would become getattr(instance, attribute_name)
+
+Using this model, we can get the attribute by supplying the attribute_name. This works when we give a name as a string and you need to look up the instance attribute referenced by that name.
+
+Use of __getattr__
+
+You can also tell a class how to deal with attributes which it doesn't explicitly manage and do that via __getattr__ method.
+
+Python will call this method whenever you request an attribute that hasn't already been defined. So you can define what to do with it.
+
+A classic usecase:
+
+class A(dict):
+    def __getattr__(self, name):
+       return self[name]
+a = A()
+# Now a.somekey will give a['somekey']
+Caveats and use of __getattribute__
+
+If you need to catch every attribute regardless whether it exists or not, use __getattribute__ instead.
+
+Difference
+
+__getattr__ only gets called for attributes that don't actually exist. If you set the attribute directly, referencing that attribute will retrieve it without calling __getattr__.
+
+__getattribute__ is called all the times.
+
+
+Difference between __getattr__ vs __getattribute__
+
+A key difference between __getattr__ and __getattribute__ is that __getattr__ is only invoked if the attribute wasn't found the usual ways. It's good for implementing a fallback for missing attributes, and is probably the one of two you want.
+
+__getattribute__ is invoked before looking at the actual attributes on the object, and so can be tricky to implement correctly. You can end up in infinite recursions very easily.
+
+New-style classes derive from object, old-style classes are those in Python 2.x with no explicit base class. But the distinction between old-style and new-style classes is not the important one when choosing between __getattr__ and __getattribute__.
+
+You almost certainly want __getattr__.
+
+
+Python - Using __getattribute__ method
+
+I want to override access to one variable in a class, but return all others normally. How do I accomplish this with __getattribute__?
+
+I tried the following (which should also illustrate what I'm trying to do) but I get a recursion error:
+
+class D(object):
+    def __init__(self):
+        self.test=20
+        self.test2=21
+    def __getattribute__(self,name):
+        if name=='test':
+            return 0.
+        else:
+            return self.__dict__[name]
+
+>>> print D().test
+0.0
+>>> print D().test2
+...
+RuntimeError: maximum recursion depth exceeded in cmp
+
+You get a recursion error because you call the same function, your __getattribute__. If you use object's __getattribute__ instead, it works:
+
+class D(object):
+    def __init__(self):
+        self.test=20
+        self.test2=21
+    def __getattribute__(self,name):
+        if name=='test':
+            return 0.
+        else:
+            return object.__getattribute__(self, name)
+
+This works because object (in this example) is the base class. By calling the base version of __getattribute__ you avoid the recursive hell you were in before.
+
+Ipython output with code in foo.py:
+
+In [1]: from foo import *
+
+In [2]: d = D()
+
+In [3]: d.test
+Out[3]: 0.0
+
+In [4]: d.test2
+Out[4]: 21
+Update:
+
+There's something in the section titled More attribute access for new-style classes http://docs.python.org/reference/datamodel.html#more-attribute-access-for-new-style-classes] in the current documentation, where they recommend doing exactly this to avoid the infinite recursion.

@@ -1,0 +1,82 @@
+How to write a Python module?
+
+A module is a file containing Python definitions and statements. The file name is the module name with the suffix .py
+
+create hello.py then write the following function as its content:
+
+def helloworld():
+   print "hello"
+Then you can import hello:
+
+>>> import hello
+>>> hello.helloworld()
+'hello'
+>>>
+To group many .py files put them in a folder. Any folder with an __init__.py is considered a module by python and you can call them a package
+
+|-HelloModule
+  |_ __init__.py
+  |_ hellomodule.py
+You can go about with the import statement on your module the usual way.
+
+For more information, see 6.4. Packages [https://docs.python.org/2/tutorial/modules.html#packages].
+
+
+What exactly does "import *" import?
+
+The "advantage" of from xyz import * as opposed to other forms of import is that it imports everything (well, almost... [see (a) below] everything) from the designated module under the current module. This allows using the various objects (variables, classes, methods...) from the imported module without prefixing them with the module's name. For example
+
+>>> from math import *
+>>>pi
+3.141592653589793
+>>>sin(pi/2)
+>>>1.0
+
+This practice (of importing * into the current namespace) is however discouraged because it it
+
+• provides the opportunity for namespace collisions (say if you had a variable name pi prior to the import)
+
+• may be inefficient, if the number of objects imported is big.
+
+• doesn't explicitly document the origin of the variable/method/class (it is nice to have this "self documentation" of the program for future visit into the code)
+
+Typically we therefore limit this import * practice to ad-hoc tests and the like, and instead:
+
+explicitly import a few objects only
+
+>>>from math import pi
+>>>pi
+>>>3.141592653589793
+>>> sin(pi/2)
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+
+NameError: name 'sin' is not defined
+
+or import the module under its own namespace (or an alias thereof, in particular if this is a long name, and the program references its objects many times)
+
+  >>>import math
+  >>>math.pi
+  >>>3.141592653589793
+  etc..
+
+
+  >>>import math as m  #bad example math being so short and standard...
+  >>>m.pi
+  >>>3.141592653589793
+  etc..
+
+See the Python documentation on this topic [http://docs.python.org/reference/simple_stmts.html#the-import-statement]
+
+(a) Specifically, what gets imported with from xyz import * 
+
+if xyz module defines an __all__ variable, it will import all the names defined in this sequence, otherwise it will import all names, except these which start with one underscore.
+
+
+Why is "import *" bad?
+
+• Because it puts a lot of stuff into your namespace (might shadow some other object from previous import and you won't know about it).
+
+• Because you don't know exactly what is imported and can't find place from what module certain thing was imported easily (readability).
+
+• Because you can't use cool tools like pyflakes to detect statically errors in your code.

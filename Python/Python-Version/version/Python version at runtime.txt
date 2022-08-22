@@ -1,0 +1,31 @@
+Python 3.x, use
+
+import sys
+if sys.version_info[0] < 3:
+    raise "Must be using Python 3"
+Here, sys.version_info[0] is the major version number. sys.version_info[1] would give you the minor version number.
+
+In Python 2.7 and later, the components of sys.version_info can also be accessed by name, so the major version number is sys.version_info.major.
+
+Check for Python version in a program that uses new language features
+
+You can test using eval:
+
+try:
+  eval("1 if True else 2")
+except SyntaxError:
+  # doesn't have ternary
+Also, with is available in Python 2.5, just add from __future__ import with_statement .
+
+EDIT: to get control early enough, you could split it do different .py files and check compatibility in the main file before importing (e.g. in __init__.py in a package):
+
+# __init__.py
+
+# Check compatibility
+try:
+  eval("1 if True else 2")
+except SyntaxError:
+  raise ImportError("requires ternary support")
+
+# import from another module
+from impl import *

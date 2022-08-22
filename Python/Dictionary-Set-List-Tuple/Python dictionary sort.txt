@@ -1,0 +1,16 @@
+Sort a Python dictionary by value
+
+It is not possible to sort a dict, only to get a representation of a dict that is sorted. Dicts are inherently orderless, but other types, such as lists and tuples, are not. So you need a sorted representation, which will be a list—probably a list of tuples.
+
+For instance,
+
+import operator
+x = {1: 2, 3: 4, 4: 3, 2: 1, 0: 0}
+sorted_x = sorted(x.items(), key=operator.itemgetter(1))
+sorted_x will be a list of tuples sorted by the second element in each tuple. dict(sorted_x) == x.
+
+And for those wishing to sort on keys instead of values:
+
+import operator
+x = {1: 2, 3: 4, 4: 3, 2: 1, 0: 0}
+sorted_x = sorted(x.items(), key=operator.itemgetter(0))

@@ -1,0 +1,64 @@
+Exception traceback is hidden if not re-raised immediately
+
+Code snippet:
+
+import sys
+
+def func1():
+    func2()
+
+def func2():
+    raise Exception('test error')
+
+def main():
+    err = None
+
+    try:
+        func1()
+    except:
+        err = sys.exc_info()[1]
+        pass
+
+    # some extra processing, involving checking err details (if err is not None)
+
+    # need to re-raise err so caller can do its own handling
+    if err:
+        raise err
+
+if __name__ == '__main__':
+    main()
+
+When func2 raises an exception I receive the following traceback:
+
+Traceback (most recent call last):
+  File "err_test.py", line 25, in <module>
+    main()
+  File "err_test.py", line 22, in main
+    raise err
+Exception: test error
+
+From here I don't see where the exception is coming from. The original traceback is lost.
+
+How can I preserve original traceback and re-raise it? I want to see something similar to this:
+
+Traceback (most recent call last):
+  File "err_test.py", line 26, in <module>
+    main()
+  File "err_test.py", line 13, in main
+    func1()
+  File "err_test.py", line 4, in func1
+    func2()
+  File "err_test.py", line 7, in func2
+    raise Exception('test error')
+Exception: test error
+
+
+A blank raise raises the last exception.
+
+# need to re-raise err so caller can do its own handling
+if err:
+    raise
+
+If you use raise something Python has no way of knowing if something was an exception just caught before, or a new exception with a new stack trace. That's why there is the blank raise that preserves the stack trace.
+
+Reference here [https://docs.python.org/3/reference/simple_stmts.html#raise]

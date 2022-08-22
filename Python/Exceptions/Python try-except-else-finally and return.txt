@@ -1,0 +1,280 @@
+Weird Try-Except-Else-Finally behavior with Return statements
+
+def demo1():
+    try:
+        raise RuntimeError,"To Force Issue"
+    except:
+        return 1
+    else:
+        return 2
+    finally:
+        return 3
+
+def demo2():
+    try:
+        try:
+            raise RuntimeError,"To Force Issue"
+        except:
+            return 1
+        else:
+            return 2
+        finally:
+            return 3
+    except:
+        print 4
+    else:
+        print 5
+    finally:
+        print 6
+
+if __name__ == "__main__":
+    print "*** DEMO ONE ***"
+    print demo1()
+    print "****************"
+    print 
+    print "*** DEMO TWO ***"
+    print demo2()
+    print "****************"
+
+When you run this script, it will print:
+
+*** DEMO ONE ***
+3
+****************
+
+*** DEMO TWO ***
+6
+3
+****************
+
+Why is demo one returning 3 instead of 1? Why is demo two printing 6 instead of printing 6 w/ 4 or 5?
+
+Because finally statements are guaranteed to be executed (well, presuming no power outage or anything outside of Python's control).
+
+This means that before the function can return, it must run the finally block, which returns a different value.
+
+The Python docs [http://docs.python.org/reference/compound_stmts.html#the-try-statement] state:
+
+When a return, break or continue statement is executed in the try suite of a try...finally statement, the finally clause is also executed 'on the way out.' A continue statement is illegal in the finally clause. (The reason is a problem with the current implementation — this restriction may be lifted in the future).
+
+This means that when you try to return, the finally block is called, returning it's value, rather than the one that you would have had.
+
+
+try / else with return in try block
+
+def divide(x, y):
+    print 'entering divide'
+    try:
+        return x/y
+    except:
+        print 'error'
+    else:
+        print 'no error'
+    finally:
+        print 'exit'
+
+print divide(1, 1)
+print divide(1, 0)
+
+the output:
+
+entering divide
+exit
+1
+entering divide
+error
+exit
+None
+
+It seems that python will not go inside the else block if a value is returned in the try. However, it will always go in the finally block. I don't really understand why. Can someone help me with this logic?
+
+http://docs.python.org/reference/compound_stmts.html#the-try-statement
+
+The optional else clause is executed if and when control flows off the end of the try clause.
+
+Currently, control “flows off the end” except in the case of an exception or the execution of a return, continue, or break statement.
+
+
+Are nested try/except blocks in python a good programming practice?
+
+I'm writing my own container, which needs to give access to a dictionary inside by attribute calls. The typical use of the container would be like this:
+
+temp_container = DictContainer()
+dict_container['foo'] = bar
+...
+print dict_container.foo
+
+I know that it might be stupid to write something like this, but that's the functionality I need to provide. I was thinking about implementing this in a following way:
+
+def __getattribute__(self, item):
+    try:
+        return object.__getattribute__(item)
+    except AttributeError:
+        try:
+            return self.dict[item]
+        except KeyError:
+            print "The object doesn't have such attribute"
+
+I'm not sure whether nested try/except blocks are a good practice so another way would be to use hasattr() and has_key():
+
+def __getattribute__(self, item):
+        if hasattr(self, item):
+            return object.__getattribute__(item)
+        else:
+            if self.dict.has_key(item):
+                return self.dict[item]
+            else:
+                raise AttributeError("some customised error")
+
+Or to use one of them and one try catch block like this:
+
+def __getattribute__(self, item):
+    if hasattr(self, item):
+        return object.__getattribute__(item)
+    else:
+        try:
+            return self.dict[item]
+        except KeyError:
+            raise AttributeError("some customised error")
+
+Which option is most pythonic and elegant?
+
+First example is perfectly fine. Even the official Python docs recommend this style known as EAFP [http://docs.python.org/3/glossary.html#term-eafp].
+
+Personally, I prefer to avoid nesting when it's not necessary:
+
+def __getattribute__(self, item):
+    try:
+        return object.__getattribute__(item)
+    except AttributeError:
+        pass  # fallback to dict
+    try:
+        return self.dict[item]
+    except KeyError:
+        raise AttributeError("The object doesn't have such attribute") from None
+
+PS. has_key() has been deprecated for a long time in Python 2. Use item in self.dict instead.
+
+
+Raise exception vs. return None in Python functions
+
+What's better practice in a user-defined function in Python: raise an exception or return None? For example, I have a function that finds the most recent file in a folder.
+
+def latestpdf(folder):
+    # list the files and sort them
+    try:
+        latest = files[-1]
+    except IndexError:
+        # Folder is empty.
+        return None  # One possibility
+        raise FileNotFoundError()  # Alternative
+    else:
+        return somefunc(latest)  # In my case, somefunc parses the filename
+
+Another option is leave the exception and handle it in the caller code, but I figure it's more clear to deal with a FileNotFoundError than an IndexError. Or is it bad form to re-raise an exception with a different name?
+
+It's really a matter of semantics. What does foo = latestpdf(d) mean?
+
+Is it perfectly reasonable that there's no latest file? Then sure, just return None.
+
+Are you expecting to always find a latest file? Raise an exception. And yes, re-raising a more appropriate exception is fine.
+
+If this is just a general function that's supposed to apply to any directory, I'd do the former and return None. If the directory is, e.g., meant to be a specific data directory that contains an application's known set of files, I'd raise an exception.
+
+
+Best practice in python for return value on error vs. success
+
+In general, let's say you have a method like the below.
+
+def intersect_two_lists(self, list1, list2):
+    if not list1:
+        self.trap_error("union_two_lists: list1 must not be empty.")
+        return False
+    if not list2:
+        self.trap_error("union_two_lists: list2 must not be empty.")
+        return False
+    #http://bytes.com/topic/python/answers/19083-standard
+    return filter(lambda x:x in list1,list2)
+
+In this particular method when errors are found, I would not want to return the empty list in this case because that could have been the real answer to this specific method call, I want to return something to indicate the parameters were incorrect. So I returned False on error in this case, and a list otherwise (empty or not).
+
+My question is, what is the best practice in areas like this, and not just for lists?Return whatever the heck I want and make sure I document it for a user to read? :-) What do most of you folks do:
+
+1. If on success you were supposed to return True or False and you catch an error?
+2. If on success you were supposed to return a list and you catch an error?
+3. If on success you were supposed to return a file handle and you catch an error?
+4. et cetera
+
+First, whatever you do don't return a result and an error message. That's a really bad way to handle errors and will cause you endless headaches. If you need to indicate an error always raise an exception.
+
+I usually tend to avoid raising errors unless it is necessary. In your example throwing an error is not really needed. Intersecting an empty list with a non empty one is not an error. The result is just empty list and that is correct. But let's say you want to handle other cases. For example if the method got a non-list type. In this case it is better to raise an exception. Exception are nothing to be afraid of.
+
+My advice for you is to look at the Python library for similar functions and see how Python handles those special cases. For example have a look at the intersection method in set, it tends to be forgiving. Here I'm trying to intersect an empty set with an empty list:
+
+>>> b = []
+>>> a = set()
+>>> a.intersection(b)
+set([])
+
+>>> b = [1, 2]
+>>> a = set([1, 3])
+>>> a.intersection(b)
+set([1])
+Errors are only thrown when needed:
+
+>>> b = 1
+>>> a.intersection(b)
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+TypeError: 'int' object is not iterable
+Sure, there are cases where returning True or False on success or failure can be good. But it is very important to be consistent. The function should always return the same type or structure. It is very confusing to have a function that could return a list or a boolean. Or return the same type but the meaning of this value can be different in case of an error.
+
+EDIT:
+
+The OP says:
+
+I want to return something to indicate the parameters were incorrect.
+
+Nothing says there is an error better than an exception. If you want to indicate the parameters are incorrect then use exceptions and put a helpful error message. Returning a result in this case is just confusing. There might other cases where you want to indicate that nothing has happened but it is not an error. For example if you have a method that deletes entries from a table and the entry requested for deletion does not exist. In this case it might be fine to just return True or False on success or failure. It depends on the application and the intended behaviour
+
+
+Do I need a return statement after a Python exception?
+
+I'm rather new to python, and I want to make sure I'm doing this correctly. I'd like to have an exception class:
+
+class UnknownCommandReceived(Exception):
+    def __init__(self, value):
+        self.value = value
+
+    def __str__(self):
+        return repr(self.value)
+I will raise the exception at the end of this function if no regexes match:
+
+def cmdType(self):
+    match = re.match(r'(<[ \w]+>),\s*(\d+)?,?\s*(\d+)?', cmd, re.IGNORECASE)
+    if match: 
+        cmd_type = 'int_tool'
+        return cmd_type, match
+
+    match = re.match(r'LCD\(([^\)]*)\)?_?(RED|YELLOW|GREEN|TEAL|BLUE|VIOLET|OFF|ON|SELECT|LEFT|DOWN|RIGHT)?', cmd, re.IGNORECASE)
+    if match: 
+        cmd_type = 'lcd'
+        return cmd_type, match
+
+    match = re.match(r'buffer(_read|_num|_line)(\((\w)\))?', cmd, re.IGNORECASE)
+    if match: 
+        cmd_type = 'buffer'
+        return cmd_type, match
+
+    # ... More regex matches ... 
+
+    raise UnknownCommandReceived( "cmdType received an unknown command" )
+
+    # unecessary return?
+    return 'None', None
+
+My question is--if the exception is always raised, then do I not need a return statement at the end of the function? My apologies.. its a very basic question. My understanding is that an exception once an exception is raised, execution will never return to that point of the code (unless its a loop, or a function that is called again). It will go straight to the catch and continue from there?
+
+No you don't. The return statement is unreachable.
+
+Also, static-analysis tools, such as pyflakes will report that as an error.

@@ -1,0 +1,274 @@
+# Project and your reusable app
+
+mysite/
+    manage.py
+    mysite/
+        __init__.py
+        settings.py
+        urls.py
+        wsgi.py
+    polls/
+        __init__.py
+        admin.py
+        migrations/
+            __init__.py
+            0001_initial.py
+        models.py
+        static/
+            polls/
+                images/
+                    background.gif
+                style.css
+        templates/
+            polls/
+                detail.html
+                index.html
+                results.html
+        tests.py
+        urls.py
+        views.py
+    templates/
+        admin/
+            base_site.html
+
+
+# Prerequisites
+setuptools [https://pypi.python.org/pypi/setuptools]
+pip [https://pypi.python.org/pypi/pip]
+Refer [https://docs.djangoproject.com/en/1.10/topics/install/#installing-official-release]
+
+Packaging app
+
+# 1. Create a parent directory for polls, outside of your Django project called this directory django-polls
+$ mkdir "django-polls"
+
+# 2. Move the polls directory into the django-polls directory
+$ move "E:\Working\Python\Django\Python2.7\Reusable-app\Django-app\mysite\polls" "E:\Working\Python\Django\Python2.7\Reusable-app\django-polls\polls"
+
+# 3. django-polls/README.rst
+=====
+Polls
+=====
+
+Polls is a simple Django app to conduct Web-based polls. For each
+question, visitors can choose between a fixed number of answers.
+
+Detailed documentation is in the "docs" directory.
+
+Quick start
+-----------
+
+1. Add "polls" to your INSTALLED_APPS setting like this::
+
+    INSTALLED_APPS = [
+        ...
+        'polls',
+    ]
+
+2. Include the polls URLconf in your project urls.py like this::
+
+    url(r'^polls/', include('polls.urls')),
+
+3. Run `python manage.py migrate` to create the polls models.
+
+4. Start the development server and visit http://127.0.0.1:8000/admin/
+   to create a poll (you'll need the Admin app enabled).
+
+5. Visit http://127.0.0.1:8000/polls/ to participate in the poll.
+
+# 4. django-polls/LICENSE
+# Example: [https://github.com/django/django/blob/master/LICENSE]
+# django-polls/LICENSE
+Copyright (c) Django Software Foundation and individual contributors.
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without modification,
+are permitted provided that the following conditions are met:
+
+    1. Redistributions of source code must retain the above copyright notice,
+       this list of conditions and the following disclaimer.
+
+    2. Redistributions in binary form must reproduce the above copyright
+       notice, this list of conditions and the following disclaimer in the
+       documentation and/or other materials provided with the distribution.
+
+    3. Neither the name of Django nor the names of its contributors may be used
+       to endorse or promote products derived from this software without
+       specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR
+ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
+ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+# 5. django-polls/setup.py 
+# Reference: [https://setuptools.readthedocs.io/en/latest/]
+# django-polls/setup.py
+import os
+from setuptools import find_packages, setup
+with open(os.path.join(os.path.dirname(__file__), 'README.rst')) as readme:
+    README = readme.read()
+# allow setup.py to be run from any path
+os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
+setup(
+    name='django-polls',
+    version='0.1',
+    packages=find_packages(),
+    include_package_data=True,
+    license='BSD License',  # example license
+    description='A simple Django app to conduct Web-based polls.',
+    long_description=README,
+    url='https://www.example.com/',
+    author='Your Name',
+    author_email='yourname@example.com',
+    classifiers=[
+        'Environment :: Web Environment',
+        'Framework :: Django',
+        'Framework :: Django :: X.Y',  # replace "X.Y" as appropriate
+        'Intended Audience :: Developers',
+        'License :: OSI Approved :: BSD License',  # example license
+        'Operating System :: OS Independent',
+        'Programming Language :: Python',
+        # Replace these appropriately if you are stuck on Python 2.
+        'Programming Language :: Python :: 3',
+        'Programming Language :: Python :: 3.4',
+        'Programming Language :: Python :: 3.5',
+        'Topic :: Internet :: WWW/HTTP',
+        'Topic :: Internet :: WWW/HTTP :: Dynamic Content',
+    ],
+)
+
+# 6. django-polls/MANIFEST.in
+# Only Python modules and packages are included in the package by default, to include additional files MANIFEST.in file is needed
+# django-polls/MANIFEST.in
+include LICENSE
+include README.rst
+recursive-include polls/static *
+recursive-include polls/templates *
+
+# 7. Optional, however recommended documentation
+# Create an empty directory django-polls/docs
+$ mkdir "django-polls/docs"
+# Add line: recursive-include docs *
+# Note that the docs directory won’t be included in your package unless you add some files to it
+# Many Django apps also provide their documentation online through sites like readthedocs.org
+# Example: https://media.readthedocs.org/pdf/docs/latest/docs.pdf
+# django-polls/MANIFEST.in
+include LICENSE
+include README.rst
+recursive-include polls/static *
+recursive-include polls/templates *
+recursive-include docs *
+
+# 8. Build package with python setup.py sdist (run from inside django-polls)
+# This creates a directory called dist and builds your new package, django-polls-0.1.tar.gz or django-polls-0.1.zip
+
+
+# Using package
+# install django-polls as a user library
+
+# 1. To install the package, use pip
+$ pip install --user django-polls/dist/django-polls-0.1.tar.gz
+or
+$ pip install --user dist/django-polls-0.1.zip
+
+2. Run the server 
+$ python manage.py runserver
+# from mysite where manage.py is located without polls, which was moved to django-polls
+
+# 3. To uninstall the package, use pip:
+$ pip uninstall django-polls
+
+
+
+
+# Git CMD
+
+C:\Users\Aspire>e:
+
+E:\>cd E:\Working\Python\Django\Python2.7\Reusable-app\django-polls
+
+E:\Working\Python\Django\Python2.7\Reusable-app\django-polls>pip install --user dist/django-polls-0.1.zip
+Processing e:\working\python\django\python2.7\reusable-app\django-polls\dist\django-polls-0.1.zip
+Building wheels for collected packages: django-polls
+  Running setup.py bdist_wheel for django-polls ... done
+  Stored in directory: C:\Users\Aspire\AppData\Local\pip\Cache\wheels\35\c8\db\a7e7f4ceda9d16e1488e5f1865e122a30655f2bae827880c73
+Successfully built django-polls
+Installing collected packages: django-polls
+Successfully installed django-polls
+
+E:\Working\Python\Django\Python2.7\Reusable-app\django-polls>cd E:\Working\Python\Django\Python2.7\Reusable-app\Django-app\mysite
+
+E:\Working\Python\Django\Python2.7\Reusable-app\Django-app\mysite>python manage.py runserver
+Performing system checks...
+
+System check identified no issues (0 silenced).
+August 24, 2016 - 18:39:47
+Django version 1.10, using settings 'mysite.settings'
+Starting development server at http://127.0.0.1:8000/
+Quit the server with CTRL-BREAK.
+Not Found: /
+[24/Aug/2016 18:39:57] "GET / HTTP/1.1" 404 2010
+Not Found: /favicon.ico
+[24/Aug/2016 18:39:57] "GET /favicon.ico HTTP/1.1" 404 2043
+[24/Aug/2016 18:40:01] "GET /polls/ HTTP/1.1" 200 175
+[24/Aug/2016 18:40:04] "GET /polls/1/ HTTP/1.1" 200 487
+[24/Aug/2016 18:40:06] "POST /polls/1/vote/ HTTP/1.1" 200 542
+[24/Aug/2016 18:40:08] "POST /polls/1/vote/ HTTP/1.1" 302 0
+[24/Aug/2016 18:40:08] "GET /polls/1/results/ HTTP/1.1" 200 158
+[24/Aug/2016 18:40:10] "GET /polls/1/ HTTP/1.1" 200 487
+[24/Aug/2016 18:40:13] "POST /polls/1/vote/ HTTP/1.1" 302 0
+[24/Aug/2016 18:40:13] "GET /polls/1/results/ HTTP/1.1" 200 158
+[24/Aug/2016 18:42:04] "GET /polls HTTP/1.1" 301 0
+[24/Aug/2016 18:42:04] "GET /polls/ HTTP/1.1" 200 175
+[24/Aug/2016 18:42:12] "GET /admin/ HTTP/1.1" 302 0
+[24/Aug/2016 18:42:12] "GET /admin/login/?next=/admin/ HTTP/1.1" 200 1656
+[24/Aug/2016 18:42:20] "POST /admin/login/?next=/admin/ HTTP/1.1" 302 0
+[24/Aug/2016 18:42:20] "GET /admin/ HTTP/1.1" 200 5257
+[24/Aug/2016 18:42:22] "GET /admin/polls/question/ HTTP/1.1" 200 5864
+[24/Aug/2016 18:42:22] "GET /admin/jsi18n/ HTTP/1.1" 200 3217
+
+E:\Working\Python\Django\Python2.7\Reusable-app\Django-app\mysite>pip uninstall django-polls
+Uninstalling django-polls-0.1:
+  c:\users\aspire\appdata\roaming\python\python27\site-packages\django_polls-0.1.dist-info\description.rst
+  c:\users\aspire\appdata\roaming\python\python27\site-packages\django_polls-0.1.dist-info\installer
+  c:\users\aspire\appdata\roaming\python\python27\site-packages\django_polls-0.1.dist-info\metadata
+  c:\users\aspire\appdata\roaming\python\python27\site-packages\django_polls-0.1.dist-info\metadata.json
+  c:\users\aspire\appdata\roaming\python\python27\site-packages\django_polls-0.1.dist-info\record
+  c:\users\aspire\appdata\roaming\python\python27\site-packages\django_polls-0.1.dist-info\top_level.txt
+  c:\users\aspire\appdata\roaming\python\python27\site-packages\django_polls-0.1.dist-info\wheel
+  c:\users\aspire\appdata\roaming\python\python27\site-packages\polls\__init__.py
+  c:\users\aspire\appdata\roaming\python\python27\site-packages\polls\__init__.pyc
+  c:\users\aspire\appdata\roaming\python\python27\site-packages\polls\admin.py
+  c:\users\aspire\appdata\roaming\python\python27\site-packages\polls\admin.pyc
+  c:\users\aspire\appdata\roaming\python\python27\site-packages\polls\apps.py
+  c:\users\aspire\appdata\roaming\python\python27\site-packages\polls\apps.pyc
+  c:\users\aspire\appdata\roaming\python\python27\site-packages\polls\migrations\0001_initial.py
+  c:\users\aspire\appdata\roaming\python\python27\site-packages\polls\migrations\0001_initial.pyc
+  c:\users\aspire\appdata\roaming\python\python27\site-packages\polls\migrations\__init__.py
+  c:\users\aspire\appdata\roaming\python\python27\site-packages\polls\migrations\__init__.pyc
+  c:\users\aspire\appdata\roaming\python\python27\site-packages\polls\models.py
+  c:\users\aspire\appdata\roaming\python\python27\site-packages\polls\models.pyc
+  c:\users\aspire\appdata\roaming\python\python27\site-packages\polls\static\polls\images\200px-django_logo.svg.png
+  c:\users\aspire\appdata\roaming\python\python27\site-packages\polls\static\polls\images\background.gif
+  c:\users\aspire\appdata\roaming\python\python27\site-packages\polls\static\polls\style.css
+  c:\users\aspire\appdata\roaming\python\python27\site-packages\polls\templates\admin\base_site.html
+  c:\users\aspire\appdata\roaming\python\python27\site-packages\polls\templates\polls\detail.html
+  c:\users\aspire\appdata\roaming\python\python27\site-packages\polls\templates\polls\index.html
+  c:\users\aspire\appdata\roaming\python\python27\site-packages\polls\templates\polls\results.html
+  c:\users\aspire\appdata\roaming\python\python27\site-packages\polls\tests.py
+  c:\users\aspire\appdata\roaming\python\python27\site-packages\polls\tests.pyc
+  c:\users\aspire\appdata\roaming\python\python27\site-packages\polls\urls.py
+  c:\users\aspire\appdata\roaming\python\python27\site-packages\polls\urls.pyc
+  c:\users\aspire\appdata\roaming\python\python27\site-packages\polls\views.py
+  c:\users\aspire\appdata\roaming\python\python27\site-packages\polls\views.pyc
+Proceed (y/n)? y
+  Successfully uninstalled django-polls-0.1
+
+E:\Working\Python\Django\Python2.7\Reusable-app\Django-app\mysite>

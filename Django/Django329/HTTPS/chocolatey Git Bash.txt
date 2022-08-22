@@ -1,0 +1,99 @@
+Rajani@Samsung MINGW64 ~/Documents/Cloud/Google/Tech2021/Python/Django/Django329/HTTPS
+$ rm -rf "C:\ProgramData\chocolatey"
+
+Rajani@Samsung MINGW64 ~/Documents/Cloud/Google/Tech2021/Python/Django/Django329/HTTPS
+$ "C:\Program Files\PowerShell\7\pwsh.exe"
+PowerShell 7.2.0
+Copyright (c) Microsoft Corporation.
+
+https://aka.ms/powershell
+Type 'help' to get help.
+
+PS C:\Users\Rajani\Documents\Cloud\Google\Tech2021\Python\Django\Django329\HTTPS> $PSVersionTable
+$PSVersionTable
+
+Name                           Value
+----                           -----
+PSVersion                      7.2.0
+PSEdition                      Core
+GitCommitId                    7.2.0
+OS                             Microsoft Windows 6.3.9600
+Platform                       Win32NT
+PSCompatibleVersions           {1.0, 2.0, 3.0, 4.0…}
+PSRemotingProtocolVersion      2.3
+SerializationVersion           1.1.0.1
+WSManStackVersion              3.0
+
+PS C:\Users\Rajani\Documents\Cloud\Google\Tech2021\Python\Django\Django329\HTTPS> Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
+Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
+Forcing web requests to allow TLS v1.2 (Required for requests to Chocolatey.org)
+Getting latest version of the Chocolatey package for download.
+Not using proxy.
+Getting Chocolatey from https://community.chocolatey.org/api/v2/package/chocolatey/0.11.3.
+Downloading https://community.chocolatey.org/api/v2/package/chocolatey/0.11.3 to C:\Users\Rajani\AppData\Local\Temp\chocolatey\chocoInstall\chocolatey.zip
+Not using proxy.
+Extracting C:\Users\Rajani\AppData\Local\Temp\chocolatey\chocoInstall\chocolatey.zip to C:\Users\Rajani\AppData\Local\Temp\chocolatey\chocoInstall
+Installing Chocolatey on the local machine
+WARNING: Setting ChocolateyInstall Environment Variable on USER and not SYSTEM variables.
+  This is due to either non-administrator install OR the process you are running is not being run as an Administrator.
+Creating ChocolateyInstall as an environment variable (targeting 'User')
+  Setting ChocolateyInstall to 'C:\ProgramData\chocolatey'
+WARNING: It's very likely you will need to close and reopen your shell
+  before you can use choco.
+Exception: Installation of Chocolatey to default folder requires Administrative
+permissions. Please run from elevated prompt. Please see
+https://chocolatey.org/install for details and alternatives if needing to
+install as a non-administrator.
+PS C:\Users\Rajani\Documents\Cloud\Google\Tech2021\Python\Django\Django329\HTTPS> exit
+exit
+
+Rajani@Samsung MINGW64 ~/Documents/Cloud/Google/Tech2021/Python/Django/Django329/HTTPS
+$ export PATH=$PATH:"/C/Users/Rajani/AppData/Local/Temp/chocolatey/chocoInstall/tools/chocolateyInstall/"
+
+Rajani@Samsung MINGW64 ~/Documents/Cloud/Google/Tech2021/Python/Django/Django329/HTTPS
+$ mkdir -p "C:\ProgramData\chocolatey\lib"
+
+Rajani@Samsung MINGW64 ~/Documents/Cloud/Google/Tech2021/Python/Django/Django329/HTTPS
+$ choco --version
+0.11.3
+
+Rajani@Samsung MINGW64 ~/Documents/Cloud/Google/Tech2021/Python/Django/Django329/HTTPS
+$ choco install mkcert
+Chocolatey v0.11.3
+Chocolatey detected you are not running from an elevated command shell
+ (cmd/powershell).
+
+ You may experience errors - many functions/packages
+ require admin rights. Only advanced users should run choco w/out an
+ elevated shell. When you open the command shell, you should ensure
+ that you do so with "Run as Administrator" selected. If you are
+ attempting to use Chocolatey in a non-administrator setting, you
+ must select a different location other than the default install
+ location. See
+ https://docs.chocolatey.org/en-us/choco/setup#non-administrative-install
+ for details.
+
+
+ Do you want to continue?([Y]es/[N]o): Y
+
+Installing the following packages:
+mkcert
+By installing, you accept licenses for the packages.
+Progress: Downloading mkcert 1.4.3... 100%
+
+mkcert v1.4.3 [Approved]
+mkcert package files install completed. Performing other installation steps.
+ ShimGen has successfully created a shim for mkcert.exe
+ The install of mkcert was successful.
+  Software install location not explicitly set, it could be in package or
+  default install location of installer.
+
+Chocolatey installed 1/1 packages.
+ See the log for details (C:\ProgramData\chocolatey\logs\chocolatey.log).
+
+Rajani@Samsung MINGW64 ~/Documents/Cloud/Google/Tech2021/Python/Django/Django329/HTTPS
+$ mkcert --version
+v1.4.3
+
+Rajani@Samsung MINGW64 ~/Documents/Cloud/Google/Tech2021/Python/Django/Django329/HTTPS
+$

@@ -1,0 +1,87 @@
+# Git CMD 1
+
+# Python Version
+$ python --version
+
+
+# Pip Version
+$ pip --version
+
+
+# Django Version
+$ python -m django --version
+
+
+# Creating a project
+$ django-admin startproject mysite
+
+mysite/
+    manage.py
+    mysite/
+        __init__.py
+        settings.py
+        urls.py
+        wsgi.py
+
+
+# The development server
+$ python manage.py runserver
+
+
+# [Changing the port
+By default, the runserver command starts the development server on the internal IP at port 8000.
+If you want to change the server’s port, pass it as a command-line argument. For instance, this command starts the server on port 8080:
+python manage.py runserver 8080
+
+If you want to change the server's IP, pass it along with the port. So to listen on all public IPs (useful if you want to show off your work on other computers on your network), use:
+python manage.py runserver 0.0.0.0:8000
+]
+# Note
+Ignore the warning about unapplied database migrations for now; we’ll deal with the database shortly.
+
+# Git CMD 2
+
+# Projects vs. apps
+What's the difference between a project and an app? An app is a Web application that does something – e.g., a Weblog system, a database of public records or a simple poll app. A project is a collection of configuration and apps for a particular website. A project can contain multiple apps. An app can be in multiple projects.
+
+
+#[Note: cd mysite]
+# Create app in Project mysite
+$ python manage.py startapp polls
+
+polls/
+    __init__.py
+    admin.py
+    apps.py
+    migrations/
+        __init__.py
+    models.py
+    tests.py
+    views.py
+
+
+# Edit: polls/views.py
+# from django.shortcuts import render
+# Django-app-1
+from django.http import HttpResponse
+def index(request):
+    return HttpResponse("Hello, world. You're at the polls index.")
+
+
+# Add: polls/urls.py
+# Django-app-1
+from django.conf.urls import url
+from . import views
+urlpatterns = [
+    url(r'^$', views.index, name='index'),
+]
+
+
+# Edit: mysite/urls.py
+# Django-app-1
+from django.conf.urls import include, url
+from django.contrib import admin
+urlpatterns = [
+    url(r'^polls/', include('polls.urls')),
+    url(r'^admin/', admin.site.urls),
+]

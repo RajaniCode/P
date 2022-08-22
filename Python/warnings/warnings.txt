@@ -1,0 +1,18 @@
+warnings.warn to issue a warning and not ignore the line
+
+Python installs several warning filters, which can be overridden by the command-line options passed to -W and calls to filterwarnings().
+
+DeprecationWarning and PendingDeprecationWarning, and ImportWarning are ignored.
+BytesWarning is ignored unless the -b option is given once or twice; in this case this warning is either printed (-b) or turned into an exception (-bb).
+
+By default, DeprecationWarning is ignored. You can change the filters using the following:
+
+warnings.simplefilter('always', DeprecationWarning)
+
+Now your warnings should be printed:
+
+>>> import warnings
+>>> warnings.simplefilter('always', DeprecationWarning)
+>>> warnings.warn('test', DeprecationWarning)
+/home/guest/.env/bin/ipython:1: DeprecationWarning: test
+  #!/home/guest/.env/bin/python

@@ -1,0 +1,54 @@
+C:\Users\Aspire>e:
+
+E:\>cd E:\Working\Python\Django\Python2.7\Django-app
+
+E:\Working\Python\Django\Python2.7\Django-app>python --version
+Python 2.7.11
+
+E:\Working\Python\Django\Python2.7\Django-app>pip --version
+pip 8.1.2 from c:\python27\lib\site-packages (python 2.7)
+
+E:\Working\Python\Django\Python2.7\Django-app>python -m django --version
+1.10
+
+E:\Working\Python\Django\Python2.7\Django-app>django-admin startproject mysite
+
+E:\Working\Python\Django\Python2.7\Django-app>dir
+ Volume in drive E is New Volume
+ Volume Serial Number is 2278-62D8
+
+ Directory of E:\Working\Python\Django\Python2.7\Django-app
+
+08/05/2016  11:41 PM    <DIR>          .
+08/05/2016  11:41 PM    <DIR>          ..
+08/05/2016  11:41 PM    <DIR>          mysite
+               0 File(s)              0 bytes
+               3 Dir(s)  49,907,523,584 bytes free
+
+E:\Working\Python\Django\Python2.7\Django-app>dir mysite
+ Volume in drive E is New Volume
+ Volume Serial Number is 2278-62D8
+
+ Directory of E:\Working\Python\Django\Python2.7\Django-app\mysite
+
+08/05/2016  11:41 PM    <DIR>          .
+08/05/2016  11:41 PM    <DIR>          ..
+08/05/2016  11:41 PM               804 manage.py
+08/05/2016  11:41 PM    <DIR>          mysite
+               1 File(s)            804 bytes
+               3 Dir(s)  49,907,523,584 bytes free
+
+E:\Working\Python\Django\Python2.7\Django-app>cd mysite
+
+E:\Working\Python\Django\Python2.7\Django-app\mysite>python manage.py runserver
+Performing system checks...
+
+System check identified no issues (0 silenced).
+
+You have 13 unapplied migration(s). Your project may not work properly until you apply the migrations for app(s): admin, auth, contenttypes, sessions.
+Run 'python manage.py migrate' to apply them.
+August 05, 2016 - 23:42:15
+Django version 1.10, using settings 'mysite.settings'
+Starting development server at http://127.0.0.1:8000/
+Quit the server with CTRL-BREAK.
+[05/Aug/2016 23:43:28] "GET / HTTP/1.1" 200 1767

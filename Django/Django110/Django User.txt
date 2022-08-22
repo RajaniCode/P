@@ -1,0 +1,98 @@
+rajani
+*****@gmail.com
+foobarbaz
+# quxquuxcorge
+Rajani S
+
+$ python manage.py shell
+Python 3.5.2 (v3.5.2:4def2a2901a5, Jun 25 2016, 22:18:55) [MSC v.1900 64 bit (AMD64)] on win32
+Type "help", "copyright", "credits" or "license" for more information.
+(InteractiveConsole)
+>>> from django.contrib.auth.models import User
+>>> users = User.objects.all()
+>>> users
+<QuerySet [<User: admin>, <User: eric>]>
+>>> user = users[0]
+>>> user.set_password('python3.4.3')
+>>> user.save()
+>>> exit()
+
+
+
+# hellowebapp-code-master/hellowebapp/settings.py
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = '#####@gmail.com'
+
+# EMAIL_HOST = 'smtp.live.com'
+# EMAIL_HOST_USER = '#####outlook.com'
+
+EMAIL_HOST_PASSWORD = '********'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+
+# http://localhost:8000/ # http://127.0.0.1:8000/
+http://127.0.0.1:8000/accounts/password/reset/
+*****@gmail.com
+<Submit>
+http://localhost:8000/accounts/password/reset/done/
+Password Reset Complete
+
+Check your email for a link to reset your password!
+
+[https://mail.google.com/mail/u/0/#inbox/157bd23ec9a2ac63] # [*****@gmail.com] # [https://djangoproject.com]
+You're receiving this email because you requested a password reset for your user account at 127.0.0.1:8000.
+
+Please go to the following page and choose a new password:
+
+http://127.0.0.1:8000/accounts/password/reset/MQ/4g4-c99f7ec8183c10016f32/ # localhost:8000
+
+Your username, in case you've forgotten: rajani
+
+Thanks for using our site!
+
+The 127.0.0.1:8000 team # localhost:8000
+
+<http://127.0.0.1:8000/accounts/password/reset/MQ/4g4-c99f7ec8183c10016f32/>
+[http://127.0.0.1:8000/accounts/password/reset/MQ/4g4-c99f7ec8183c10016f32/]
+quxquuxcorge
+
+New password:
+quxquuxcorge
+New password confirmation: 
+quxquuxcorge
+
+# Gmail
+
+from django.core.mail import send_mail
+send_mail('Email using Django Console', 'Email using Django Console Hello World!', '#####@gmail.com', ['*****@gmail.com'], fail_silently=False)
+
+Aspire@Acer MINGW64 /
+$ cd "E:\Working\Python\Django\Python2.7\Hello-Web-App\GitHub\hellowebapp-code-master"
+
+Aspire@Acer MINGW64 /e/Working/Python/Django/Python2.7/Hello-Web-App/GitHub/hellowebapp-code-master
+$ winpty python manage.py shell
+Python 2.7.11 (v2.7.11:6d1b6a68f775, Dec  5 2015, 20:40:30) [MSC v.1500 64 bit (AMD64)] on win32
+Type "help", "copyright", "credits" or "license" for more information.
+(InteractiveConsole)
+>>> from django.core.mail import send_mail
+>>> send_mail('Email using Django Console', 'Email using Django Console Hello World!', '#####@gmail.com', ['*****@gmail.com'], fail_silently=False)
+1
+>>> exit()
+
+# Outlook
+
+from django.core.mail import send_mail
+send_mail('Email using Django Console', 'Email using Django Console Hello World!', '#####outlook.com', ['rajaniregister@outlook.com'], fail_silently=False)
+
+Aspire@Acer MINGW64 /
+$ cd "E:\Working\Python\Django\Python2.7\Hello-Web-App\GitHub\hellowebapp-code-master"
+
+Aspire@Acer MINGW64 /e/Working/Python/Django/Python2.7/Hello-Web-App/GitHub/hellowebapp-code-master
+$ winpty python manage.py shell
+Python 2.7.11 (v2.7.11:6d1b6a68f775, Dec  5 2015, 20:40:30) [MSC v.1500 64 bit (AMD64)] on win32
+Type "help", "copyright", "credits" or "license" for more information.
+(InteractiveConsole)
+>>> from django.core.mail import send_mail
+>>> send_mail('Email using Django Console', 'Email using Django Console Hello World!', '#####outlook.com', ['rajaniregister@outlook.com'], fail_silently=False)
+1
+>>> exit()

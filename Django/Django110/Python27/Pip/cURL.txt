@@ -1,0 +1,30 @@
+https://github.com/pypa/get-pip
+
+curl https://bootstrap.pypa.io/get-pip.py | python
+
+Git Bash
+
+MINGW64 ~
+$ cd "E:\Working\Python\Django\Python2.7\Pip"
+
+MINGW64 /e/Working/Python/Django/Pip
+$ curl https://bootstrap.pypa.io/get-pip.py | python
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100 1488k  100 1488k    0     0  40473      0  0:00:37  0:00:37 --:--:-- 45097
+Collecting pip
+  Downloading pip-8.1.2-py2.py3-none-any.whl (1.2MB)
+Collecting wheel
+  Downloading wheel-0.29.0-py2.py3-none-any.whl (66kB)
+Installing collected packages: pip, wheel
+  Found existing installation: pip 7.1.2
+    Uninstalling pip-7.1.2:
+      Successfully uninstalled pip-7.1.2
+Successfully installed pip-8.1.2 wheel-0.29.0
+
+MINGW64 /e/Working/Python/Django/Pip
+$ pip --version
+pip 8.1.2 from c:\python27\lib\site-packages (python 2.7)
+
+MINGW64 /e/Working/Python/Django/Pip
+$

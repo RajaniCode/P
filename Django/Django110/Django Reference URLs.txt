@@ -1,0 +1,7 @@
+https://realpython.com/blog/python/django-migrations-a-primer/
+
+http://www.djangobook.com/en/2.0/index.html
+
+http://www.tdd-django-tutorial.com
+
+https://docs.djangoproject.com/en/dev/internals/contributing/writing-code/javascript/#javascript-tests

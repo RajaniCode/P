@@ -1,0 +1,7 @@
+Python @property versus getters and setters
+
+Prefer properties. It's what they're there for.
+
+The reason is that all attributes are public in Python. Starting names with an underscore or two is just a warning that the given attribute is an implementation detail that may not stay the same in future versions of the code. It doesn't prevent you from actually getting or setting that attribute. Therefore, standard attribute access is the normal, Pythonic way of, well, accessing attributes.
+
+The advantage of properties is that they are syntactically identical to attribute access, so you can change from one to another without any changes to client code. You could even have one version of a class that uses properties (say, for code-by-contract or debugging) and one that doesn't for production, without changing the code that uses it. At the same time, you don't have to write getters and setters for everything just in case you might need to better control access later.

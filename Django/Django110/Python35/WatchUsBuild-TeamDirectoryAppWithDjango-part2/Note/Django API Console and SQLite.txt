@@ -1,0 +1,84 @@
+from django.contrib.auth.models import User
+users = User.objects.all()
+users
+
+user = users[0]
+user = users[1]
+user = users[2]
+user = users[3]
+user = users[4]
+
+
+# djangodudette
+user = users[0]
+user.id
+user.username
+user.is_superuser
+user.is_staff
+
+
+# djangodude
+user = users[4]
+user.id
+
+
+user.username
+user.is_superuser
+user.set_password('********')
+user.save()
+user.is_superuser = True
+user.is_superuser
+user.save()
+user.is_staff = True
+user.is_staff
+user.save()
+
+user = users[4]
+user.id
+user.username
+user.is_superuser = True
+user.is_superuser
+user.save()
+user.is_staff = True
+user.is_staff
+user.save()
+
+
+Git CMD
+
+C:\Users\Aspire>e:
+
+E:\>cd E:\Working\Python\Django\Python3.5\WatchUsBuild-TeamDirectoryAppWithDjango-part2\Directory
+
+E:\Working\Python\Django\Python3.5\WatchUsBuild-TeamDirectoryAppWithDjango-part2\Directory>python manage.py shell
+Python 3.5.2 (v3.5.2:4def2a2901a5, Jun 25 2016, 22:18:55) [MSC v.1900 64 bit (AMD64)] on win32
+Type "help", "copyright", "credits" or "license" for more information.
+(InteractiveConsole)
+>>> from django.contrib.auth.models import User
+>>> users = User.objects.all()
+>>> users
+<QuerySet [<User: djangodudette>, <User: dudetteb0816>, <User: dudetteb0816edcf8c4a2a84412a>, <User: dudetteb0816bf6a3dfed3384f16>]>
+
+http://127.0.0.1:8000/
+
+>>> users
+<QuerySet [<User: djangodudette>, <User: dudetteb0816>, <User: dudetteb0816edcf8c4a2a84412a>, <User: dudetteb0816bf6a3dfed3384f16>, <User: djangodude>]>
+>>> user = users[4]
+>>> user.username
+'djangodude'
+>>> user.is_superuser
+False
+>>> user.is_staff
+False
+>>> user.set_password('********')
+>>> user.save()
+>>> user.is_staff = True
+>>> user.is_superuser = True
+>>> user.save()
+>>> user.is_superuser
+True
+>>> user.is_staff
+True
+>>> exit()
+
+E:\Working\Python\Django\Python3.5\WatchUsBuild-TeamDirectoryAppWithDjango-part2\Directory>********

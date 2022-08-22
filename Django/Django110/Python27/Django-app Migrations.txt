@@ -1,0 +1,95 @@
+# Migration
+$ python manage.py check
+$ python manage.py migrate
+$ python manage.py showmigrations --list
+$ python manage.py makemigrations polls
+$ python manage.py sqlmigrate polls 0001
+$ python manage.py showmigrations --list
+$ python manage.py check
+
+
+# Git Bash
+
+
+$ python manage.py check
+System check identified no issues (0 silenced).
+
+
+$ python manage.py migrate
+Operations to perform:
+  Apply all migrations: admin, auth, contenttypes, polls, sessions
+Running migrations:
+  No migrations to apply.
+
+
+$ python manage.py showmigrations
+admin
+ [X] 0001_initial
+ [X] 0002_logentry_remove_auto_add
+auth
+ [X] 0001_initial
+ [X] 0002_alter_permission_name_max_length
+ [X] 0003_alter_user_email_max_length
+ [X] 0004_alter_user_username_opts
+ [X] 0005_alter_user_last_login_null
+ [X] 0006_require_contenttypes_0002
+ [X] 0007_alter_validators_add_error_messages
+ [X] 0008_alter_user_username_max_length
+contenttypes
+ [X] 0001_initial
+ [X] 0002_remove_content_type_name
+polls
+ [X] 0001_initial
+sessions
+ [X] 0001_initial
+
+
+$ python manage.py makemigrations polls
+No changes detected in app 'polls'
+
+
+$ python manage.py sqlmigrate polls 0001
+BEGIN;
+--
+-- Create model Choice
+--
+CREATE TABLE "polls_choice" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "choice_text" varchar(200) NOT NULL, "votes" integer NOT NULL);
+--
+-- Create model Question
+--
+CREATE TABLE "polls_question" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "question_text" varchar(200) NOT NULL, "pub_date" datetime NOT NULL);
+--
+-- Add field question to choice
+--
+ALTER TABLE "polls_choice" RENAME TO "polls_choice__old";
+CREATE TABLE "polls_choice" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "choice_text" varchar(200) NOT NULL, "votes" integer NOT NULL, "question_id" integer NOT NULL REFERENCES "polls_question" ("id"));
+INSERT INTO "polls_choice" ("choice_text", "votes", "id", "question_id") SELECT "choice_text", "votes", "id", NULL FROM "polls_choice__old";
+DROP TABLE "polls_choice__old";
+CREATE INDEX "polls_choice_7aa0f6ee" ON "polls_choice" ("question_id");
+COMMIT;
+
+
+$ python manage.py showmigrations --list
+admin
+ [X] 0001_initial
+ [X] 0002_logentry_remove_auto_add
+auth
+ [X] 0001_initial
+ [X] 0002_alter_permission_name_max_length
+ [X] 0003_alter_user_email_max_length
+ [X] 0004_alter_user_username_opts
+ [X] 0005_alter_user_last_login_null
+ [X] 0006_require_contenttypes_0002
+ [X] 0007_alter_validators_add_error_messages
+ [X] 0008_alter_user_username_max_length
+contenttypes
+ [X] 0001_initial
+ [X] 0002_remove_content_type_name
+polls
+ [X] 0001_initial
+sessions
+ [X] 0001_initial
+
+
+$ python manage.py check
+System check identified no issues (0 silenced).

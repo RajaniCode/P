@@ -1,0 +1,13 @@
+Question.objects.all()
+q.question_text = "What's up?"
+q.save()
+
+Question.objects.filter(question_text__startswith='What')
+SELECT * FROM polls_question WHERE question_text LIKE 'What%'
+Question.objects.extra(where={"question_text LIKE 'What%'"})
+
+text = "What''s up?"
+query = "question_text = \'{0}\'".format(text)
+query
+
+Question.objects.extra(where={query})

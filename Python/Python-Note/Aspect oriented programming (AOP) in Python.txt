@@ -1,0 +1,31 @@
+Aspect oriented programming (AOP) in Python
+
+Python does not need something like a "language extension" for being able to work in an Aspect Oriented way.
+
+That is simply due to the dynamic mechanisms in Python itself. A Google search will yield a couple projects - but despite looking merely like libraries, it is all that is needed in Python.
+
+I am not making this up - it is the fact that you can introspect classes and methods, and change them at run-time. When I first learned about Aspect Orientation, I could implement some proof of concepts in Python in a couple of hours - certainly some of the existing projects can offer production-quality entries.
+
+But since you asked, there is a Python "language extension" of sorts that could be used for Aspect Orientation: when I made the proof of concept I mentioned above, I used to check the input parameters to methods at run-time to determine whether certain methods would be affected by a rule or not.
+
+In Python 3 there is a little known feature of the language that allows one to annotate the input parameters and return value of a function or method. An aspect orientation library could make use of this to apply its magic at "load time", and not at the time of each function call.
+
+BTW, here is my quick hack to get a working example of using Aspect Orientation with Pure Python. Sorry - the code comments are in pt_BR - https://bitbucket.org/jsbueno/metapython/src/f48d6bd388fd/aspect.py
+
+
+Any AOP support library for Python?
+
+Another AOP library for python would be pytilities. It is currently the most powerful (, for as far as I know).
+
+pytilities homepage: http://pytilities.sourceforge.net/ [http://pypi.python.org/pypi/pytilities/]
+
+Its features are:
+
+make reusable Aspect classes
+apply multiple aspects to an instance or class
+unapply aspects to an instance/class
+add new attributes to an instance by using an aspect
+apply advice to all attributes of an instance/class
+...
+It also has other goodies such as some special descriptors (see the documentation)
+

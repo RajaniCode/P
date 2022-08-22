@@ -1,0 +1,23 @@
+$ python --version
+
+$ pip --version
+
+$ python -m django --version
+
+$ django-admin --version
+
+$ python -c "import django; print(django.get_version())"
+
+$ pip install virtualenv # if not installed
+
+$ virtualenv --no-site-packages env # creates a virtual python environment that doesn't include system packages
+
+$ source env/bin/activate # Windows # source ./env/Scripts/activate # forces the bash session to use that environment
+
+$ pip install django # requirements.txt # pip install django==<version> # pip install django==1.7 # installs a fresh copy of django to the new environment
+
+$ python manage.py check
+
+$ python manage.py migrate # Migrations.txt
+
+$ python manage.py runserver # admin site # http://localhost:8000/admin # http://127.0.0.1:8000/admin

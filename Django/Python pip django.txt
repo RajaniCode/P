@@ -1,0 +1,133 @@
+# Python 3.10.0 $ winpty python --version $ pip --version $ python -m pip install --upgrade pip $ pip show pip $ pip show setuptools $ pip list $ pip install django $ python -m django --version $ django-admin --version
+$ export PATH=$PATH:"/C/Python310/:/C/Python310/Scripts/"
+
+# Python 3.10.0 > winpty python --version > pip --version > python -m pip install --upgrade pip > pip show pip > pip show setuptools > pip list > pip install django > python -m django --version > django-admin --version
+> set path=%path%;C:\Python310\;C:\Python310\Scripts\
+
+
+python --version
+
+pip --version
+
+python -m pip install --upgrade pip
+[
+Requirement already satisfied: pip in c:\python310\lib\site-packages (21.2.3)
+Collecting pip
+  Using cached pip-21.3.1-py3-none-any.whl (1.7 MB)
+Installing collected packages: pip
+  Attempting uninstall: pip
+    Found existing installation: pip 21.2.3
+    Uninstalling pip-21.2.3:
+      Successfully uninstalled pip-21.2.3
+Successfully installed pip-21.3.1
+]
+
+pip list
+[
+Package    Version
+---------- -------
+pip        21.3.1
+setuptools 57.4.0
+]
+
+pip show pip
+
+pip show setuptools
+
+pip install django
+
+python -m django --version
+
+django-admin --version
+
+[
+django-admin startproject mysite
+
+cd mysite
+
+python manage.py runserver
+]
+
+
+# Git Bash
+
+Rajani@Samsung MINGW64 ~/Documents/Cloud/Google/Tech2021/Python/Django
+$ export PATH=$PATH:"/C/Python310/:/C/Python310/Scripts/"
+
+Rajani@Samsung MINGW64 ~/Documents/Cloud/Google/Tech2021/Python/Django
+$ python --version
+Python 3.10.0
+
+Rajani@Samsung MINGW64 ~/Documents/Cloud/Google/Tech2021/Python/Django
+$ pip --version
+pip 21.2.3 from C:\Python310\lib\site-packages\pip (python 3.10)
+
+Rajani@Samsung MINGW64 ~/Documents/Cloud/Google/Tech2021/Python/Django
+$ python -m pip install --upgrade pip
+Requirement already satisfied: pip in c:\python310\lib\site-packages (21.2.3)
+Collecting pip
+  Using cached pip-21.3.1-py3-none-any.whl (1.7 MB)
+Installing collected packages: pip
+  Attempting uninstall: pip
+    Found existing installation: pip 21.2.3
+    Uninstalling pip-21.2.3:
+      Successfully uninstalled pip-21.2.3
+Successfully installed pip-21.3.1
+
+Rajani@Samsung MINGW64 ~/Documents/Cloud/Google/Tech2021/Python/Django
+$ pip list
+Package    Version
+---------- -------
+pip        21.3.1
+setuptools 57.4.0
+
+Rajani@Samsung MINGW64 ~/Documents/Cloud/Google/Tech2021/Python/Django
+$ pip show setuptools
+Name: setuptools
+Version: 57.4.0
+Summary: Easily download, build, install, upgrade, and uninstall Python packages
+Home-page: https://github.com/pypa/setuptools
+Author: Python Packaging Authority
+Author-email: distutils-sig@python.org
+License: UNKNOWN
+Location: c:\python310\lib\site-packages
+Requires:
+Required-by:
+
+Rajani@Samsung MINGW64 ~/Documents/Cloud/Google/Tech2021/Python/Django
+$ pip show pip
+Name: pip
+Version: 21.3.1
+Summary: The PyPA recommended tool for installing Python packages.
+Home-page: https://pip.pypa.io/
+Author: The pip developers
+Author-email: distutils-sig@python.org
+License: MIT
+Location: c:\python310\lib\site-packages
+Requires:
+Required-by:
+
+Rajani@Samsung MINGW64 ~/Documents/Cloud/Google/Tech2021/Python/Django
+$ pip install django
+Collecting django
+  Downloading Django-3.2.9-py3-none-any.whl (7.9 MB)
+Collecting pytz
+  Downloading pytz-2021.3-py2.py3-none-any.whl (503 kB)
+Collecting sqlparse>=0.2.2
+  Downloading sqlparse-0.4.2-py3-none-any.whl (42 kB)
+Collecting asgiref<4,>=3.3.2
+  Downloading asgiref-3.4.1-py3-none-any.whl (25 kB)
+Installing collected packages: sqlparse, pytz, asgiref, django
+Successfully installed asgiref-3.4.1 django-3.2.9 pytz-2021.3 sqlparse-0.4.2
+
+Rajani@Samsung MINGW64 ~/Documents/Cloud/Google/Tech2021/Python/Django
+$ python -m django --version
+3.2.9
+
+Rajani@Samsung MINGW64 ~/Documents/Cloud/Google/Tech2021/Python/Django
+$ django-admin --version
+3.2.9
+
+Rajani@Samsung MINGW64 ~/Documents/Cloud/Google/Tech2021/Python/Django
+$ python -c "import django; print(django.__version__)"
+3.2.9

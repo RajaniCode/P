@@ -1,0 +1,51 @@
+Override a dict
+
+You can write an object that behaves like a dict quite easily with ABCs [http://docs.python.org/library/abc.html] (Abstract Base Classes) from the collections [http://docs.python.org/2/library/collections.html] module. It even tells you if you missed a method, so below is the minimal version that shuts the ABC up.
+
+import collections
+
+
+class TransformedDict(collections.MutableMapping):
+    """A dictionary that applies an arbitrary key-altering
+       function before accessing the keys"""
+
+    def __init__(self, *args, **kwargs):
+        self.store = dict()
+        self.update(dict(*args, **kwargs))  # use the free update to set keys
+
+    def __getitem__(self, key):
+        return self.store[self.__keytransform__(key)]
+
+    def __setitem__(self, key, value):
+        self.store[self.__keytransform__(key)] = value
+
+    def __delitem__(self, key):
+        del self.store[self.__keytransform__(key)]
+
+    def __iter__(self):
+        return iter(self.store)
+
+    def __len__(self):
+        return len(self.store)
+
+    def __keytransform__(self, key):
+        return key
+You get a few free methods from the ABC:
+
+class MyTransformedDict(TransformedDict):
+
+    def __keytransform__(self, key):
+        return key.lower()
+
+
+s = MyTransformedDict([('Test', 'test')])
+
+assert s.get('TEST') is s['test']   # free get
+assert 'TeSt' in s                  # free __contains__
+                                    # free setdefault, __eq__, and so on
+
+import pickle
+assert pickle.loads(pickle.dumps(s)) == s
+                                    # works too since we just use a normal dict
+
+I wouldn't subclass dict (or other builtins) directly. It often makes no sense, because what you actually want to do is implement the interface of a dict. And that is exactly what ABCs are for.

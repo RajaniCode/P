@@ -1,0 +1,97 @@
+http://ibiblio.org/
+
+(Rough reference for Python 2.7)
+
+A module's __name__
+
+Every module has a name and statements in a module can find out the name of its module. This is especially handy in one particular situation - As mentioned previously, when a module is imported for the first time, the main block in that module is run. What if we want to run the block only if the program was used by itself and not when it was imported from another module? This can be achieved using the __name__ attribute of the module.
+
+Using a module's __name__
+
+Example: Using a module's __name__
+
+				
+#!/usr/bin/python
+# Filename: using_name.py
+
+if __name__ == '__main__':
+	print 'This program is being run by itself'
+else:
+	print 'I am being imported from another module'
+				
+				
+Output
+				
+$ python using_name.py
+This program is being run by itself
+
+$ python
+>>> import using_name
+I am being imported from another module
+>>>
+				
+				
+How It Works
+
+Every Python module has it's __name__ defined and if this is '__main__', it implies that the module is being run standalone by the user and we can do corresponding appropriate actions.
+
+
+Making your own Modules
+Creating your own modules is easy, you've been doing it all along! Every Python program is also a module. You just have to make sure it has a .py extension. The following example should make it clear.
+
+Creating your own Modules
+
+Example: How to create your own module
+
+				
+#!/usr/bin/python
+# Filename: mymodule.py
+
+def sayhi():
+	print 'Hi, this is mymodule speaking.'
+
+version = '0.1'
+
+# End of mymodule.py
+				
+				
+The above was a sample module. As you can see, there is nothing particularly special about compared to our usual Python program. We will next see how to use this module in our other Python programs.
+
+Remember that the module should be placed in the same directory as the program that we import it in, or the module should be in one of the directories listed in sys.path .
+
+			
+#!/usr/bin/python
+# Filename: mymodule_demo.py
+
+import mymodule
+
+mymodule.sayhi()
+print 'Version', mymodule.version
+			
+			
+Output
+				
+$ python mymodule_demo.py
+Hi, this is mymodule speaking.
+Version 0.1
+				
+				
+How It Works
+Notice that we use the same dotted notation to access members of the module. Python makes good reuse of the same notation to give the distinctive 'Pythonic' feel to it so that we don't have to keep learning new ways to do things.
+
+from..import
+Here is a version utilising the from..import syntax.
+
+			
+#!/usr/bin/python
+# Filename: mymodule_demo2.py
+
+from mymodule import sayhi, version
+# Alternative:
+# from mymodule import *
+
+sayhi()
+print 'Version', version
+			
+			
+The output of mymodule_demo2.py is same as the output of mymodule_demo.py.

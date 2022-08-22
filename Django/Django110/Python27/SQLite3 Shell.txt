@@ -1,0 +1,7 @@
+cd "E:\Working\Python\Django\Python2.7\Django-app\mysite"
+
+> sqlite3 db.sqlite3
+
+sqlite> .tables
+
+sqlite> SELECT * FROM  django_migrations;

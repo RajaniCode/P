@@ -1,0 +1,5 @@
+django-admin --version
+
+python -m django --version
+
+python -c "import django; print(django.get_version())"

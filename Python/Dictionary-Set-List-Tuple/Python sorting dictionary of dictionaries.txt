@@ -1,0 +1,41 @@
+Sorting dictionary of dictionaries
+
+You can't sort a dict, but can get a sorted list of keys, values or (key,values) pairs.
+
+>>> dic = {'i': {'Fisher': -0.2222222222222222, '#': 1}, 'of': {'Fisher': 2.0, '#': 1}, 'will': {'Fisher': 3.5, '#': 1}, 'course': {'Fisher': 4.0, '#': 1}}
+
+>>> sorted(dic.items(), key=lambda x: x[1]['Fisher'], reverse=True)
+[('course', {'Fisher': 4.0, '#': 1}),
+ ('will', {'Fisher': 3.5, '#': 1}),
+ ('of', {'Fisher': 2.0, '#': 1}),
+ ('i', {'Fisher': -0.2222222222222222, '#': 1})
+]
+	
+You can't sort a dict, but can get a sorted list of keys, values or (key,values) pairs.
+
+>>> dic = {'i': {'Fisher': -0.2222222222222222, '#': 1}, 'of': {'Fisher': 2.0, '#': 1}, 'will': {'Fisher': 3.5, '#': 1}, 'course': {'Fisher': 4.0, '#': 1}}
+
+>>> sorted(dic.items(), key=lambda x: x[1]['Fisher'], reverse=True)
+[('course', {'Fisher': 4.0, '#': 1}),
+ ('will', {'Fisher': 3.5, '#': 1}),
+ ('of', {'Fisher': 2.0, '#': 1}),
+ ('i', {'Fisher': -0.2222222222222222, '#': 1})
+]
+
+Or create an collections.OrderedDict [https://docs.python.org/2/library/collections.html?highlight=ordereddict#ordereddict-examples-and-recipes] (introduced in Python 2.7) after getting the sorted (key,value) pairs:
+
+>>> from collections import OrderedDict
+>>> od = OrderedDict(sorted(dic.items(), key=lambda x: x[1]['Fisher'], reverse=True))
+>>> od
+OrderedDict([
+('course', {'Fisher': 4.0, '#': 1}),
+('will', {'Fisher': 3.5, '#': 1}),
+('of', {'Fisher': 2.0, '#': 1}),
+('i', {'Fisher': -0.2222222222222222, '#': 1})
+])
+
+For your dictionary, try this:
+
+>>> from collections import OrderedDict
+>>> dic = wd[wc][dist][True]
+>>> wd[wc][dist][True]= OrderedDict(sorted(dic.items(), key=lambda x: x[1]['Fisher'], reverse=True))

@@ -1,0 +1,12 @@
+-- SELECT * FROM auth_group                  
+-- SELECT * FROM auth_group_permissions      
+-- SELECT * FROM auth_permission             
+-- SELECT * FROM auth_user                   
+-- SELECT * FROM auth_user_groups            
+-- SELECT * FROM auth_user_user_permissions  
+-- SELECT * FROM django_admin_log
+-- SELECT * FROM django_content_type
+-- SELECT * FROM django_migrations
+-- SELECT * FROM django_session
+-- SELECT * FROM polls_choice
+-- SELECT * FROM polls_question

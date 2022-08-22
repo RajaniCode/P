@@ -1,0 +1,20 @@
+Why not to do object disposing in __del__
+
+Using __del__ is tricky, mainly because it's not guaranteed to be called. That means you can't do things there that absolutely has to be done. This in turn means that __del__ basically only can be used for cleanups that would happen sooner or later anyway, like cleaning up resources that would be cleaned up when the process exits, so it doesn't matter if __del__ doesn't get called. Of course, these are also generally the same things Python will do for you. So that kinda makes __del__ useless.
+
+Also, __del__ gets called when Python garbage collects, and you didn't want to wait for Pythons garbage collecting, which means you can't use __del__ anyway.
+
+So, don't use __del__. Use __enter__/__exit__ instead.
+
+FYI: Here is an example of a non-circular situation where the destructor did not get called:
+
+class A(object):
+    def __init__(self):
+        print('Constructing A')
+
+    def __del__(self):
+        print('Destructing A')
+
+class B(object):
+    a = A()
+OK, so it's a class attribute. Evidently that's a special case. But it just goes to show that making sure __del__ gets called isn't straightforward. I'm pretty sure I've seen more non-circular situations where __del__ isn't called.

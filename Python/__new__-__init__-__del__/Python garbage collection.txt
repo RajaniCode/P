@@ -1,0 +1,30 @@
+Python garbage collection
+
+It depends on the specifics of the object you are creating and what else you're doing with it in the loop. If the object does not create circular references, it should be deallocated on the next iteration. For example, the code
+
+for x in range(100000):
+  obj = " " * 10000000
+
+will not result in ever-increasing memory allocation.
+
+
+Garbage collection in Python with class methods
+
+class example:
+
+    def exampleMethod(self):
+        aVar = 'some string'
+        return aVar
+
+In this example, how does garbage collection work after each call to example.exampleMethod()? Will aVar be deallocated once the method returns?
+
+The variable is never deallocated.
+
+The object (in this case a string, with a value of 'some string' is reused again and again, so that object can never be deallocated.
+
+Objects are deallocated when no variable refers to the object. Think of this.
+
+a = 'hi mom'
+a = 'next value'
+
+In this case, the first object (a string with the value 'hi mom') is no longer referenced anywhere in the script when the second statement is executed. The object ('hi mom') can be removed from memory.

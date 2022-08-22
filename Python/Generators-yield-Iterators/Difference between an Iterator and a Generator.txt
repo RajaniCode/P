@@ -1,0 +1,26 @@
+What is the difference between an Iterator and a Generator?
+
+Generators are iterators, but not all iterators are generators.
+
+An iterator is typically something that has a next method to get the next element from a stream. A generator is an iterator that is tied to a function.
+
+For example a generator in python:
+
+def genCountingNumbers():
+  n = 0
+  while True:
+    yield n
+    n = n + 1
+
+This has the advantage that you don't need to store infinite numbers in memory to iterate over them.
+
+You'd use this as you would any iterator:
+
+for i in genCountingNumbers():
+  print i
+  if i > 20: break  # Avoid infinite loop
+
+You could also iterate over an array:
+
+for i in ['a', 'b', 'c']:
+  print i

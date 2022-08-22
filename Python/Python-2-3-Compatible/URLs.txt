@@ -1,0 +1,5 @@
+https://wiki.python.org/moin/PortingToPy3k/BilingualQuickRef
+
+http://python-future.org/compatible_idioms.html
+
+http://python-future.org/compatible_idioms.pdf

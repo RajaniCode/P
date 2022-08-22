@@ -1,0 +1,34 @@
+locals() and globals() in stack trace on exception (Python)
+
+You can install your own exception hook and output what you need from there:
+
+import sys, traceback
+
+def excepthook(type, value, tb):
+    traceback.print_exception(type, value, tb)
+
+    while tb.tb_next:
+        tb = tb.tb_next
+
+    print >>sys.stderr, 'Locals:',  tb.tb_frame.f_locals
+    print >>sys.stderr, 'Globals:', tb.tb_frame.f_globals
+
+sys.excepthook = excepthook
+
+def x():
+    y()
+
+def y():
+    foo = 1
+    bar = 0
+
+    foo/bar
+
+x()
+
+To print vars from each frame in a traceback, change the above loop to
+
+    while tb:
+        print >>sys.stderr, 'Locals:',  tb.tb_frame.f_locals
+        print >>sys.stderr, 'Globals:', tb.tb_frame.f_globals
+        tb = tb.tb_next

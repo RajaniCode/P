@@ -1,0 +1,64 @@
+Differences between "__get*__" and "_del*__" methods
+
+The documentation for every method that you listed is easly reachable from the documentation index[http://docs.python.org/py3k/genindex-_.html].
+
+Anyway this may be a little extended reference:
+
+__get__, __set__ and __del__ are descriptors
+
+"In a nutshell, a descriptor is a way to customize what happens when you reference an attribute on a model." [official doc link] [http://docs.python.org/py3k/reference/datamodel.html#implementing-descriptors]
+
+They are well explained around, so here there are some references:
+
+• Python Descriptors by Marty Alchin Part 1 [http://martyalchin.com/2007/nov/23/python-descriptors-part-1-of-2/] and Part 2 [http://martyalchin.com/2007/nov/24/python-descriptors-part-2-of-2/]
+• SO question Understanding __get__ and __set__ and Python descriptors [http://stackoverflow.com/q/3798835/1132524]
+• google [http://www.google.com/search?q=python%20descriptor]
+
+__getattr__, __getattribute__, __setattr__, __delattr__
+
+Are methods that can be defined to customize the meaning of attribute access (use of, assignment to, or deletion of x.name) for class instances. [official doc link] [http://docs.python.org/py3k/reference/datamodel.html#customizing-attribute-access]
+
+Example 1:
+
+class Foo:
+    def __init__(self):
+        self.x = 10
+    def __getattr__(self, name):
+        return name
+
+f = Foo()
+f.x    # -> 10
+f.bar   # -> 'bar'
+Example 2:
+
+class Foo:
+    def __init__(self):
+        self.x = 10
+    def __getattr__(self,name):
+        return name
+    def __getattribute__(self, name):
+        if name == 'bar':
+            raise AttributeError
+        return 'getattribute'
+
+f = Foo()
+f.x    # -> 'getattribute'
+f.baz    # -> 'getattribute'
+f.bar    # -> 'bar'
+__getitem__, __setitem__, __delitem__
+
+Are methods that can be defined to implement container objects. [official doc link] [http://docs.python.org/py3k/reference/datamodel.html#customizing-attribute-access]
+
+Example:
+
+class MyColors:
+    def __init__(self):
+        self._colors = {'yellow': 1, 'red': 2, 'blue': 3}
+    def __getitem__(self, name):
+        return self._colors.get(name, 100)
+
+colors = MyColors()
+colors['yellow']   # -> 1
+colors['brown']    # -> 100
+
+I hope this is enough to give you a general idea.

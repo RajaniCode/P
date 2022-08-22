@@ -1,0 +1,15 @@
+Install Python 2.7.3
+
+
+Install Pymongo 2.7.2
+
+
+mongoimport -d blog -c posts < posts.json
+
+
+python indexes.py
+
+
+Validate using python validateFix.py and python validateCodeFix.py
+
+

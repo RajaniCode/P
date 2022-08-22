@@ -1,0 +1,43 @@
+
+Rajani@RajaniDell MINGW64 ~
+$ cd "E:\Working\MongoDB\MongoDB University\2015\M101P MongoDB for Developers\validate\Pymongo create_index"
+
+Rajani@RajaniDell MINGW64 /e/Working/MongoDB/MongoDB University/2015/M101P MongoDB for Developers/validate/Pymongo create_index
+$ python indexes.py
+db.posts.dropIndex( { date: -1 } )
+db.posts.dropIndex( { permalink: 1 } )
+db.posts.dropIndex( { tags: 1, date: -1 } )
+Dropped Indexes
+db.posts.createIndex( { date: -1 } )
+db.posts.createIndex( { permalink: 1 } )
+db.posts.createIndex( { tags: 1, date: -1 } )
+Created Indexes
+
+Rajani@RajaniDell MINGW64 /e/Working/MongoDB/MongoDB University/2015/M101P MongoDB for Developers/validate/Pymongo create_index
+$ python validateFix.py
+Welcome to the HW 4.3 Checker. My job is to make sure you added the indexes
+that make the blog fast in the following three situations
+        When showing the home page
+        When fetching a particular post
+        When showing all posts for a particular tag
+Data looks like it is properly loaded into the posts collection
+Home page is super fast. Nice job.
+Blog retrieval by permalink is super fast. Nice job.
+Blog retrieval by tag is super fast. Nice job.
+Tests Passed for HW 4.3. Your HW 4.3 validation code is 893jfns29f728fn29f20f2
+
+Rajani@RajaniDell MINGW64 /e/Working/MongoDB/MongoDB University/2015/M101P MongoDB for Developers/validate/Pymongo create_index
+$ python validateCodeFix.py
+Welcome to the HW 4.3 Checker. My job is to make sure you added the indexes
+that make the blog fast in the following three situations
+        When showing the home page
+        When fetching a particular post
+        When showing all posts for a particular tag
+Data looks like it is properly loaded into the posts collection
+Home page is super fast. Nice job.
+Blog retrieval by permalink is super fast. Nice job.
+Blog retrieval by tag is super fast. Nice job.
+Tests Passed for HW 4.3. Your HW 4.3 validation code is 893jfns29f728fn29f20f2
+
+Rajani@RajaniDell MINGW64 /e/Working/MongoDB/MongoDB University/2015/M101P MongoDB for Developers/validate/Pymongo create_index
+$

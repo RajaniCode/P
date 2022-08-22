@@ -1,0 +1,64 @@
+What's the difference between django OneToOneField and ForeignKey?
+
+Be careful to realize that there are some differences between OneToOneField(SomeModel) and ForeignKey(SomeModel, unique=True). As stated in The Definitive Guide to Django [http://www.djangobook.com/en/2.0/appendixA.html]:
+
+OneToOneField
+
+A one-to-one relationship. Conceptually, this is similar to a ForeignKey with unique=True, but the "reverse" side of the relation will directly return a single object.
+
+In contrast to the OneToOneField "reverse" relation, a ForeignKey "reverse" relation returns a QuerySet.
+
+Example
+
+For example, if we have the following two models (full model code below):
+
+1. Car model uses OneToOneField(Engine)
+2. Car2 model uses ForeignKey(Engine2, unique=True)
+
+From within python manage.py shell execute the following:
+
+OneToOneField Example
+
+>>> from testapp.models import Car, Engine
+>>> c = Car.objects.get(name='Audi')
+>>> e = Engine.objects.get(name='Diesel')
+>>> e.car
+<Car: Audi>
+
+ForeignKey with unique=True Example
+
+>>> from testapp.models import Car2, Engine2
+>>> c2 = Car2.objects.get(name='Mazda')
+>>> e2 = Engine2.objects.get(name='Wankel')
+>>> e2.car2_set.all()
+[<Car2: Mazda>]
+
+Model Code
+
+from django.db import models
+
+class Engine(models.Model):
+    name = models.CharField(max_length=25)
+
+    def __unicode__(self):
+        return self.name
+
+class Car(models.Model):
+    name = models.CharField(max_length=25)
+    engine = models.OneToOneField(Engine)
+
+    def __unicode__(self):
+        return self.name
+
+class Engine2(models.Model):
+    name = models.CharField(max_length=25)
+
+    def __unicode__(self):
+        return self.name
+
+class Car2(models.Model):
+    name = models.CharField(max_length=25)
+    engine = models.ForeignKey(Engine2, unique=True)
+
+    def __unicode__(self):
+        return self.name

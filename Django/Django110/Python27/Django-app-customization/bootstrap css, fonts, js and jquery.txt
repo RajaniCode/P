@@ -1,0 +1,92 @@
+https://docs.djangoproject.com/en/1.10/howto/static-files/
+
+https://github.com/twbs/bootstrap/releases/download/v3.3.7/bootstrap-3.3.7-dist.zip
+
+https://code.jquery.com/jquery-3.1.1.min.js
+
+<head>
+  <title></title>		
+  <link rel="stylesheet" href="{% static 'polls/bootstrap/css/bootstrap.min.css' %}">
+  <script src="{% static 'polls/jquery/jquery-3.1.1.min.js' %}"></script>
+  <script src="{% static 'polls/bootstrap/js/bootstrap.min.js' %}"></script>
+</head>
+
+https://docs.djangoproject.com/en/1.10/ref/contrib/messages/
+
+Level Constant	Tag	Value	Purpose
+DEBUG		debug	10	Development-related messages that will be ignored (or removed) in a production deployment
+INFO		info	20	Informational messages for the user
+SUCCESS		success	25	An action was successful, e.g. "Your profile was updated successfully"
+WARNING		warning	30	A failure did not occur but may be imminent
+ERROR		error	40	An action was not successful or some other failure occurred
+
+{% if messages %}
+  {% for message in messages %}  
+    {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR or message.level == DEFAULT_MESSAGE_LEVELS.DEBUG  %}
+	  <div class="alert alert-danger alert-dismissable" role="alert">{{ message.tags|title }}:
+	{% else %}
+	  <div class="alert alert-{{message.tags}} alert-dismissable" role="alert">
+	{% endif %}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        {{ message }}
+	  </div>	
+  {% endfor %}
+{% endif %}
+
+# mysite/polls/templates/polls/detail.html
+
+def vote(request, question_id):
+    question = get_object_or_404(Question, pk=question_id)
+    try:
+        selected_choice = question.choice_set.get(pk=request.POST['choice'])
+    except (KeyError, Choice.DoesNotExist):
+        # return render(request, 'polls/detail.html', { 'question': question, 'error_message': "You didn't select a choice.", })
+        # messages.set_level(request, messages.DEBUG)
+        # messages.debug(request, "<script>alert(\"You didn't select a choice.\")</script>", extra_tags='safe')
+
+        # messages.set_level(request, messages.DEBUG)
+        # messages.debug(request, "You didn't select a choice.")
+        
+        messages.info(request, "You didn't select a choice.")
+        # messages.success(request, "You didn't select a choice.")
+        # messages.warning(request, "You didn't select a choice.")
+        # messages.error(request, "You didn't select a choice.")
+        return render(request, 'polls/detail.html', { 'question': question })
+
+
+http://codeinthehole.com/writing/embedding-html-in-django-messages/
+
+# mysite/polls/views.py
+def vote(request, question_id):
+    question = get_object_or_404(Question, pk=question_id)
+    try:
+        selected_choice = question.choice_set.get(pk=request.POST['choice'])
+    except (KeyError, Choice.DoesNotExist):
+        messages.warning(request, "<script>alert(\"You didn't select a choice.\")</script>", extra_tags='safe')
+        return render(request, 'polls/detail.html', { 'question': question })
+
+# mysite/polls/templates/polls/detail.html
+
+{% for message in messages %} 
+  {% if 'safe' in message.tags %}
+    {{ message|safe }}
+  {% else %}
+    {{ message }}
+  {% endif %} 
+{% endfor %}
+
+Single-line
+
+{# {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %} #}
+
+Multi-line
+
+{% comment %}
+{% for message in messages %} 
+  {% if 'safe' in message.tags %}
+    {{ message|safe }}
+  {% else %}
+    {{ message }}
+  {% endif %} 
+{% endfor %}
+{% endcomment %}

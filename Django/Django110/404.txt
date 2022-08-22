@@ -1,0 +1,32 @@
+# mysite/mysite/settings.py
+
+# DEBUG = True
+DEBUG = False
+
+ALLOWED_HOSTS = ["*"]
+
+# Static files (CSS, JavaScript, Images)
+# https://docs.djangoproject.com/en/1.10/howto/static-files/
+
+STATIC_URL = '/static/'
+
+STATIC_ROOT = 'E:\Working\Python\Django\Python2.7\Django-app-customization\Django-app\mysite\polls'
+
+# mysite/polls/urls.py
+from django.conf import settings
+from django.conf.urls.static import static
+
+urlpatterns = [
+
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+
+# mysite/polls/templates/404.html
+{% load static %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'polls/style.css' %}" />
+
+{% block content %}
+
+<h1>404 - Page Not Found</h1>
+
+{% endblock %}

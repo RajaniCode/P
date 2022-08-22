@@ -1,0 +1,36 @@
+# Create key and secret from google developer's console here:
+# [*****@gmail.com] # [https://www.djangoproject.com]
+https://console.developers.google.com 
+
+# Project name 
+TeamDirectoryAppWithDjango2
+Project ID
+teamdirectoryappwithdjango2
+Project number
+1608243935
+
+# OAuthconsent screen
+Email address
+*****@gmail.com
+Product name shown to users
+TeamDirectoryAppWithDjangoPart2
+
+# Create client ID
+Application type
+Web application
+Name
+Team Directory
+
+Restrictions
+Enter JavaScript origins, redirect URIs, or both
+Authorized JavaScript origins
+http://127.0.0.1:8000
+
+Authorized redirect URIs
+http://127.0.0.1:8000/complete/google-oauth2/
+
+OAuth client
+Client ID
+1608243935-e8retbhinklrdklq5ma5brdu5mie74jb.apps.googleusercontent.com
+Client secret
+7e9T1sDSPmKgm2mEqvLa-R4P

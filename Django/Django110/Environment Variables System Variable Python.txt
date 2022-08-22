@@ -1,0 +1,11 @@
+control.exe sysdm.cpl,System,3
+
+System Variable
+
+Variable name:
+Path
+;C:\Python27;C:\Python27\Scripts
+
+# OR
+
+;C:\Python35;C:\Python35\Scripts

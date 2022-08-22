@@ -1,0 +1,106 @@
+http://masteringdjango.com/
+
+https://github.com/erichideki/mastering-django
+
+http://127.0.0.1:8000/admin
+
+admin
+python3.4.3
+
+http://127.0.0.1:8000/hello
+
+http://127.0.0.1:8000/time/plus/1/
+
+http://127.0.0.1:8000/search-form
+
+http://127.0.0.1:8000/search
+
+http://127.0.0.1:8000/contact
+
+
+# Git Bash # python manage.py shell # Django User
+
+Aspire@Acer MINGW64 /
+$ python --version
+Python 2.7.11
+
+Aspire@Acer MINGW64 /
+$ django-admin --version
+1.10
+
+Aspire@Acer MINGW64 /
+$ cd "E:\Working\Python\Django\Django-Ebooks\mastering-django\mastering-django-master"
+
+Aspire@Acer MINGW64 /e/Working/Python/Django/Django-Ebooks/mastering-django/mastering-django-master
+$ winpty python manage.py shell
+Python 3.5.2 (v3.5.2:4def2a2901a5, Jun 25 2016, 22:18:55) [MSC v.1900 64 bit (AMD64)] on win32
+Type "help", "copyright", "credits" or "license" for more information.
+(InteractiveConsole)
+>>> from django.contrib.auth.models import User
+>>> users = User.objects.all()
+>>> users
+<QuerySet [<User: admin>, <User: eric>]>
+>>> user = users[0]
+>>> user.set_password('python3.4.3')
+>>> user.save()
+>>> exit()
+
+
+# Git Bash # python manage.py runserver
+
+Aspire@Acer MINGW64 /
+$ python --version
+Python 2.7.11
+
+Aspire@Acer MINGW64 /
+$ django-admin --version
+1.10
+
+Aspire@Acer MINGW64 /
+$ cd "E:\Working\Python\Django\Django-Ebooks\mastering-django\mastering-django-master"
+
+Aspire@Acer MINGW64 /e/Working/Python/Django/Django-Ebooks/mastering-django/mastering-django-master
+$ python manage.py runserver
+
+Aspire@Acer MINGW64 /e/Working/Python/Django/Django-Ebooks/mastering-django/mastering-django-master
+$ winpty python manage.py runserver
+Performing system checks...
+
+System check identified no issues (0 silenced).
+
+You have 3 unapplied migration(s). Your project may not work properly until you apply the migrations for app(s): admin, auth.
+Run 'python manage.py migrate' to apply them.
+January 19, 2017 - 20:04:09
+Django version 1.10, using settings 'mysite.settings'
+Starting development server at http://127.0.0.1:8000/
+Quit the server with CTRL-BREAK.
+[19/Jan/2017 20:04:15] "GET /admin/ HTTP/1.1" 302 0
+[19/Jan/2017 20:04:21] "GET /admin/login/?next=/admin/ HTTP/1.1" 200 1657
+[19/Jan/2017 20:04:31] "POST /admin/login/?next=/admin/ HTTP/1.1" 302 0
+[19/Jan/2017 20:04:31] "GET /admin/ HTTP/1.1" 200 7123
+[19/Jan/2017 20:04:32] "GET /static/admin/css/dashboard.css HTTP/1.1" 200 434
+[19/Jan/2017 20:04:32] "GET /static/admin/fonts/Roboto-Bold-webfont.woff HTTP/1.1" 200 82564
+[19/Jan/2017 20:04:32] "GET /static/admin/img/icon-addlink.svg HTTP/1.1" 200 331
+[19/Jan/2017 20:04:32] "GET /static/admin/img/icon-changelink.svg HTTP/1.1" 200 380
+[19/Jan/2017 20:04:35] "GET /admin/logout/ HTTP/1.1" 200 1014
+[19/Jan/2017 20:04:42] "GET /hello/ HTTP/1.1" 200 12
+Not Found: /time/plus
+[19/Jan/2017 20:04:47] "GET /time/plus HTTP/1.1" 404 2600
+[19/Jan/2017 20:04:52] "GET /time/plus/2 HTTP/1.1" 301 0
+[19/Jan/2017 20:04:52] "GET /time/plus/2/ HTTP/1.1" 200 299
+[19/Jan/2017 20:04:59] "GET /time/plus/1/ HTTP/1.1" 200 298
+[19/Jan/2017 20:05:06] "GET /search-form/ HTTP/1.1" 200 267
+[19/Jan/2017 20:05:16] "GET /search/?q=Django HTTP/1.1" 200 320
+[19/Jan/2017 20:05:19] "GET /search HTTP/1.1" 301 0
+[19/Jan/2017 20:05:19] "GET /search/ HTTP/1.1" 200 267
+[19/Jan/2017 20:05:23] "GET /search/?q=Django HTTP/1.1" 200 320
+[19/Jan/2017 20:05:32] "GET /contact HTTP/1.1" 301 0
+[19/Jan/2017 20:05:32] "GET /contact/ HTTP/1.1" 200 1448
+[19/Jan/2017 20:05:42] "GET /contact/ HTTP/1.1" 200 1448
+[19/Jan/2017 20:06:15] "POST /contact/ HTTP/1.1" 200 1747
+[19/Jan/2017 20:06:44] "POST /contact/ HTTP/1.1" 302 0
+Not Found: /contact/thanks/
+[19/Jan/2017 20:06:44] "GET /contact/thanks/ HTTP/1.1" 404 2618
+
+Aspire@Acer MINGW64 /e/Working/Python/Django/Django-Ebooks/mastering-django/mastering-django-master
+$

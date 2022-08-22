@@ -1,0 +1,125 @@
+Inner exception: (with traceback) in Python
+
+My background is in C# and I've just recently started programming in Python. When an exception is thrown I typically want to wrap it in another exception that adds more information, while still showing the full stack trace. It's quite easy in C#, but how do I do it in Python?
+
+Eg. in C# I would do something like this:
+
+try
+{
+  ProcessFile(filePath);
+}
+catch (Exception ex)
+{
+  throw new ApplicationException("Failed to process file " + filePath, ex);
+}
+
+In Python, do something similar:
+
+try:
+  ProcessFile(filePath)
+except Exception as e:
+  raise Exception('Failed to process file ' + filePath, e)
+
+...but this loses the traceback of the inner exception!
+
+Edit: I'd like to see both exception messages and both stack traces and correlate the two. That is, I want to see in the output that exception X occurred here and then exception Y there - same as I would in C#. Is this possible in Python 2.6? Looks like the best I can do so far (based on Glenn Maynard's answer) is:
+
+try:
+  ProcessFile(filePath)
+except Exception as e:
+  raise Exception('Failed to process file' + filePath, e), None, sys.exc_info()[2]
+
+This includes both the messages and both the tracebacks, but it doesn't show which exception occurred where in the traceback.
+
+It's simple; pass the traceback as the third argument to raise.
+
+import sys
+class MyException(Exception): pass
+
+try:
+    raise TypeError("test")
+except TypeError, e:
+    raise MyException(str(e)), None, sys.exc_info()[2]
+
+Always do this when catching one exception and re-raising another.
+
+
+Python exception chaining
+
+Is there a standard way of using exception chains in Python? Like the Java exception 'caused by'?
+
+Here is some background.
+
+I have a module with one main exception class DSError:
+
+class DSError(Exception):
+    pass
+
+Somewhere within this module there will be:
+
+try:
+    v = my_dict[k]
+    something(v)
+except KeyError as e:
+    raise DSError("no key %s found for %s" % (k, self))
+except ValueError as e:
+    raise DSError("Bad Value %s found for %s" % (v, self))
+except DSError as e:
+    raise DSError("%s raised in %s" % (e, self))
+
+Basically this snippet should throw only DSError and tell me what happened and why. The thing is that the try block might throw lots of other exceptions, so I'd prefer if I can do something like:
+
+try:
+    v = my_dict[k]
+    something(v)
+except Exception as e:
+    raise DSError(self, v, e)  # Exception chained...
+
+Is this standard pythonic way? I did not see exception chains in other modules so how is that done in Python?
+
+Exception chaining [http://www.python.org/dev/peps/pep-3134/] is only available in Python 3, where you can write:
+
+try:
+    v = {}['a']
+except KeyError as e:
+    raise ValueError('failed') from e
+
+which yields an output like
+
+Traceback (most recent call last):
+  File "t.py", line 2, in <module>
+    v = {}['a']
+KeyError: 'a'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "t.py", line 4, in <module>
+    raise ValueError('failed') from e
+ValueError: failed
+
+In most cases, you don't even need the from; Python 3 will by default show all exceptions that occured during exception handling, like this:
+
+Traceback (most recent call last):
+  File "t.py", line 2, in <module>
+    v = {}['a']
+KeyError: 'a'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "t.py", line 4, in <module>
+    raise ValueError('failed')
+ValueError: failed
+
+What you can do in Python 2 is adding custom attributes to your exception class, like:
+
+class MyError(Exception):
+    def __init__(self, message, cause):
+        super(MyError, self).__init__(message + u', caused by ' + repr(cause))
+        self.cause = cause
+
+try:
+    v = {}['a']
+except KeyError as e:
+    raise MyError('failed', e)

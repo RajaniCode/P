@@ -1,0 +1,7 @@
+Why is %s better than + for concatenation?
+
+1. Readability. The format string syntax is more readable, as it separates style from the data. Also, in Python, %s syntax will automatically coerce any non str types to str; while concatenation only works with str, and you can't concatenate str with int.
+
+2. Performance. In Python str is immutable, so the left and right string have to be copied into the new string for every pair of concatenation. If you concatenate four strings of length 10, you will be copying (10+10) + ((10+10)+10) + (((10+10)+10)+10) = 90 characters, instead of just 40 characters. And things gets quadratically worse as the number and size of the string increases. Java optimizes this case some of the times by transforming the series of concatenation to use StringBuilder, but CPython doesn't.
+
+3. For some use cases, the logging library provide an API that uses format string to create the log entry string lazily (logging.info("blah: %s", 4)). This is great for improved performance if the logging library decided that the current log entry will be discarded by a log filter, so it doesn't need to format the string.
