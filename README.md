@@ -16,6 +16,8 @@ Credits/djangoproject.com.svg?raw=true)](https://djangoproject.com)
 [![image](
 Credits/jquery.com.svg?raw=true)](https://jquery.com)  
 [![image](
+Credits/javascript.com.svg?raw=true)](https://javascript.com)  
+[![image](
 Credits/developer.mozilla.org.svg?raw=true)](https://developer.mozilla.org)    
 [![image](
 Credits/getbootstrap.com.svg?raw=true)](https://getbootstrap.com)  
