@@ -22,7 +22,7 @@ Credits/getbootstrap.com.svg?raw=true)](https://getbootstrap.com)
 [![image](
 Credits/jetbrains.com.svg?raw=true)](https://jetbrains.com)  
 [![image](
-Credits/rules.sonarsource.com/python.svg?raw=true)](https://rules.sonarsource.com/python)  
+Credits/Python-static-code-analysis-rules.sonarsource.com.svg?raw=true)](https://rules.sonarsource.com/python)  
 
 
 [python.org](https://python.org/)  
