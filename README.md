@@ -12,10 +12,13 @@ Credits/python.org.svg?raw=true)](https://python.org)
 [![image](
 Credits/pypi.org.svg?raw=true)](https://pypi.org)  
 [![image](
-Credits/bottlepy.org.svg?raw=true)](https://bottlepy.org)  
+Credits/djangoproject.com.svg?raw=true)](https://djangoproject.com)  
 [![image](
-Credits/mongodb.com.svg?raw=true)](https://mongodb.com)  
-
+Credits/jquery.com.svg?raw=true)](https://jquery.com)  
+[![image](
+Credits/developer.mozilla.org.svg?raw=true)](https://developer.mozilla.org)    
+[![image](
+Credits/getbootstrap.com.svg?raw=true)](https://getbootstrap.com)  
 
 [python.org](https://python.org/)  
 [pypi.org](https://pypi.org/)  
