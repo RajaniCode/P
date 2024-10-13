@@ -19,6 +19,11 @@ Credits/jquery.com.svg?raw=true)](https://jquery.com)
 Credits/developer.mozilla.org.svg?raw=true)](https://developer.mozilla.org)    
 [![image](
 Credits/getbootstrap.com.svg?raw=true)](https://getbootstrap.com)  
+[![image](
+Credits/jetbrains.com.svg?raw=true)](https://jetbrains.com)  
+[![image](
+Credits/rules.sonarsource.com/python.svg?raw=true)](https://rules.sonarsource.com/python)  
+
 
 [python.org](https://python.org/)  
 [pypi.org](https://pypi.org/)  
