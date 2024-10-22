@@ -14,6 +14,8 @@ Credits/pypi.org.svg?raw=true)](https://pypi.org/)
 [![image](
 Credits/djangoproject.com.svg?raw=true)](https://djangoproject.com/)  
 [![image](
+Credits/activestate.com.svg?raw=true)](https://activestate.com/)  
+[![image](
 Credits/jquery.com.svg?raw=true)](https://jquery.com/)  
 [![image](
 Credits/developer.mozilla.org.svg?raw=true)](https://developer.mozilla.org/)    
