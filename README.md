@@ -20,11 +20,8 @@ Credits/jquery.com.svg)](https://jquery.com/)
 [![image](
 Credits/developer.mozilla.org.svg)](https://developer.mozilla.org/)    
 [![image](
-Credits/getbootstrap.com.svg)](https://getbootstrap.com/)  
-
-[![image](
-Credits/jetbrains.com.svg)](https://jetbrains.com/)  
-
+Credits/getbootstrap.com.svg)](https://getbootstrap.com/)<!--[![image](
+Credits/jetbrains.com.svg)](https://jetbrains.com/)-->   
 [![image](
 Credits/PyCharm-jetbrains.com.svg)](https://jetbrains.com/pycharm/)  
 [![image](
