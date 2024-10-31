@@ -18,6 +18,8 @@ Credits/flask.palletsprojects.com.svg)](https://flask.palletsprojects.com/)
 [![image](
 Credits/docs.pytest.org.svg)](https://docs.pytest.org/)  
 [![image](
+Credits/centos.org.svg)](https://centos.org/)  
+[![image](
 Credits/activestate.com.svg)](https://activestate.com/)  
 [![image](
 Credits/jquery.com.svg)](https://jquery.com/)  
