@@ -14,9 +14,8 @@ Credits/pypi.org.svg)](https://pypi.org/)
 [![image](
 Credits/djangoproject.com.svg)](https://djangoproject.com/)  
 [![image](
-Credits/flask.palletsprojects.com.svg)](https://flask.palletsprojects.com/)  
-[![image](
-Credits/palletsprojects.com.svg)](https://palletsprojects.com/)  
+Credits/flask.palletsprojects.com.svg)](https://flask.palletsprojects.com/)<!--[![image](
+Credits/palletsprojects.com.svg)](https://palletsprojects.com/)-->  
 [![image](
 Credits/docs.pytest.org.svg)](https://docs.pytest.org/)  
 [![image](
