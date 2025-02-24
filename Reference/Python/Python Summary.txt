@@ -1,0 +1,434 @@
+Summary
+
+
+#Import
+from random import randint
+
+
+#Input
+input = str(raw_input("Your hobby: ")
+
+input = raw_input("Sorry, I didn't catch that. Enter again: ")
+
+
+#Recursion
+def factorial(x):
+    return 1 if (x < 1) else  x * factorial(x-1)
+
+
+#List 1
+evens_to_50 = [i for i in range(51) if i % 2 == 0]
+print evens_to_50
+
+#output
+#[0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 32, 34, 36, 38, 40, 42, 44, 46, 48, 50]
+
+
+#List 2
+n = [1, 3, 5]
+# Remove the first item in the list here
+# n.pop(1) # n.remove(1) # del(n[1])
+
+
+#List 3
+
+variable = "Alpha"
+result = []
+result.append(variable)
+
+
+#List Slice
+#[start:end:stride]
+lst[2:9:2]
+
+
+#Reverse 1 
+for index in range(len(text)-1, -1,-1):
+
+
+#Reverse 2
+text[::-1]
+
+
+#Range 
+#numbers between 0 and 11
+print range(1, 11)
+#[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+
+#numbers 1 through 10
+print range(1, 11)
+#[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+
+#numbers from 1 to 10, inclusive.
+print range(1, 11)
+#[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+
+print range(11)
+#Note 0
+#[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+
+
+#Range and Slice
+my_list = range(1, 11) # List of numbers 1 - 10
+
+print my_list[::2]
+print my_list[0:10:2]
+
+#output:
+#[1, 3, 5, 7, 9]
+#[1, 3, 5, 7, 9]
+
+
+#Anonymous Functions and lamda
+lam = lambda x: x % 2 == 0
+print "Is lambda True or False: ", lam(4)
+#Is lambda True or False:  True
+
+
+#Dictionary
+dictionary = {
+	"Python": "Great",
+	"JavaScript": "Good",
+	"HTML": "Cool"
+}
+
+print dictionary.items()
+print dictionary.keys()
+print dictionary.values()
+
+#[('Python', 'Great'), ('JavaScript', 'Good'), ('HTML', 'Cool')]
+#['Python', 'JavaScript', 'HTML']
+#['Great', 'Good', 'Cool']
+
+
+#Bitwise Operators
+print 5 >> 4  # Right Shift # 0
+print 5 << 1  # Left Shift  # 10
+print 8 & 5   # Bitwise AND # 0
+print 9 | 4   # Bitwise OR  # 13
+print 12 ^ 42 # Bitwise XOR # 38
+print ~88     # Bitwise NOT # -89
+
+
+#Base 2 Number System
+print 0b1,    #1 
+print 0b10,   #2
+print 0b11,   #3
+print 0b100,  #4
+print 0b101,  #5
+print 0b110,  #6
+print 0b111   #7
+print "******"
+print 0b1 + 0b11 #4
+print 0b11 * 0b11 #9
+
+#Binary values
+one = 0b1
+two = 0b10
+three = 0b11
+four = 0b100
+five = 0b101
+six = 0b110
+seven = 0b111
+eight = 0b1000
+nine = 0b1001
+ten = 0b1010
+eleven = 0b1011
+twelve = 0b1100
+
+
+#Right Bit Shift (>>) and Left Bit Shift (<<)
+shift_right = 0b1100
+shift_left = 0b1
+
+shift_right = shift_right >> 2
+shift_left = shift_left << 2
+
+print bin(shift_right) #0b11
+print bin(shift_left) #0b100
+
+
+#Bitwise AND (&) operator
+"""
+The bitwise AND (&) operator compares two numbers on a bit level and returns a number where the bits of that number are turned on if the corresponding bits of both numbers are 1. 
+
+For example:
+
+     a:   00101010   42
+     b:   00001111   15       
+===================
+ a & b:   00001010   10
+
+So remember, for every given bit in a and b:
+
+0 & 0 = 0
+0 & 1 = 0
+1 & 0 = 0
+1 & 1 = 1
+
+Therefore,
+
+ 0b111 (7) & 0b1010 (10) = 0b10 (2)
+"""
+
+print bin(0b1110 & 0b101) #0b100
+
+#Output:
+#0b100
+
+
+#Bitwise OR (|) operator
+"""
+The bitwise OR (|) operator compares two numbers on a bit level and returns a number where the bits of that number are turned on if either of the corresponding bits of either number are 1. 
+
+For example:
+
+    a:  00101010  42
+    b:  00001111  15       
+================
+a | b:  00101111  47
+
+Note that the bitwise | operator can only create results that are greater than or equal to the larger of the two integer inputs.
+
+So remember, for every given bit in a and b:
+
+0 | 0 = 0
+0 | 1 = 1 
+1 | 0 = 1
+1 | 1 = 1
+
+Meaning
+
+ 110 (6) | 1010 (10) = 1110 (14)
+
+ 111 (7) | 1010 (10) = 1111 (15)
+"""
+
+print bin(0b1110 | 0b101) #0b1111
+
+#Output:
+#0b1111
+
+
+#Bitwise XOR (^) operator
+"""
+The XOR (^) or exclusive or operator compares two numbers on a bit level and returns a number where the bits of that number are turned on if either of the corresponding bits of the two numbers are 1, but not both.
+
+    a:  00101010   42
+    b:  00001111   15       
+================
+a ^ b:  00100101   37
+
+Keep in mind that if a bit is off in both numbers, it stays off in the result. Note that XOR-ing a number with itself will always result in 0.
+
+So remember, for every given bit in a and b:
+
+0 ^ 0 = 0
+0 ^ 1 = 1
+1 ^ 0 = 1
+1 ^ 1 = 0
+
+Therefore:
+
+ 111 (7) ^ 1010 (10) = 1101 (13)
+"""
+
+print bin(0b1110 ^ 0b101) #0b1011
+
+#Output:
+#0b1011
+
+
+#Bitwise NOT operator (~) just 
+The bitwise NOT operator (~) flips all of the bits in a single number. Mathematically, this is equivalent to adding one to the number and then making it negative. 
+print ~1   # -2
+print ~2   # -3
+print ~3   # -4
+print ~42  # -43
+print ~123 # -124
+
+#Output:
+#-2
+#-3
+#-4
+#-43
+#-124
+
+#Note:
+print ~-2   # 1
+print ~-123 # 122
+
+
+#String
+color = silver
+model = DeLorean
+mpg = 88
+"This is a %s %s with %s MPG." % (color, model, mpg)
+
+#Inheritance 1
+class Car(object):
+    def __init__(self, model, color, mpg):
+        self.model = model
+        self.color = color
+        self.mpg   = mpg
+
+class ElectricCar(Car):
+    def __init__(self, model, color, mpg, battery_type):        
+        super(ElectricCar, self).__init__(model, color, mpg)
+        self.battery_type = battery_type
+
+#Inheritance 2
+class Employee(object):
+    def __init__(self, employee_name):
+        self.employee_name = employee_name
+
+    def calculate_wage(self, hours):
+        self.hours = hours
+        return hours * 20.00
+
+# Add your code below!
+class PartTimeEmployee(Employee):
+    def calculate_wage(self, hours):
+        self.hours = hours
+        return hours * 12.00
+        
+    def full_time_wage(self, hours):
+        return super(PartTimeEmployee, self).calculate_wage(hours)
+
+milton = PartTimeEmployee("Python")
+
+print milton.full_time_wage(10)
+
+
+#Output:
+#200.0
+
+
+#Class
+class Point3D(object):
+    def __init__(self, x, y, z):
+        self.x = x
+        self.y = y
+        self.z = z
+    def __repr__(self):
+        #To represent this object in the following format: (x, y, z)
+        return "(%d, %d, %d)" % (self.x, self.y, self.z)
+        
+my_point = Point3D(1, 2, 3)
+
+print my_point
+
+#Output:
+#(1, 2, 3)
+#200.0
+
+
+# File I/O Read Write
+# Open the file for reading
+read_file = open("text.txt", "r")
+
+# Use a second file handler to open the file for writing
+write_file = open("text.txt", "w")
+# Write to the file
+write_file.write("Not closing files is VERY BAD.")
+
+write_file.close()
+
+# Read from the file
+print read_file.read()
+read_file.close()
+
+
+#No explicit close()
+with open("text.txt", "w") as my_file:
+    my_file.write("Success!")
+    
+if my_file.closed:
+    my_file.close()
+
+print my_file.closed
+
+#text.txt
+#Success!
+
+#Output:
+#True
+
+
+#while
+i = 0
+numbers = []
+
+while i < 6:
+	print("At the top i is %d" % i)
+	numbers.append(i)
+	i = i + 1
+	print("Numbers now: ", numbers)
+	print("At the bottom i is %d" % i)
+
+print("The numbers: ")
+
+for num in numbers:
+	print(num)
+
+#Output:
+At the top i is 0
+Numbers now:  [0]
+At the bottom i is 1
+At the top i is 1
+Numbers now:  [0, 1]
+At the bottom i is 2
+At the top i is 2
+Numbers now:  [0, 1, 2]
+At the bottom i is 3
+At the top i is 3
+Numbers now:  [0, 1, 2, 3]
+At the bottom i is 4
+At the top i is 4
+Numbers now:  [0, 1, 2, 3, 4]
+At the bottom i is 5
+At the top i is 5
+Numbers now:  [0, 1, 2, 3, 4, 5]
+At the bottom i is 6
+The numbers:
+0
+1
+2
+3
+4
+5
+
+
+import sys
+import string
+import datetime
+
+posts = []
+
+def main():
+    for i in range(0,1000):
+        post = {}
+        post['author'] = "A"
+        post['date'] = datetime.datetime.utcnow()
+        print "index: %d", (i)
+        try:
+            posts.append(post)
+	except:
+            print "Unexpected error:", sys.exc_info()[0]
+
+    print "Number of posts: %d", (posts.count())
+
+main()
+
+#Output
+index: %d 1
+index: %d 1
+index: %d 1
+...
+...
+...
+index: %d 997
+index: %d 998
+index: %d 999
+Number of posts: %d 1000
+
